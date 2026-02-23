@@ -1,88 +1,495 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Absolute Popcorn – Legal Documents</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Absolute Popcorn — le quiz cinéma et séries, fun, rapide et multijoueur. Coming soon on iOS." />
+  <title>Absolute Popcorn — Quiz cinéma & séries</title>
 
   <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-      background-color: #f5f5f7;
-      margin: 0;
-      padding: 60px 20px;
-      text-align: center;
+    :root{
+      --bg:#fbfbfb;
+      --ink:#0f172a;
+      --muted:#475569;
+      --card:#ffffff;
+      --border:rgba(15,23,42,.10);
+      --shadow: 0 18px 40px rgba(2,6,23,.10);
+      --accent:#1f8a3b;       /* vert bouton */
+      --accent-2:#f2d36b;     /* jaune doux */
+      --pill:#fff6d6;
+      --max:1100px;
+      --radius:22px;
     }
 
-    h1 {
-      font-size: 32px;
-      margin-bottom: 10px;
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 600px at 50% -80px, rgba(242,211,107,.55), rgba(242,211,107,0) 60%) , var(--bg);
+      color:var(--ink);
+      line-height:1.55;
     }
 
-    p {
-      color: #666;
-      margin-bottom: 40px;
+    a{color:inherit}
+    .wrap{max-width:var(--max); margin:0 auto; padding: 26px 18px 80px;}
+    header{
+      position:sticky; top:0; z-index:30;
+      backdrop-filter: blur(10px);
+      background: rgba(251,251,251,.70);
+      border-bottom:1px solid rgba(15,23,42,.06);
+    }
+    .nav{
+      max-width:var(--max); margin:0 auto; padding: 14px 18px;
+      display:flex; align-items:center; justify-content:space-between; gap:14px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px; font-weight:900; letter-spacing:.2px;
+    }
+    .brand img{width:34px; height:34px; object-fit:contain}
+    .navlinks{display:flex; gap:14px; align-items:center; flex-wrap:wrap}
+    .navlinks a{
+      text-decoration:none; color:var(--muted);
+      padding:8px 10px; border-radius:12px;
+    }
+    .navlinks a:hover{background:rgba(15,23,42,.04); color:var(--ink)}
+    .cta{
+      display:inline-flex; align-items:center; gap:10px;
+      background:var(--accent); color:white; text-decoration:none;
+      padding:10px 14px; border-radius:14px; font-weight:800;
+      box-shadow: 0 10px 24px rgba(31,138,59,.25);
+    }
+    .cta small{opacity:.85; font-weight:700}
+    .ghost{
+      display:inline-flex; align-items:center; gap:10px;
+      background:rgba(15,23,42,.06); color:var(--ink); text-decoration:none;
+      padding:10px 14px; border-radius:14px; font-weight:800;
     }
 
-    .section-title {
-      margin-top: 50px;
-      font-size: 18px;
-      font-weight: 600;
-      color: #111;
+    .hero{
+      display:grid; grid-template-columns: 1.05fr .95fr; gap: 24px;
+      align-items:center; padding: 44px 0 26px;
+    }
+    .badge{
+      display:inline-flex; align-items:center; gap:10px;
+      background:var(--pill);
+      border:1px solid rgba(15,23,42,.08);
+      padding:8px 12px; border-radius:999px;
+      color:var(--muted); font-weight:800;
+    }
+    .badge b{color:var(--ink)}
+    h1{
+      margin: 14px 0 10px;
+      font-size: clamp(34px, 4.4vw, 56px);
+      line-height:1.05;
+      letter-spacing:-.02em;
+    }
+    .lead{font-size:18px; color:var(--muted); margin:0 0 18px; max-width:58ch}
+    .hero-actions{display:flex; gap:12px; flex-wrap:wrap; margin-top: 14px}
+    .fine{color:var(--muted); font-size:13px; margin-top:12px}
+    .fine a{color:var(--muted)}
+    .fine a:hover{color:var(--ink)}
+
+    .phones{
+      position:relative;
+      background: linear-gradient(180deg, rgba(255,255,255,.9), rgba(255,255,255,.55));
+      border:1px solid rgba(15,23,42,.10);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px;
+      overflow:hidden;
+      min-height: 420px;
+    }
+    .phones::before{
+      content:"";
+      position:absolute; inset:-60px -80px auto auto;
+      width:260px; height:260px; border-radius:50%;
+      background: radial-gradient(circle at 30% 30%, rgba(242,211,107,.55), rgba(242,211,107,0) 70%);
+      filter: blur(0px);
+    }
+    .phones .layer{
+      position:absolute; inset:auto; 
+      filter: drop-shadow(0 22px 30px rgba(2,6,23,.18));
+      transform-origin:center;
+    }
+    .p1{right: -12px; top: 24px; width: 72%;}
+    .p2{left: -8px; bottom: -14px; width: 66%; transform: rotate(-2deg);}
+    .p3{right: 18px; bottom: -26px; width: 64%; opacity:.0;} /* réserve si tu veux un 3e layer */
+    .phones img{width:100%; height:auto; display:block}
+
+    .section{
+      margin-top: 40px;
+      padding-top: 14px;
+    }
+    .section h2{
+      font-size: clamp(24px, 2.6vw, 34px);
+      margin: 0 0 10px;
+      letter-spacing:-.02em;
+    }
+    .section p{color:var(--muted); margin:0 0 18px; max-width:70ch}
+
+    .grid{
+      display:grid; gap:14px;
+      grid-template-columns: repeat(12, 1fr);
+    }
+    .card{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: 0 10px 26px rgba(2,6,23,.06);
+    }
+    .card h3{margin:0 0 6px; font-size:18px}
+    .card p{margin:0; color:var(--muted)}
+    .col-4{grid-column: span 4;}
+    .col-6{grid-column: span 6;}
+    .col-8{grid-column: span 8;}
+    .col-12{grid-column: span 12;}
+
+    .featureline{
+      display:flex; align-items:flex-start; gap:12px;
+    }
+    .icon{
+      width:40px; height:40px; border-radius:14px;
+      display:flex; align-items:center; justify-content:center;
+      background: rgba(242,211,107,.45);
+      border:1px solid rgba(15,23,42,.08);
+      font-weight:900;
     }
 
-    .button {
-      display: block;
-      max-width: 400px;
-      margin: 15px auto;
-      padding: 14px;
-      background-color: #000;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 10px;
-      font-size: 16px;
-      transition: 0.2s ease;
+    .showcase{
+      display:grid; grid-template-columns: 1fr 1fr; gap:14px;
+      align-items:stretch;
+    }
+    .shot{
+      background: linear-gradient(180deg, rgba(242,211,107,.20), rgba(255,255,255,.65));
+      border:1px solid rgba(15,23,42,.10);
+      border-radius: var(--radius);
+      padding: 16px;
+      overflow:hidden;
+      position:relative;
+      min-height: 320px;
+    }
+    .shot img{
+      width: 100%;
+      height:auto;
+      filter: drop-shadow(0 20px 28px rgba(2,6,23,.16));
+      display:block;
     }
 
-    .button:hover {
-      background-color: #333;
-      transform: translateY(-2px);
+    .faq details{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 14px 16px;
+      box-shadow: 0 10px 24px rgba(2,6,23,.05);
     }
+    .faq summary{
+      cursor:pointer;
+      font-weight:900;
+      color:var(--ink);
+      list-style:none;
+    }
+    .faq summary::-webkit-details-marker{display:none}
+    .faq p{margin:10px 0 0; color:var(--muted)}
+    .faq .stack{display:grid; gap:10px}
 
-    footer {
-      margin-top: 60px;
-      font-size: 13px;
-      color: #999;
+    .contact{
+      display:grid; grid-template-columns: 1fr 1fr; gap:14px;
+      align-items:stretch;
+    }
+    .contact a{word-break:break-word}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;}
+
+    footer{
+      margin-top: 44px;
+      border-top: 1px solid rgba(15,23,42,.08);
+      padding-top: 18px;
+      color: var(--muted);
+    }
+    .footergrid{
+      display:grid; grid-template-columns: 1.2fr .8fr; gap:14px;
+      align-items:start;
+    }
+    .footlinks{display:flex; flex-wrap:wrap; gap:10px}
+    .footlinks a{
+      text-decoration:none;
+      background: rgba(15,23,42,.04);
+      border:1px solid rgba(15,23,42,.06);
+      padding: 8px 10px;
+      border-radius: 14px;
+      color: var(--muted);
+      font-weight:800;
+    }
+    .footlinks a:hover{color:var(--ink); background:rgba(15,23,42,.06)}
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .hero{grid-template-columns: 1fr; }
+      .phones{min-height: 380px}
+      .p1{position:relative; right:auto; top:auto; width:100%;}
+      .p2{position:relative; left:auto; bottom:auto; width:100%; margin-top:10px;}
+      .contact{grid-template-columns: 1fr;}
+      .showcase{grid-template-columns: 1fr;}
+    }
+    @media (max-width: 860px){
+      .col-4,.col-6,.col-8{grid-column: span 12;}
+      .navlinks{display:none}
     }
   </style>
 </head>
 
 <body>
+  <header>
+    <div class="nav">
+      <div class="brand">
+        <img src="assets/jaune%20clair%20sans%20fond%20tre%CC%80s%20petit%201%20(3).png" alt="Absolute Popcorn mascot" />
+        <span>Absolute Popcorn</span>
+      </div>
 
-  <h1>Absolute Popcorn</h1>
-  <p></p>
+      <div class="navlinks">
+        <a href="#concept">Concept</a>
+        <a href="#modes">Modes</a>
+        <a href="#features">Fonctionnalités</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Contact</a>
+      </div>
 
-  <!-- ================= FR ================= -->
+      <a class="cta" href="#contact">Contact <small>• support</small></a>
+    </div>
+  </header>
 
-  <div class="section-title">Version Française</div>
+  <main class="wrap">
+    <section class="hero" id="top">
+      <div>
+        <div class="badge">🎬 <b>Quiz cinéma & séries</b> • Solo & multijoueur • <span class="mono">Coming soon iOS</span></div>
+        <h1>Le quiz cinéma qui se joue comme un jeu.</h1>
+        <p class="lead">
+          Absolute Popcorn est une expérience de quiz premium pour fans de films et séries :
+          parties rapides, modes variés, progression, et classement.
+        </p>
 
-  <a class="button" href="/fr/general-terms-of-use.html">Conditions Générales d’Utilisation (CGU)</a>
-  <a class="button" href="/fr/terms-and-conditions.html">Conditions Générales de Vente (CGV)</a>
-  <a class="button" href="/fr/privacy-policy.html">Politique de confidentialité</a>
-  <a class="button" href="/fr/conduct.html">Charte de conduite</a>
+        <div class="hero-actions">
+          <a class="cta" href="#modes">Découvrir les modes</a>
+          <a class="ghost" href="#contact">Nous contacter</a>
+        </div>
 
-  <!-- ================= EN ================= -->
+        <div class="fine">
+          Disponible prochainement sur iOS.  
+          Vous cherchez les documents légaux ? <a href="#legal">Ils sont en bas de page.</a>
+        </div>
+      </div>
 
-  <div class="section-title">English Version</div>
+      <div class="phones" aria-label="Mockups iPhone">
+        <div class="layer p1">
+          <img src="assets/mock-up%201%20iphone%20Absolute%20popcorn.png" alt="Mockup iPhone Absolute Popcorn" />
+        </div>
+        <div class="layer p2">
+          <img src="assets/mock-up%202%20iphone%20Absolute%20popcorn.png" alt="Mockup iPhone quiz Absolute Popcorn" />
+        </div>
+      </div>
+    </section>
 
-  <a class="button" href="/en/general-terms-of-use.html">Terms of Use</a>
-  <a class="button" href="/en/terms-and-conditions.html">Terms & Conditions</a>
-  <a class="button" href="/en/privacy-policy.html">Privacy Policy</a>
-  <a class="button" href="/en/conduct.html">Code of Conduct</a>
+    <section class="section" id="concept">
+      <h2>Une app, un univers, et beaucoup de cinéma.</h2>
+      <p>
+        Absolute Popcorn mélange quiz, mini-jeux et progression. L’objectif : apprendre, se challenger,
+        et s’amuser — que tu sois cinéphile hardcore ou juste fan de séries.
+      </p>
 
-  <footer>
-    © 2026 Absolute Popcorn. All rights reserved.
-  </footer>
+      <div class="grid">
+        <div class="card col-4">
+          <div class="featureline">
+            <div class="icon">⚡</div>
+            <div>
+              <h3>Parties rapides</h3>
+              <p>Des sessions courtes, idéales sur mobile. Parfait “1 question, 1 minute”.</p>
+            </div>
+          </div>
+        </div>
 
+        <div class="card col-4">
+          <div class="featureline">
+            <div class="icon">🌍</div>
+            <div>
+              <h3>Multilingue</h3>
+              <p>FR / EN (et plus à venir). Les contenus sont adaptés, pas juste traduits.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card col-4">
+          <div class="featureline">
+            <div class="icon">🏆</div>
+            <div>
+              <h3>Classement & progression</h3>
+              <p>Évolue, débloque des récompenses, et grimpe dans le leaderboard.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="modes">
+      <h2>Des modes de jeu variés</h2>
+      <p>
+        Quiz classique, “intrus”, arrêt sur image… et plus. On montre l’essentiel, sans spoiler les surprises.
+      </p>
+
+      <div class="showcase">
+        <div class="shot">
+          <img src="assets/mock-up%203%20iphone%20Absolute%20popcorn.png" alt="Modes de jeu Absolute Popcorn" />
+        </div>
+        <div class="shot">
+          <img src="assets/mock-up%204%20iphone%20Absolute%20popcorn.png" alt="Boutique et roue Absolute Popcorn" />
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="features">
+      <h2>Conçu pour être fiable, clair, et fun.</h2>
+      <p>
+        Apple veut de la crédibilité : produit, société, contact. Cette page coche les cases sans sur-promettre.
+      </p>
+
+      <div class="grid">
+        <div class="card col-6">
+          <div class="featureline">
+            <div class="icon">🛡️</div>
+            <div>
+              <h3>Respect & sécurité</h3>
+              <p>Une charte de conduite, des règles claires, et une approche “mobile-first”.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card col-6">
+          <div class="featureline">
+            <div class="icon">🧾</div>
+            <div>
+              <h3>Documents légaux accessibles</h3>
+              <p>CGU/CGV/Privacy Policy disponibles en FR et EN, facilement trouvables.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card col-6">
+          <div class="featureline">
+            <div class="icon">📬</div>
+            <div>
+              <h3>Support & contact</h3>
+              <p>Un point de contact officiel pour Apple, et pour les utilisateurs.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card col-6">
+          <div class="featureline">
+            <div class="icon">✨</div>
+            <div>
+              <h3>Branding cohérent</h3>
+              <p>Une identité visuelle reconnaissable, pensée pour un lancement app-store.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section faq" id="faq">
+      <h2>FAQ</h2>
+      <p>Réponses rapides aux questions classiques (et celles d’Apple).</p>
+
+      <div class="stack">
+        <details>
+          <summary>L’app est-elle déjà disponible ?</summary>
+          <p>
+            Pas encore. Absolute Popcorn est en préparation, avec une sortie iOS prévue prochainement.
+            Cette page présente l’app, l’éditeur, et les informations légales.
+          </p>
+        </details>
+
+        <details>
+          <summary>Qui édite Absolute Popcorn ?</summary>
+          <p>
+            Timing Corporation (éditeur). Pour toute demande, utilisez les coordonnées de contact ci-dessous.
+          </p>
+        </details>
+
+        <details>
+          <summary>Où trouver les CGU / CGV / Privacy Policy ?</summary>
+          <p>Tout est disponible en bas de page, en français et en anglais.</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <h2>Contact</h2>
+      <p>
+        Pour Apple, partenaires, presse, ou support utilisateur.  
+        (Remplace l’email ci-dessous par ton email pro final quand il est prêt.)
+      </p>
+
+      <div class="contact">
+        <div class="card">
+          <h3>Timing Corporation</h3>
+          <p><b>Email :</b> <span class="mono">contact@absolute-popcorn.com</span></p>
+          <p><b>Objet recommandé :</b> <span class="mono">Apple Developer Program — Absolute Popcorn</span></p>
+          <p style="margin-top:10px; color:var(--muted);">
+            Si l’email n’est pas encore opérationnel, mets temporairement un email qui fonctionne,
+            mais garde le même domaine dès qu’OVH est activé.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>Presse & partenariats</h3>
+          <p>
+            Pour toute demande média, influence, ou collaboration :
+            <br/>
+            <span class="mono">contact@absolute-popcorn.com</span>
+          </p>
+          <p style="margin-top:10px; color:var(--muted);">
+            (Tu peux ajouter tes réseaux plus tard. Apple n’en a pas besoin.)
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <footer id="legal">
+      <div class="footergrid">
+        <div>
+          <div class="brand" style="gap:10px; margin-bottom:10px;">
+            <img src="assets/jaune%20clair%20sans%20fond%20tre%CC%80s%20petit%201%20(3).png" alt="Absolute Popcorn mascot" />
+            <div>
+              <div style="font-weight:900;color:var(--ink)">Absolute Popcorn</div>
+              <div style="font-size:13px">© <span id="year"></span> Timing Corporation. All rights reserved.</div>
+            </div>
+          </div>
+          <div style="font-size:13px; color:var(--muted)">
+            Site officiel de présentation de l’application mobile Absolute Popcorn (iOS).
+          </div>
+        </div>
+
+        <div>
+          <div style="font-weight:900; color:var(--ink); margin-bottom:10px">Documents légaux</div>
+          <div class="footlinks">
+            <!-- FR -->
+            <a href="fr/terms-of-use.html">CGU (FR)</a>
+            <a href="fr/terms-and-conditions.html">CGV (FR)</a>
+            <a href="fr/privacy-policy.html">Confidentialité (FR)</a>
+            <a href="fr/code-of-conduct.html">Charte (FR)</a>
+
+            <!-- EN -->
+            <a href="en/terms-of-use.html">Terms of Use (EN)</a>
+            <a href="en/terms-and-conditions.html">Terms & Conditions (EN)</a>
+            <a href="en/privacy-policy.html">Privacy Policy (EN)</a>
+            <a href="en/code-of-conduct.html">Code of Conduct (EN)</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
