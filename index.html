@@ -382,27 +382,42 @@
     </section>
 
     <section class="section" id="contact">
-      <h2>Contact</h2>
-      <div class="contact">
-        <div class="card">
-          <p><b>Email :</b> <span class="mono">contact@absolute-popcorn.com</span></p>
-          <p style="margin-top:10px; color:var(--muted);">
-            Pour toute question relative sur l'application et pour nous faire part de vos remarques, n'hésitez pas à nous contacter à l'adresse mail indiquée.
-          </p>
-        </div>
+     <div class="contact">
+  <div class="card">
+    <h3>Contact & Support</h3>
+    <p>Une question, un retour ou une demande Apple ? Écrivez-nous.</p>
 
-        <div class="card">
-          <h3>Presse & partenariats</h3>
-          <p>
-            Pour toute demande média, influence, ou collaboration :
-            <br/>
-            <span class="mono">contact@absolute-popcorn.com</span>
-          </p>
-          </p>
-        </div>
+    <form onsubmit="return sendMail(event)">
+      <div style="display:flex; flex-direction:column; gap:10px; margin-top:12px;">
+        
+        <input type="text" id="name" placeholder="Votre nom"
+          style="padding:10px 12px; border-radius:12px; border:1px solid rgba(15,23,42,.15);" required>
+
+        <input type="email" id="email" placeholder="Votre email"
+          style="padding:10px 12px; border-radius:12px; border:1px solid rgba(15,23,42,.15);" required>
+
+        <textarea id="message" placeholder="Votre message"
+          style="padding:10px 12px; border-radius:12px; border:1px solid rgba(15,23,42,.15); min-height:100px;"
+          required></textarea>
+
+        <button type="submit" class="cta" style="justify-content:center;">
+          Envoyer le message
+        </button>
       </div>
-    </section>
+    </form>
+  </div>
 
+  <div class="card">
+    <h3>Informations légales</h3>
+    <p><b>Éditeur :</b> Timing Corporation</p>
+    <p><b>Pays :</b> France</p>
+    <p><b>Email :</b> <span class="mono">contact@absolute-popcorn.com</span></p>
+    <p style="margin-top:10px; color:var(--muted);">
+      Pour toute demande liée au programme Apple Developer, merci d’indiquer
+      "Apple Developer Program – Absolute Popcorn" dans l’objet.
+    </p>
+  </div>
+</div>
     <footer id="legal">
       <div class="footergrid">
         <div>
@@ -438,7 +453,29 @@
   </main>
 
   <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  function sendMail(event){
+    event.preventDefault();
+
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const message = document.getElementById("message").value;
+
+    const subject = encodeURIComponent("Contact Absolute Popcorn");
+    const body = encodeURIComponent(
+      "Nom: " + name + "\n" +
+      "Email: " + email + "\n\n" +
+      message
+    );
+
+    window.location.href = 
+      "mailto:contact@absolute-popcorn.com?subject=" + subject + "&body=" + body;
+
+    return false;
+  }
+</script>
   </script>
 </body>
 </html>
