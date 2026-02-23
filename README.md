@@ -1,2 +1,2 @@
 # absolute-popcorn
-Legal documents for the Absolute Popcorn mobile application
+Welcome to the Absolute Popcorn app website !
