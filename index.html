@@ -2,448 +2,829 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="Absolute Popcorn — l'univers du cinéma et des séries TV en jeux. Bientôt sur iOS et Androïd." />
-  <title>Absolute Popcorn</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Absolute Popcorn — Le jeu ultime du cinéma et des séries TV. Quiz, arrêt sur image, intrus, mise au point, 6 degrés. Bientôt sur iOS et Android." />
+  <title>Absolute Popcorn — Le jeu ultime du cinéma</title>
 
   <style>
-    :root{
-      --bg:#fbfbfb;
-      --ink:#0f172a;
-      --muted:#475569;
-      --card:#ffffff;
-      --border:rgba(15,23,42,.10);
-      --shadow: 0 18px 40px rgba(2,6,23,.10);
-      --accent:#1f8a3b;       /* vert bouton */
-      --accent-2:#f2d36b;     /* jaune doux */
-      --pill:#fff6d6;
-      --max:1100px;
-      --radius:22px;
+    :root {
+      --bg:       #0b0b0e;
+      --bg2:      #111116;
+      --card:     #17171d;
+      --card2:    #1c1c24;
+      --border:   rgba(255,255,255,0.07);
+      --gold:     #f5c842;
+      --gold-bg:  rgba(245,200,66,0.10);
+      --gold-bdr: rgba(245,200,66,0.25);
+      --red:      #e63946;
+      --green:    #22c55e;
+      --green2:   #16a34a;
+      --text:     #f0f0f2;
+      --dim:      #a0a0ae;
+      --muted:    #606070;
+      --max:      1140px;
+      --r:        18px;
+      --rl:       26px;
     }
 
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0}
-    body{
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      background: radial-gradient(1200px 600px at 50% -80px, rgba(242,211,107,.55), rgba(242,211,107,0) 60%) , var(--bg);
-      color:var(--ink);
-      line-height:1.55;
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    /* Noise overlay */
+    body::before {
+      content: "";
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 999;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
     }
 
-    a{color:inherit}
-    .wrap{max-width:var(--max); margin:0 auto; padding: 26px 18px 80px;}
-    header{
-      position:sticky; top:0; z-index:30;
-      backdrop-filter: blur(10px);
-      background: rgba(251,251,251,.70);
-      border-bottom:1px solid rgba(15,23,42,.06);
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+
+    /* ── HEADER ─────────────────────────────── */
+    header {
+      position: sticky; top: 0; z-index: 200;
+      backdrop-filter: blur(24px) saturate(160%);
+      -webkit-backdrop-filter: blur(24px) saturate(160%);
+      background: rgba(11,11,14,0.82);
+      border-bottom: 1px solid var(--border);
     }
-    .nav{
-      max-width:var(--max); margin:0 auto; padding: 14px 18px;
-      display:flex; align-items:center; justify-content:space-between; gap:14px;
+    .nav {
+      max-width: var(--max); margin: 0 auto; padding: 13px 24px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
     }
-    .brand{
-      display:flex; align-items:center; gap:10px; font-weight:900; letter-spacing:.2px;
+    .brand { display: flex; align-items: center; gap: 11px; font-weight: 900; font-size: 16px; }
+    .brand img { width: 36px; height: 36px; object-fit: contain; border-radius: 9px; }
+    .navlinks { display: flex; align-items: center; gap: 2px; }
+    .navlinks a {
+      padding: 7px 13px; border-radius: 10px; font-size: 14px; font-weight: 600; color: var(--dim);
+      transition: background .18s, color .18s;
     }
-    .brand img{width:34px; height:34px; object-fit:contain}
-    .navlinks{display:flex; gap:14px; align-items:center; flex-wrap:wrap}
-    .navlinks a{
-      text-decoration:none; color:var(--muted);
-      padding:8px 10px; border-radius:12px;
+    .navlinks a:hover { background: rgba(255,255,255,0.06); color: var(--text); }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-weight: 800; font-size: 14px; padding: 9px 18px; border-radius: 12px;
+      transition: all .2s; white-space: nowrap;
     }
-    .navlinks a:hover{background:rgba(15,23,42,.04); color:var(--ink)}
-    .cta{
-      display:inline-flex; align-items:center; gap:10px;
-      background:var(--accent); color:white; text-decoration:none;
-      padding:10px 14px; border-radius:14px; font-weight:800;
-      box-shadow: 0 10px 24px rgba(31,138,59,.25);
+    .btn-green {
+      background: var(--green); color: #fff;
+      box-shadow: 0 4px 18px rgba(34,197,94,.3);
     }
-    .cta small{opacity:.85; font-weight:700}
-    .ghost{
-      display:inline-flex; align-items:center; gap:10px;
-      background:rgba(15,23,42,.06); color:var(--ink); text-decoration:none;
-      padding:10px 14px; border-radius:14px; font-weight:800;
+    .btn-green:hover { background: var(--green2); transform: translateY(-1px); box-shadow: 0 6px 24px rgba(34,197,94,.4); }
+    .btn-ghost {
+      background: rgba(255,255,255,0.06); border: 1px solid var(--border); color: var(--text);
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.13); }
+
+    /* ── HERO ────────────────────────────────── */
+    .hero-outer {
+      position: relative; overflow: hidden;
+      padding: 88px 0 72px;
+    }
+    .hero-glow-a {
+      position: absolute; top: -260px; left: 30%;
+      width: 900px; height: 700px; border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(245,200,66,.10) 0%, transparent 68%);
+      pointer-events: none;
+    }
+    .hero-glow-b {
+      position: absolute; top: 60px; right: -160px;
+      width: 480px; height: 480px; border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(230,57,70,.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 52px; align-items: center;
+    }
+    .chip {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: var(--gold-bg); border: 1px solid var(--gold-bdr);
+      color: var(--gold); font-size: 12px; font-weight: 800;
+      padding: 5px 13px; border-radius: 999px;
+      letter-spacing: .05em; text-transform: uppercase;
+    }
+    h1 {
+      font-size: clamp(38px, 4.8vw, 66px);
+      font-weight: 900; line-height: 1.04;
+      letter-spacing: -.035em;
+      margin: 18px 0 20px;
+    }
+    h1 em { font-style: normal; color: var(--gold); }
+    .lead {
+      font-size: clamp(15px, 1.5vw, 18px); color: var(--dim);
+      max-width: 46ch; line-height: 1.7; margin-bottom: 32px;
+    }
+    .hero-ctas { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 36px; }
+    .platforms { display: flex; align-items: center; gap: 10px; }
+    .platform {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+      padding: 5px 12px; border-radius: 999px; font-size: 12px;
+      font-weight: 700; color: var(--dim);
+    }
+    .hero-visual {
+      position: relative;
+      display: flex; justify-content: center; align-items: center;
+    }
+    .hero-ring {
+      position: absolute; border-radius: 50%; pointer-events: none;
+      border: 1px solid rgba(245,200,66,.09);
+    }
+    .hero-ring-1 { width: 460px; height: 460px; }
+    .hero-ring-2 { width: 330px; height: 330px; border-color: rgba(245,200,66,.06); }
+    .hero-visual img {
+      width: 100%; max-width: 580px; position: relative; z-index: 1;
+      filter: drop-shadow(0 48px 96px rgba(0,0,0,.65));
     }
 
-    .hero{
-      display:grid; grid-template-columns: 1.05fr .95fr; gap: 24px;
-      align-items:center; padding: 44px 0 26px;
+    /* ── STATS ───────────────────────────────── */
+    .stats {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--border); border-radius: var(--r); overflow: hidden;
+      margin: 64px 0;
+      background: var(--border);
+      gap: 1px;
     }
-    .badge{
-      display:inline-flex; align-items:center; gap:10px;
-      background:var(--pill);
-      border:1px solid rgba(15,23,42,.08);
-      padding:8px 12px; border-radius:999px;
-      color:var(--muted); font-weight:800;
-    }
-    .badge b{color:var(--ink)}
-    h1{
-      margin: 14px 0 10px;
-      font-size: clamp(34px, 4.4vw, 56px);
-      line-height:1.05;
-      letter-spacing:-.02em;
-    }
-    .lead{font-size:18px; color:var(--muted); margin:0 0 18px; max-width:58ch}
-    .hero-actions{display:flex; gap:12px; flex-wrap:wrap; margin-top: 14px}
-    .fine{color:var(--muted); font-size:13px; margin-top:12px}
-    .fine a{color:var(--muted)}
-    .fine a:hover{color:var(--ink)}
+    .stat { background: var(--card); padding: 26px 20px; text-align: center; }
+    .stat-n { font-size: 34px; font-weight: 900; color: var(--gold); letter-spacing: -.04em; line-height: 1; margin-bottom: 5px; }
+    .stat-l { font-size: 13px; color: var(--muted); }
 
-    .phones{
-      position:relative;
-      background: linear-gradient(180deg, rgba(255,255,255,.9), rgba(255,255,255,.55));
-      border:1px solid rgba(15,23,42,.10);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 22px;
-      overflow:hidden;
-      min-height: 420px;
+    /* ── SECTION UTIL ────────────────────────── */
+    .section { padding: 80px 0; }
+    .sec-chip { margin-bottom: 14px; }
+    .sec-title {
+      font-size: clamp(26px, 3vw, 44px);
+      font-weight: 900; letter-spacing: -.03em; line-height: 1.08; margin-bottom: 14px;
     }
-    .phones::before{
-      content:"";
-      position:absolute; inset:-60px -80px auto auto;
-      width:260px; height:260px; border-radius:50%;
-      background: radial-gradient(circle at 30% 30%, rgba(242,211,107,.55), rgba(242,211,107,0) 70%);
-      filter: blur(0px);
+    .sec-sub {
+      font-size: 17px; color: var(--dim);
+      max-width: 56ch; line-height: 1.68; margin-bottom: 52px;
     }
-    .phones .layer{
-      position:absolute; inset:auto; 
-      filter: drop-shadow(0 22px 30px rgba(2,6,23,.18));
-      transform-origin:center;
-    }
-    .p1{right: -12px; top: 24px; width: 72%;}
-    .p2{left: -8px; bottom: -14px; width: 66%; transform: rotate(-2deg);}
-    .p3{right: 18px; bottom: -26px; width: 64%; opacity:.0;} /* réserve si tu veux un 3e layer */
-    .phones img{width:100%; height:auto; display:block}
-
-    .section{
-      margin-top: 40px;
-      padding-top: 14px;
-    }
-    .section h2{
-      font-size: clamp(24px, 2.6vw, 34px);
-      margin: 0 0 10px;
-      letter-spacing:-.02em;
-    }
-    .section p{color:var(--muted); margin:0 0 18px; max-width:70ch}
-
-    .grid{
-      display:grid; gap:14px;
-      grid-template-columns: repeat(12, 1fr);
-    }
-    .card{
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 18px;
-      box-shadow: 0 10px 26px rgba(2,6,23,.06);
-    }
-    .card h3{margin:0 0 6px; font-size:18px}
-    .card p{margin:0; color:var(--muted)}
-    .col-4{grid-column: span 4;}
-    .col-6{grid-column: span 6;}
-    .col-8{grid-column: span 8;}
-    .col-12{grid-column: span 12;}
-
-    .featureline{
-      display:flex; align-items:flex-start; gap:12px;
-    }
-    .icon{
-      width:40px; height:40px; border-radius:14px;
-      display:flex; align-items:center; justify-content:center;
-      background: rgba(242,211,107,.45);
-      border:1px solid rgba(15,23,42,.08);
-      font-weight:900;
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border) 20%, var(--border) 80%, transparent);
+      margin: 0;
     }
 
-    .showcase{
-      display:grid; grid-template-columns: 1fr 1fr; gap:14px;
-      align-items:stretch;
+    /* ── MODES ───────────────────────────────── */
+    .modes-grid {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px;
     }
-    .shot{
-      background: linear-gradient(180deg, rgba(242,211,107,.20), rgba(255,255,255,.65));
-      border:1px solid rgba(15,23,42,.10);
-      border-radius: var(--radius);
-      padding: 16px;
-      overflow:hidden;
-      position:relative;
-      min-height: 320px;
+    .mode-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--r); overflow: hidden; transition: all .28s;
     }
-    .shot img{
-      width: 100%;
-      height:auto;
-      filter: drop-shadow(0 20px 28px rgba(2,6,23,.16));
-      display:block;
+    .mode-card:hover {
+      border-color: var(--gold-bdr); background: var(--card2);
+      transform: translateY(-5px);
+      box-shadow: 0 24px 48px rgba(0,0,0,.45), 0 0 0 1px rgba(245,200,66,.12);
+    }
+    .mode-img {
+      width: 100%; height: 270px; object-fit: cover; object-position: top;
+    }
+    .mode-body { padding: 16px 16px 20px; }
+    .mode-icon {
+      width: 34px; height: 34px; border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; margin-bottom: 10px;
+    }
+    .mode-name { font-size: 15px; font-weight: 800; margin-bottom: 5px; }
+    .mode-desc { font-size: 12px; color: var(--muted); line-height: 1.55; }
+
+    /* ── FEATURES ────────────────────────────── */
+    .features-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    }
+    .feat {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 26px; transition: all .22s;
+    }
+    .feat:hover { background: var(--card2); border-color: rgba(255,255,255,0.11); }
+    .feat-icon {
+      width: 46px; height: 46px; border-radius: 13px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; margin-bottom: 16px;
+      background: var(--gold-bg); border: 1px solid var(--gold-bdr);
+    }
+    .feat-title { font-size: 17px; font-weight: 800; margin-bottom: 7px; }
+    .feat-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+    /* ── SHOWCASE ────────────────────────────── */
+    .showcase-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .showcase-box {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--rl); padding: 36px;
+      display: flex; justify-content: center; align-items: center;
+      min-height: 340px;
+    }
+    .showcase-box img { filter: drop-shadow(0 32px 64px rgba(0,0,0,.55)); }
+
+    /* ── LEADERBOARD ─────────────────────────── */
+    .lb-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+    .lb-phone {
+      display: flex; justify-content: center;
+    }
+    .lb-phone img {
+      max-width: 300px; width: 100%;
+      border-radius: 44px;
+      box-shadow: 0 48px 96px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,0.05);
+    }
+    .lb-list { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-top: 28px; }
+    .lb-item {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 15px; color: var(--dim);
+    }
+    .lb-icon {
+      width: 30px; height: 30px; border-radius: 8px; flex-shrink: 0;
+      background: var(--gold-bg); border: 1px solid var(--gold-bdr);
+      display: flex; align-items: center; justify-content: center; font-size: 14px;
     }
 
-    .faq details{
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 14px 16px;
-      box-shadow: 0 10px 24px rgba(2,6,23,.05);
+    /* ── BOBINE ──────────────────────────────── */
+    .bobine-box {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--rl); padding: 52px 48px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 52px; align-items: center;
     }
-    .faq summary{
-      cursor:pointer;
-      font-weight:900;
-      color:var(--ink);
-      list-style:none;
+    .bobine-phone { display: flex; justify-content: center; }
+    .bobine-phone img {
+      max-width: 260px; width: 100%; border-radius: 38px;
+      box-shadow: 0 32px 64px rgba(0,0,0,.5);
     }
-    .faq summary::-webkit-details-marker{display:none}
-    .faq p{margin:10px 0 0; color:var(--muted)}
-    .faq .stack{display:grid; gap:10px}
+    .bobine-badge {
+      display: inline-flex; align-items: center; gap: 14px;
+      background: var(--gold-bg); border: 1px solid var(--gold-bdr);
+      padding: 14px 18px; border-radius: 14px; margin-top: 20px;
+    }
+    .bobine-n { font-size: 30px; font-weight: 900; color: var(--gold); line-height: 1; }
+    .bobine-l { font-size: 13px; color: var(--dim); }
 
-    .contact{
-      display:grid; grid-template-columns: 1fr 1fr; gap:14px;
-      align-items:stretch;
+    /* ── ABOUT ───────────────────────────────── */
+    .about-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 64px; align-items: center; }
+    .mascot-wrap { display: flex; justify-content: center; position: relative; }
+    .mascot-wrap::before {
+      content: ""; position: absolute;
+      width: 300px; height: 300px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(245,200,66,.16), transparent 68%);
     }
-    .contact a{word-break:break-word}
-    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;}
+    .mascot-wrap img {
+      width: 290px; height: 290px; object-fit: contain;
+      position: relative; z-index: 1;
+      filter: drop-shadow(0 24px 48px rgba(0,0,0,.35));
+      animation: float 5s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    .tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+    .tag {
+      background: var(--card); border: 1px solid var(--border);
+      padding: 7px 14px; border-radius: 9px; font-size: 13px; font-weight: 700; color: var(--dim);
+    }
 
-    footer{
-      margin-top: 44px;
-      border-top: 1px solid rgba(15,23,42,.08);
-      padding-top: 18px;
+    /* ── FAQ ─────────────────────────────────── */
+    .faq-list { display: flex; flex-direction: column; gap: 10px; max-width: 760px; }
+    details.faq {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--r); overflow: hidden; transition: border-color .2s;
+    }
+    details.faq[open] { border-color: var(--gold-bdr); }
+    details.faq summary {
+      padding: 18px 22px; font-weight: 800; font-size: 15px;
+      cursor: pointer; list-style: none;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      transition: color .2s; user-select: none;
+    }
+    details.faq summary::-webkit-details-marker { display: none; }
+    details.faq summary::after {
+      content: "+"; font-size: 22px; font-weight: 300; color: var(--muted);
+      flex-shrink: 0; transition: transform .22s;
+    }
+    details.faq[open] summary::after { content: "−"; }
+    details.faq summary:hover { color: var(--gold); }
+    .faq-ans { padding: 0 22px 18px; font-size: 14px; color: var(--dim); line-height: 1.68; }
+
+    /* ── CONTACT ─────────────────────────────── */
+    .contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .contact-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 26px; transition: all .22s;
+    }
+    .contact-card:hover { background: var(--card2); border-color: rgba(255,255,255,0.11); }
+    .contact-emoji { font-size: 28px; margin-bottom: 14px; }
+    .contact-card h3 { font-size: 16px; font-weight: 800; margin-bottom: 8px; }
+    .contact-card p { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 14px; }
+    .email-pill {
+      display: inline-block;
+      font-family: ui-monospace, SFMono-Regular, monospace;
+      font-size: 12px; color: var(--gold);
+      background: var(--gold-bg); border: 1px solid var(--gold-bdr);
+      padding: 5px 10px; border-radius: 8px;
+    }
+
+    /* ── FOOTER ──────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 44px 0 32px;
       color: var(--muted);
     }
-    .footergrid{
-      display:grid; grid-template-columns: 1.2fr .8fr; gap:14px;
-      align-items:start;
+    .foot-grid {
+      display: grid; grid-template-columns: 1.3fr 0.7fr 1fr;
+      gap: 48px; align-items: start;
     }
-    .footlinks{display:flex; flex-wrap:wrap; gap:10px}
-    .footlinks a{
-      text-decoration:none;
-      background: rgba(15,23,42,.04);
-      border:1px solid rgba(15,23,42,.06);
-      padding: 8px 10px;
-      border-radius: 14px;
-      color: var(--muted);
-      font-weight:800;
+    .foot-brand { display: flex; align-items: center; gap: 11px; margin-bottom: 12px; }
+    .foot-brand img { width: 34px; height: 34px; object-fit: contain; border-radius: 8px; }
+    .foot-brand-name { font-weight: 900; font-size: 15px; color: var(--text); }
+    .foot-tag { font-size: 13px; color: var(--muted); line-height: 1.5; margin-bottom: 14px; max-width: 30ch; }
+    .foot-copy { font-size: 12px; color: var(--muted); }
+    .foot-col-h { font-size: 12px; font-weight: 800; color: var(--text); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 14px; }
+    .foot-links { display: flex; flex-direction: column; gap: 9px; }
+    .foot-links a { font-size: 13px; color: var(--muted); transition: color .18s; }
+    .foot-links a:hover { color: var(--text); }
+    .legal-wrap { display: flex; flex-wrap: wrap; gap: 7px; }
+    .legal-pill {
+      font-size: 12px; font-weight: 600; color: var(--muted);
+      background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+      padding: 5px 10px; border-radius: 8px; transition: all .18s;
     }
-    .footlinks a:hover{color:var(--ink); background:rgba(15,23,42,.06)}
+    .legal-pill:hover { color: var(--text); background: rgba(255,255,255,0.07); }
 
-    /* Responsive */
-    @media (max-width: 980px){
-      .hero{grid-template-columns: 1fr; }
-      .phones{min-height: 380px}
-      .p1{position:relative; right:auto; top:auto; width:100%;}
-      .p2{position:relative; left:auto; bottom:auto; width:100%; margin-top:10px;}
-      .contact{grid-template-columns: 1fr;}
-      .showcase{grid-template-columns: 1fr;}
+    /* ── RESPONSIVE ──────────────────────────── */
+    @media (max-width: 1060px) {
+      .modes-grid { grid-template-columns: repeat(3, 1fr); }
+      .features-grid { grid-template-columns: 1fr 1fr; }
+      .contact-grid { grid-template-columns: 1fr 1fr; }
     }
-    @media (max-width: 860px){
-      .col-4,.col-6,.col-8{grid-column: span 12;}
-      .navlinks{display:none}
+    @media (max-width: 860px) {
+      .hero { grid-template-columns: 1fr; text-align: center; }
+      .hero .lead { max-width: 100%; }
+      .hero-ctas, .platforms { justify-content: center; }
+      .hero-visual { display: none; }
+      .navlinks { display: none; }
+      .lb-grid { grid-template-columns: 1fr; }
+      .lb-phone { order: -1; }
+      .lb-phone img { max-width: 220px; }
+      .bobine-box { grid-template-columns: 1fr; }
+      .about-grid { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: 1fr 1fr; }
+      .foot-grid { grid-template-columns: 1fr 1fr; }
+      .showcase-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .modes-grid { grid-template-columns: 1fr 1fr; }
+      .features-grid { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .foot-grid { grid-template-columns: 1fr; }
+      .section { padding: 56px 0; }
+      .hero-outer { padding: 56px 0 44px; }
+      .bobine-box { padding: 32px 24px; }
     }
   </style>
 </head>
 
 <body>
-  <header>
-    <div class="nav">
-      <div class="brand">
-        <img src="assets/jaune%20clair%20sans%20fond%20tre%CC%80s%20petit%201%20(3).png" alt="Absolute Popcorn mascot" />
-        <span>Absolute Popcorn</span>
-      </div>
 
+  <!-- ══════════ HEADER ══════════ -->
+  <header>
+    <nav class="nav" aria-label="Navigation principale">
+      <a class="brand" href="#top">
+        <img src="assets/Mascotte.png" alt="Absolute Popcorn" />
+        <span>Absolute Popcorn</span>
+      </a>
       <div class="navlinks">
-        <a href="#concept">Concept</a>
-        <a href="#modes">Modes</a>
+        <a href="#modes">Modes de jeu</a>
         <a href="#features">Fonctionnalités</a>
-        <a href="#faq">FAQ</a>
+        <a href="#leaderboard">Classement</a>
+        <a href="#about">À propos</a>
         <a href="#contact">Contact</a>
       </div>
-
-      <a class="cta" href="#contact">Contact <small>• support</small></a>
-    </div>
+      <a class="btn btn-green" href="#contact">Nous contacter</a>
+    </nav>
   </header>
 
-  <main class="wrap">
-    <section class="hero" id="top">
-      <div>
-        <div class="badge">🎬 <b>Jeu cinéma & séries</b> • Solo & multijoueur • <span class="mono">Bientôt sur iOS et Androïd</span></div>
-        <h1>L'univers du cinéma et des séries TV en jeu !</h1>
-        <p>
-        <p class="lead">
-          Absolute Popcorn est une expérience de jeu premium pour les amoureux de films et séries :
-          parties rapides, modes variés, progression et classement.
-        </p>
+  <main>
 
-        <div class="hero-actions">
-          <a class="cta" href="#modes">Découvrir les modes</a>
-          <a class="ghost" href="#contact">Nous contacter</a>
-        </div>
+    <!-- ══════════ HERO ══════════ -->
+    <div class="hero-outer" id="top">
+      <div class="hero-glow-a" aria-hidden="true"></div>
+      <div class="hero-glow-b" aria-hidden="true"></div>
+      <div class="wrap">
+        <div class="hero">
 
-        <div class="fine">
-          Disponible prochainement sur iOS et Androïd.  
-          Vous cherchez les documents légaux ? <a href="#legal">Ils sont en bas de page.</a>
+          <div>
+            <div class="chip">🎬 Bientôt sur iOS &amp; Android</div>
+            <h1>Le jeu des<br>vrais <em>cinéphiles</em></h1>
+            <p class="lead">
+              Plongez dans l'univers du cinéma et des séries TV avec des quiz, des défis visuels et des modes inédits.
+              Une expérience conçue pour les passionnés.
+            </p>
+            <div class="hero-ctas">
+              <a class="btn btn-green" href="#modes">Découvrir les modes</a>
+              <a class="btn btn-ghost" href="#contact">Nous contacter</a>
+            </div>
+            <div class="platforms">
+              <span style="font-size:13px;color:var(--muted);">Disponible prochainement sur</span>
+              <span class="platform">📱 iOS</span>
+              <span class="platform">🤖 Android</span>
+            </div>
+          </div>
+
+          <div class="hero-visual" aria-hidden="true">
+            <div class="hero-ring hero-ring-1"></div>
+            <div class="hero-ring hero-ring-2"></div>
+            <img
+              src="assets/3D%20Homepage%20%2B%20Categories%20%2B%20Arr%C3%AAt%20sur%20image.png"
+              alt="Aperçu de l'application Absolute Popcorn"
+            />
+          </div>
+
         </div>
       </div>
+    </div>
 
-      <div class="phones" aria-label="Mockups iPhone">
-        <div class="layer p1">
-          <img src="assets/mock-up%201%20iphone%20Absolute%20popcorn.png" alt="Mockup iPhone Absolute Popcorn" />
+    <!-- ══════════ STATS ══════════ -->
+    <div class="wrap">
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-n">5+</div>
+          <div class="stat-l">Modes de jeu</div>
         </div>
-    </section>
-    <section class="section" id="concept">
-      <h2>Une app, un univers, et beaucoup de popcorn.</h2>
-      <p>
-        Absolute Popcorn mélange quiz, mini-jeux et progression. L’objectif : s'amuser, se challenger, que l'on soit cinéphile hardcore ou simple amateur.
-      </p>
-
-      <div class="grid">
-        <div class="card col-4">
-          <div class="featureline">
-            <div class="icon">⚡</div>
-            <div>
-              <h3>Expérience solo et multijoueur</h3>
-              <p>Joue seul ou affronte tes adversaires en ligne.</p>
-            </div>
-          </div>
+        <div class="stat">
+          <div class="stat-n">7</div>
+          <div class="stat-l">Langues</div>
         </div>
-
-        <div class="card col-4">
-          <div class="featureline">
-            <div class="icon">🌍</div>
-            <div>
-              <h3>Multilingue</h3>
-              <p>Disponible en 7 langues. D'autres à venir.</p>
-            </div>
-          </div>
+        <div class="stat">
+          <div class="stat-n">∞</div>
+          <div class="stat-l">Questions & défis</div>
         </div>
-
-        <div class="card col-4">
-          <div class="featureline">
-            <div class="icon">🏆</div>
-            <div>
-              <h3>Classement & progression</h3>
-              <p>Évolue, débloque des récompenses, et grimpe dans le leaderboard.</p>
-            </div>
-          </div>
+        <div class="stat">
+          <div class="stat-n">1er</div>
+          <div class="stat-l">Jeu cinéma & séries</div>
         </div>
       </div>
-    </section>
+    </div>
 
+    <!-- ══════════ MODES DE JEU ══════════ -->
     <section class="section" id="modes">
-      <h2>Des modes de jeu variés</h2>
-      <p>
-        Quiz classique, jeu de l'intrus, arrêt sur image… et plus. On montre l’essentiel, sans spoiler les surprises.
-      </p>
+      <div class="wrap">
+        <div class="chip sec-chip">🎮 Modes de jeu</div>
+        <h2 class="sec-title">5 façons de tester<br>ta culture ciné</h2>
+        <p class="sec-sub">Du quiz classique aux défis visuels, chaque mode aborde le cinéma sous un angle unique. Tu maîtriseras quand tu les auras tous battus.</p>
 
-      <div class="showcase">
-        <div class="shot">
-          <img src="assets/mock-up%207%20iphone%20Absolute%20popcorn.png" alt="Modes de jeu Absolute Popcorn" />
-        </div>
-        <div class="shot">
-          <img src="assets/mock-up%202%20iphone%20Absolute%20popcorn.png" alt="Boutique et roue Absolute Popcorn" />
-        </div>
-      </div>
-    </section>
-<section class="section" id="about">
-  <h2>À propos de l’éditeur</h2>
+        <div class="modes-grid">
 
-  <p>
-    Timing Corporation est une société française spécialisée dans le développement
-    d’expériences mobiles interactives.
-  </p>
-
-  <p>
-    Fondée en 2025, elle conçoit des applications centrées sur le divertissement
-    et l’innovation digitale, avec une attention particulière portée à
-    l’expérience utilisateur et à la qualité du produit.
-  </p>
-
-  <p>
-    Absolute Popcorn est son premier projet dédié au cinéma et aux séries TV.
-</section>
-    <section class="section faq" id="faq">
-      <h2>FAQ</h2>
-      <p>Réponses rapides aux questions classiques.</p>
-
-      <div class="stack">
-        <details>
-          <summary>L’app est-elle déjà disponible ?</summary>
-          <p>
-            Pas encore. Absolute Popcorn est en préparation, avec une sortie iOS et Androïd prévue prochainement.
-          </p>
-        </details>
-
-        <details>
-          <summary>Qui édite Absolute Popcorn ?</summary>
-          <p>
-            Timing Corporation. Pour toute demande, utilisez les coordonnées de contact ci-dessous.
-          </p>
-        </details>
-
-        <details>
-          <summary>Où trouver les CGU / CGV / Privacy Policy ?</summary>
-          <p>Tout est disponible en bas de page, en français et en anglais.</p>
-        </details>
-      </div>
-    </section>
-<section class="section" id="contact">
-      <h2>Contact</h2>
-      <div class="contact">
-        <div class="card">
-          <h3>Pour toute question ou remarque</h3>
-          <p><b>Email :</b> <span class="mono">contact@absolute-popcorn.com</span></p>
-          <p style="margin-top:10px; color:var(--muted);">
-        </div>
-
-        <div class="card">
-          <h3>Presse & partenariats</h3>
-          <p>
-            Pour toute demande média, influence, ou collaboration :
-          <p><b>Email :</b> <span class="mono">contact@absolute-popcorn.com</span></p>
-          </p>
-    </section>
-    <section class="section" id="contact">
-  <div class="card">
-    <h3>Informations légales</h3>
-    <p><b>Éditeur :</b> Timing Corporation</p>
-    <p><b>Pays :</b> France</p>
-    <p><b>Email :</b> <span class="mono">contact@absolute-popcorn.com</span></p>
-    <p style="margin-top:10px; color:var(--muted);">
-  </div>
-</div>
-    <footer id="legal">
-      <div class="footergrid">
-        <div>
-          <div class="brand" style="gap:10px; margin-bottom:10px;">
-            <img src="assets/jaune%20clair%20sans%20fond%20tre%CC%80s%20petit%201%20(3).png" alt="Absolute Popcorn mascot" />
-            <div>
-              <div style="font-weight:900;color:var(--ink)">Absolute Popcorn</div>
-              <div style="font-size:13px">© <span id="year"></span> Timing Corporation. All rights reserved.</div>
+          <div class="mode-card">
+            <img class="mode-img" src="assets/le%20classique.png" alt="Le Classique" />
+            <div class="mode-body">
+              <div class="mode-icon" style="background:rgba(99,179,237,.14);border:1px solid rgba(99,179,237,.3);">💬</div>
+              <div class="mode-name">Le Classique</div>
+              <div class="mode-desc">Une question, quatre réponses. Le format quiz que tu connais, version cinéma hardcore.</div>
             </div>
           </div>
-          <div style="font-size:13px; color:var(--muted)">
+
+          <div class="mode-card">
+            <img class="mode-img" src="assets/l%27intrus.png" alt="L'Intrus" />
+            <div class="mode-body">
+              <div class="mode-icon" style="background:rgba(230,57,70,.14);border:1px solid rgba(230,57,70,.3);">🕵️</div>
+              <div class="mode-name">L'Intrus</div>
+              <div class="mode-desc">Parmi ces films ou acteurs, lequel ne correspond pas ? Repère l'élément qui ne va pas.</div>
+            </div>
           </div>
+
+          <div class="mode-card">
+            <img class="mode-img" src="assets/L%27arr%C3%AAt%20sur%20image.png" alt="L'Arrêt sur image" />
+            <div class="mode-body">
+              <div class="mode-icon" style="background:rgba(72,187,120,.14);border:1px solid rgba(72,187,120,.3);">📽️</div>
+              <div class="mode-name">L'Arrêt sur image</div>
+              <div class="mode-desc">Une capture d'écran de film, quelques secondes pour identifier l'œuvre. Facile ? Vraiment ?</div>
+            </div>
+          </div>
+
+          <div class="mode-card">
+            <img class="mode-img" src="assets/la%20mise%20au%20point.png" alt="La Mise au point" />
+            <div class="mode-body">
+              <div class="mode-icon" style="background:rgba(246,173,85,.14);border:1px solid rgba(246,173,85,.3);">🔍</div>
+              <div class="mode-name">La Mise au point</div>
+              <div class="mode-desc">L'image est floue. Elle se précise avec le temps, mais chaque seconde coûte des points.</div>
+            </div>
+          </div>
+
+          <div class="mode-card">
+            <img class="mode-img" src="assets/les%206%20degr%C3%A9s.png" alt="Les 6 Degrés" />
+            <div class="mode-body">
+              <div class="mode-icon" style="background:rgba(159,122,234,.14);border:1px solid rgba(159,122,234,.3);">🔗</div>
+              <div class="mode-name">Les 6 Degrés</div>
+              <div class="mode-desc">Relie deux acteurs via leurs films communs en 6 connexions max. Le vrai défi pour les cinéphiles.</div>
+            </div>
+          </div>
+
         </div>
+      </div>
+    </section>
 
-        <div>
-          <div style="font-weight:900; color:var(--ink); margin-bottom:10px">Documents légaux</div>
-          <div class="footlinks">
-            <!-- FR -->
-            <a href="fr/general-terms-of-use.html">CGU (FR)</a>
-            <a href="fr/terms-and-conditions.html">CGV (FR)</a>
-            <a href="fr/privacy-policy.html">Confidentialité (FR)</a>
-            <a href="fr/conduct.html">Charte (FR)</a>
+    <div class="wrap"><div class="divider"></div></div>
 
-            <!-- EN -->
-            <a href="en/general-terms-of-use.html">Terms of Use (EN)</a>
-            <a href="en/terms-and-conditions.html">Terms & Conditions (EN)</a>
-            <a href="en/privacy-policy.html">Privacy Policy (EN)</a>
-            <a href="en/conduct.html">Code of Conduct (EN)</a>
+    <!-- ══════════ FEATURES ══════════ -->
+    <section class="section" id="features">
+      <div class="wrap">
+        <div class="chip sec-chip">✨ Fonctionnalités</div>
+        <h2 class="sec-title">Tout ce qu'il faut<br>pour jouer sérieusement</h2>
+        <p class="sec-sub">Une application pensée jusqu'au dernier détail — pour que vous ne vouliez jamais vous arrêter.</p>
+
+        <div class="features-grid">
+          <div class="feat">
+            <div class="feat-icon">⚔️</div>
+            <div class="feat-title">Solo & Multijoueur</div>
+            <p class="feat-desc">Progressez seul à votre rythme ou défiez vos amis en temps réel. Les deux expériences sont complètes.</p>
+          </div>
+          <div class="feat">
+            <div class="feat-icon">🌍</div>
+            <div class="feat-title">7 Langues</div>
+            <p class="feat-desc">Jouez en français, anglais, espagnol et plus. Défiez des joueurs du monde entier, dans votre langue.</p>
+          </div>
+          <div class="feat">
+            <div class="feat-icon">🏆</div>
+            <div class="feat-title">Classement mondial</div>
+            <p class="feat-desc">Grimpez dans le leaderboard global, comparez vos scores par mode de jeu et par catégorie.</p>
+          </div>
+          <div class="feat">
+            <div class="feat-icon">🎰</div>
+            <div class="feat-title">La Bobine</div>
+            <p class="feat-desc">Une roue quotidienne pour gagner des tickets, des bonus et des surprises. Une récompense vous attend chaque jour.</p>
+          </div>
+          <div class="feat">
+            <div class="feat-icon">📈</div>
+            <div class="feat-title">Progression & Rangs</div>
+            <p class="feat-desc">Gagnez des "pops", montez de rang, et débloquez des récompenses au fil de vos victoires.</p>
+          </div>
+          <div class="feat">
+            <div class="feat-icon">🎟️</div>
+            <div class="feat-title">Expérience sans pub</div>
+            <p class="feat-desc">Option premium sans publicité disponible. Jouez sans interruption pour une expérience parfaitement fluide.</p>
           </div>
         </div>
       </div>
-    </footer>
+    </section>
+
+    <div class="wrap"><div class="divider"></div></div>
+
+    <!-- ══════════ SHOWCASE 3D ══════════ -->
+    <section class="section" id="showcase">
+      <div class="wrap">
+        <div class="chip sec-chip">📱 L'application</div>
+        <h2 class="sec-title">Conçu pour être beau<br>et plaisant à jouer</h2>
+        <p class="sec-sub">Un design soigné, des animations fluides, une interface qui donne envie de revenir jouer encore et encore.</p>
+
+        <div class="showcase-grid">
+          <div class="showcase-box">
+            <img
+              src="assets/3D%20Classique%20%2B%20intrus.png"
+              alt="Le Classique et L'Intrus sur iPhone"
+            />
+          </div>
+          <div class="showcase-box">
+            <img
+              src="assets/3D%20Mise%20au%20point%20%2B%20Arr%C3%AAt%20sur%20image%20%2B%20Les%206%20degr%C3%A9s.png"
+              alt="La Mise au point, L'Arrêt sur image et Les 6 degrés sur iPhone"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap"><div class="divider"></div></div>
+
+    <!-- ══════════ CLASSEMENT ══════════ -->
+    <section class="section" id="leaderboard">
+      <div class="wrap">
+        <div class="lb-grid">
+          <div class="lb-phone">
+            <img src="assets/Classement.png" alt="Classement mondial Absolute Popcorn" />
+          </div>
+          <div>
+            <div class="chip sec-chip">🏆 Classement</div>
+            <h2 class="sec-title">Qui est le meilleur<br>cinéphile du monde ?</h2>
+            <p style="font-size:16px;color:var(--dim);line-height:1.7;margin-bottom:4px;">
+              Le leaderboard mondial affiche les meilleurs joueurs par mode et par catégorie. Ton nom sera-t-il dans le top 10 ?
+            </p>
+            <ul class="lb-list">
+              <li class="lb-item">
+                <span class="lb-icon">🥇</span>
+                Classement par mode : Classique, Intrus, Arrêt sur image…
+              </li>
+              <li class="lb-item">
+                <span class="lb-icon">🌍</span>
+                Joueurs du monde entier avec drapeaux et pseudos
+              </li>
+              <li class="lb-item">
+                <span class="lb-icon">⚡</span>
+                Scores en "pops" — la monnaie du jeu
+              </li>
+              <li class="lb-item">
+                <span class="lb-icon">🔄</span>
+                Mis à jour en temps réel après chaque partie
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap"><div class="divider"></div></div>
+
+    <!-- ══════════ BOBINE ══════════ -->
+    <section class="section" id="bobine">
+      <div class="wrap">
+        <div class="bobine-box">
+          <div>
+            <div class="chip sec-chip">🎰 La Bobine</div>
+            <h2 class="sec-title" style="margin-bottom:16px;">La roue de<br>la fortune ciné</h2>
+            <p style="font-size:16px;color:var(--dim);line-height:1.7;">
+              Chaque jour, tournez la Bobine pour gagner des tickets supplémentaires, des multiplicateurs de score ou des parties bonus.
+              Une surprise vous attend, sans exception.
+            </p>
+            <div class="bobine-badge">
+              <div>
+                <div class="bobine-n">+20</div>
+                <div class="bobine-l">pops en moyenne par tour</div>
+              </div>
+            </div>
+          </div>
+          <div class="bobine-phone">
+            <img src="assets/la%20bobine.png" alt="La Bobine — roue quotidienne de récompenses" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap"><div class="divider"></div></div>
+
+    <!-- ══════════ À PROPOS ══════════ -->
+    <section class="section" id="about">
+      <div class="wrap">
+        <div class="about-grid">
+          <div class="mascot-wrap">
+            <img src="assets/Mascotte.png" alt="Mascotte Absolute Popcorn" />
+          </div>
+          <div>
+            <div class="chip sec-chip">🍿 À propos</div>
+            <h2 class="sec-title">Fabriqué avec passion<br>par Timing Corporation</h2>
+            <p style="font-size:16px;color:var(--dim);line-height:1.75;margin-bottom:14px;">
+              Timing Corporation est une société française fondée en 2025, spécialisée dans le développement d'expériences mobiles interactives.
+            </p>
+            <p style="font-size:16px;color:var(--dim);line-height:1.75;">
+              Absolute Popcorn est notre premier projet — une application entièrement dédiée aux amoureux du cinéma et des séries TV,
+              conçue avec une attention particulière à l'expérience utilisateur et à la qualité du produit.
+            </p>
+            <div class="tag-row">
+              <span class="tag">🇫🇷 Made in France</span>
+              <span class="tag">📱 iOS &amp; Android</span>
+              <span class="tag">🌍 7 langues</span>
+              <span class="tag">🎬 Cinéma &amp; séries</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap"><div class="divider"></div></div>
+
+    <!-- ══════════ FAQ ══════════ -->
+    <section class="section" id="faq">
+      <div class="wrap">
+        <div class="chip sec-chip">❓ FAQ</div>
+        <h2 class="sec-title" style="margin-bottom:12px;">Questions fréquentes</h2>
+        <p class="sec-sub">Tout ce qu'on nous demande souvent, en version courte et claire.</p>
+
+        <div class="faq-list">
+          <details class="faq">
+            <summary>L'application est-elle déjà disponible ?</summary>
+            <div class="faq-ans">Pas encore. Absolute Popcorn est en cours de développement. Sa sortie sur iOS et Android est prévue prochainement. Restez connectés !</div>
+          </details>
+          <details class="faq">
+            <summary>Qui développe Absolute Popcorn ?</summary>
+            <div class="faq-ans">Absolute Popcorn est développé et édité par Timing Corporation, société française fondée en 2025. Pour toute question, contactez-nous à contact@absolute-popcorn.com.</div>
+          </details>
+          <details class="faq">
+            <summary>Le jeu sera-t-il gratuit ?</summary>
+            <div class="faq-ans">L'application sera disponible gratuitement. Une option premium sans publicité sera proposée pour une expérience optimale et sans interruption.</div>
+          </details>
+          <details class="faq">
+            <summary>Combien de langues seront disponibles au lancement ?</summary>
+            <div class="faq-ans">Au lancement, 7 langues seront disponibles. D'autres viendront progressivement en fonction des retours de la communauté.</div>
+          </details>
+          <details class="faq">
+            <summary>Où trouver les CGU, CGV et la Politique de confidentialité ?</summary>
+            <div class="faq-ans">Tous les documents légaux sont disponibles en bas de cette page — en français et en anglais. Ils couvrent les conditions générales d'utilisation, les conditions de vente, la politique de confidentialité et la charte de conduite.</div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap"><div class="divider"></div></div>
+
+    <!-- ══════════ CONTACT ══════════ -->
+    <section class="section" id="contact">
+      <div class="wrap">
+        <div class="chip sec-chip">📬 Contact</div>
+        <h2 class="sec-title" style="margin-bottom:12px;">On est disponibles</h2>
+        <p class="sec-sub">Une question, un partenariat, une demande presse ? Écrivez-nous, on répond.</p>
+
+        <div class="contact-grid">
+          <div class="contact-card">
+            <div class="contact-emoji">💬</div>
+            <h3>Support utilisateur</h3>
+            <p>Un problème avec l'application ou une question générale ? Notre équipe vous répond rapidement.</p>
+            <span class="email-pill">contact@absolute-popcorn.com</span>
+          </div>
+          <div class="contact-card">
+            <div class="contact-emoji">🎙️</div>
+            <h3>Presse &amp; Médias</h3>
+            <p>Demande d'interview, d'assets presse ou d'informations pour un article ? On est là.</p>
+            <span class="email-pill">contact@absolute-popcorn.com</span>
+          </div>
+          <div class="contact-card">
+            <div class="contact-emoji">🤝</div>
+            <h3>Partenariats</h3>
+            <p>Vous souhaitez collaborer, proposer une intégration ou une opportunité commerciale ? Parlons-en.</p>
+            <span class="email-pill">contact@absolute-popcorn.com</span>
+          </div>
+        </div>
+
+        <!-- Legal info block -->
+        <div style="margin-top:16px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:24px;display:flex;flex-wrap:wrap;gap:24px;align-items:center;">
+          <div>
+            <div style="font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:800;color:var(--muted);margin-bottom:6px;">Informations légales</div>
+            <div style="font-size:14px;color:var(--dim);line-height:1.7;">
+              <b style="color:var(--text);">Éditeur :</b> Timing Corporation &nbsp;·&nbsp;
+              <b style="color:var(--text);">Pays :</b> France &nbsp;·&nbsp;
+              <b style="color:var(--text);">Email :</b>
+              <span style="font-family:ui-monospace,monospace;font-size:13px;color:var(--gold);">contact@absolute-popcorn.com</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
+  <!-- ══════════ FOOTER ══════════ -->
+  <footer id="legal">
+    <div class="wrap">
+      <div class="foot-grid">
+
+        <div>
+          <div class="foot-brand">
+            <img src="assets/Mascotte.png" alt="Absolute Popcorn" />
+            <span class="foot-brand-name">Absolute Popcorn</span>
+          </div>
+          <p class="foot-tag">Le jeu ultime pour les amoureux du cinéma et des séries TV.</p>
+          <p class="foot-copy">© <span id="year"></span> Timing Corporation. Tous droits réservés.</p>
+        </div>
+
+        <div>
+          <div class="foot-col-h">Navigation</div>
+          <div class="foot-links">
+            <a href="#modes">Modes de jeu</a>
+            <a href="#features">Fonctionnalités</a>
+            <a href="#leaderboard">Classement</a>
+            <a href="#about">À propos</a>
+            <a href="#contact">Contact</a>
+          </div>
+        </div>
+
+        <div>
+          <div class="foot-col-h">Documents légaux</div>
+          <div class="legal-wrap">
+            <a class="legal-pill" href="fr/general-terms-of-use.html">CGU (FR)</a>
+            <a class="legal-pill" href="fr/terms-and-conditions.html">CGV (FR)</a>
+            <a class="legal-pill" href="fr/privacy-policy.html">Confidentialité (FR)</a>
+            <a class="legal-pill" href="fr/conduct.html">Charte (FR)</a>
+            <a class="legal-pill" href="en/general-terms-of-use.html">Terms of Use (EN)</a>
+            <a class="legal-pill" href="en/terms-and-conditions.html">Terms &amp; Cond. (EN)</a>
+            <a class="legal-pill" href="en/privacy-policy.html">Privacy Policy (EN)</a>
+            <a class="legal-pill" href="en/conduct.html">Code of Conduct (EN)</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </footer>
+
   <script>
-<script>
-document.getElementById("year").textContent = new Date().getFullYear();
-</script>
+    document.getElementById("year").textContent = new Date().getFullYear();
   </script>
+
 </body>
 </html>
