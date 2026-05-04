@@ -18,7 +18,7 @@ body {
   font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
   background: #090909;
   color: #e8e8e8;
-  line-height: 1.6;
+  line-height: 1.75;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -39,7 +39,7 @@ img { max-width: 100%; display: block; }
 
 /* ── LAYOUT ── */
 .wrap { max-width: var(--max); margin: 0 auto; padding: 0 32px; }
-.section { padding: 112px 0; }
+.section { padding: 128px 0; }
 hr.sep {
   border: none;
   border-top: 1px solid var(--border);
@@ -129,30 +129,36 @@ header.on {
 }
 .hero-title span { color: var(--gold); }
 .hero-sub {
-  font-size: 17px; color: var(--muted);
-  line-height: 1.8; max-width: 42ch; margin-bottom: 40px;
+  font-size: 19px; color: var(--muted);
+  line-height: 1.8; max-width: 44ch; margin-bottom: 44px;
 }
-.hero-stores { display: flex; gap: 12px; flex-wrap: wrap; }
+/* ── STORE BUTTONS ── */
+.store-area { display: flex; flex-direction: column; gap: 16px; }
+.store-area-label {
+  font-size: 13px; color: var(--muted); font-weight: 500;
+  letter-spacing: .04em;
+}
+.store-btns { display: flex; gap: 14px; flex-wrap: wrap; }
 .store-btn {
-  display: inline-flex; align-items: center; gap: 12px;
-  padding: 13px 22px; border-radius: 13px;
-  border: 1px solid var(--border); background: var(--surface);
-  transition: border-color .2s, background .2s, transform .2s;
+  display: inline-flex; align-items: center; gap: 14px;
+  padding: 15px 26px; border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.05);
+  min-width: 190px;
+  transition: background .22s, border-color .22s, transform .22s, box-shadow .22s;
 }
 .store-btn:hover {
-  border-color: rgba(255,255,255,.18);
-  background: rgba(255,255,255,.06);
+  background: rgba(255,255,255,.09);
+  border-color: rgba(255,255,255,.24);
   transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,.35);
 }
-.store-btn svg { width: 20px; height: 20px; fill: var(--text); flex-shrink: 0; }
+.store-btn svg { width: 26px; height: 26px; flex-shrink: 0; }
+.store-btn.apple svg { fill: #fff; }
+.store-btn.gplay svg { overflow: visible; }
 .store-btn-text { display: flex; flex-direction: column; align-items: flex-start; }
-.store-btn-micro { font-size: 10px; color: var(--muted); font-weight: 500; line-height: 1.2; }
-.store-btn-name  { font-size: 15px; font-weight: 700; color: var(--text); line-height: 1.2; }
-.store-btn-badge {
-  font-size: 9px; font-weight: 700; letter-spacing: .05em;
-  background: var(--gold); color: #111;
-  padding: 2px 6px; border-radius: 4px; margin-top: 3px; display: inline-block;
-}
+.store-btn-micro { font-size: 11px; color: var(--muted); font-weight: 500; line-height: 1.2; }
+.store-btn-name  { font-size: 19px; font-weight: 700; color: #fff; line-height: 1.25; letter-spacing: -.01em; }
 .hero-img {
   display: flex; justify-content: center; align-items: center;
 }
@@ -184,23 +190,23 @@ header.on {
   font-size: 52px; line-height: 1; letter-spacing: .01em;
   color: var(--gold); margin-bottom: 6px;
 }
-.stat-l { font-size: 12px; color: var(--faint); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+.stat-l { font-size: 13px; color: var(--muted); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
 
 /* ── SECTION HEADER ── */
-.sh { margin-bottom: 56px; }
+.sh { margin-bottom: 72px; }
 .sh-eyebrow {
   font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
-  color: var(--gold); margin-bottom: 16px;
+  color: var(--gold); margin-bottom: 18px;
   display: flex; align-items: center; gap: 8px;
 }
 .sh-eyebrow::before { content: ''; width: 18px; height: 1px; background: var(--gold); }
 .sh-title {
-  font-size: clamp(30px, 3.2vw, 48px);
-  font-weight: 800; letter-spacing: -.03em; line-height: 1.1;
-  color: var(--text); margin-bottom: 16px;
+  font-size: clamp(36px, 3.8vw, 56px);
+  font-weight: 800; letter-spacing: -.03em; line-height: 1.08;
+  color: var(--text); margin-bottom: 18px;
 }
 .sh-sub {
-  font-size: 17px; color: var(--muted); line-height: 1.8; max-width: 52ch;
+  font-size: 19px; color: var(--muted); line-height: 1.8; max-width: 52ch;
 }
 
 /* ── MODES ── */
@@ -217,18 +223,18 @@ header.on {
   transition: transform .5s ease;
 }
 .mode-card:hover .mode-img-box img { transform: scale(1.04); }
-.mode-info { padding: 16px 18px 20px; }
-.mode-num { font-size: 10px; font-weight: 700; letter-spacing: .14em; color: var(--faint); margin-bottom: 5px; }
-.mode-name { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
-.mode-desc { font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+.mode-info { padding: 20px 20px 24px; }
+.mode-num { font-size: 10px; font-weight: 700; letter-spacing: .14em; color: var(--faint); margin-bottom: 6px; }
+.mode-name { font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+.mode-desc { font-size: 15px; color: var(--muted); line-height: 1.65; }
 
 /* ── FEATURES ── */
 .features { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 18px; overflow: hidden; }
-.feat { background: #090909; padding: 36px 32px; transition: background .2s; }
+.feat { background: #090909; padding: 40px 36px; transition: background .2s; }
 .feat:hover { background: rgba(255,255,255,.02); }
-.feat-icon { font-size: 24px; margin-bottom: 18px; }
-.feat-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 10px; letter-spacing: -.01em; }
-.feat-body { font-size: 14px; color: var(--muted); line-height: 1.7; }
+.feat-icon { font-size: 26px; margin-bottom: 20px; }
+.feat-title { font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 12px; letter-spacing: -.015em; }
+.feat-body { font-size: 16px; color: var(--muted); line-height: 1.75; }
 
 /* ── SCREENSHOTS ── */
 .shots { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -252,13 +258,13 @@ header.on {
 }
 .lb-points { display: flex; flex-direction: column; gap: 10px; margin-top: 28px; }
 .lb-pt {
-  display: flex; align-items: flex-start; gap: 14px;
-  padding: 14px 16px; border-radius: 12px; border: 1px solid var(--border);
+  display: flex; align-items: flex-start; gap: 16px;
+  padding: 18px 20px; border-radius: 12px; border: 1px solid var(--border);
   background: var(--surface);
 }
-.lb-pt-icon { font-size: 16px; margin-top: 1px; flex-shrink: 0; }
-.lb-pt-text { font-size: 14px; color: var(--muted); line-height: 1.55; }
-.lb-pt-text strong { color: var(--text); font-weight: 600; display: block; margin-bottom: 2px; }
+.lb-pt-icon { font-size: 18px; margin-top: 1px; flex-shrink: 0; }
+.lb-pt-text { font-size: 16px; color: var(--muted); line-height: 1.65; }
+.lb-pt-text strong { color: var(--text); font-weight: 600; display: block; margin-bottom: 3px; }
 
 /* ── BOBINE ── */
 .bobine-card {
@@ -276,7 +282,7 @@ header.on {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 52px; color: var(--gold); line-height: 1;
 }
-.bobine-nl { font-size: 13px; color: var(--muted); line-height: 1.5; }
+.bobine-nl { font-size: 15px; color: var(--muted); line-height: 1.55; }
 .bobine-img { display: flex; align-items: center; justify-content: center; padding: 40px; }
 .bobine-img img {
   max-width: 220px; width: 100%; border-radius: 32px;
@@ -293,7 +299,7 @@ header.on {
   margin-bottom: 20px;
 }
 .cta-title span { color: var(--gold); }
-.cta-sub { font-size: 17px; color: var(--muted); margin-bottom: 40px; }
+.cta-sub { font-size: 19px; color: var(--muted); margin-bottom: 44px; }
 .cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
 
 /* ── ABOUT ── */
@@ -319,7 +325,7 @@ details.faq {
 }
 details.faq:first-child { border-top: 1px solid var(--border); }
 details.faq summary {
-  padding: 20px 0; font-size: 15px; font-weight: 600; color: var(--text);
+  padding: 22px 0; font-size: 17px; font-weight: 600; color: var(--text);
   cursor: pointer; list-style: none;
   display: flex; justify-content: space-between; align-items: center; gap: 20px;
   user-select: none; transition: color .18s;
@@ -334,7 +340,7 @@ details.faq summary:hover { color: var(--gold); }
 }
 details.faq[open] .faq-plus { transform: rotate(45deg); color: var(--gold); }
 .faq-ans {
-  padding: 0 0 20px; font-size: 15px; color: var(--muted); line-height: 1.75;
+  padding: 0 0 22px; font-size: 16px; color: var(--muted); line-height: 1.8;
 }
 
 /* ── CONTACT ── */
@@ -344,9 +350,9 @@ details.faq[open] .faq-plus { transform: rotate(45deg); color: var(--gold); }
   background: var(--surface); transition: border-color .2s;
 }
 .contact-card:hover { border-color: rgba(255,255,255,.16); }
-.c-ico { font-size: 26px; margin-bottom: 14px; }
-.contact-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: var(--text); }
-.contact-card p { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 16px; }
+.c-ico { font-size: 28px; margin-bottom: 16px; }
+.contact-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; color: var(--text); }
+.contact-card p { font-size: 16px; color: var(--muted); line-height: 1.75; margin-bottom: 18px; }
 .email-link {
   font-family: ui-monospace, 'SF Mono', monospace;
   font-size: 12px; color: var(--gold);
@@ -419,6 +425,10 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 44px; }
   .contact-grid { grid-template-columns: 1fr 1fr; }
   .sh { margin-bottom: 40px; }
 }
+@media (max-width: 880px) {
+  .store-btns { justify-content: center; }
+  .store-area-label { text-align: center; }
+}
 @media (max-width: 600px) {
   .wrap { padding: 0 20px; }
   .section { padding: 80px 0; }
@@ -432,6 +442,9 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 44px; }
   .hero { padding-top: 64px; }
   .bobine-text { padding: 36px 28px; }
   .stat { padding: 28px 12px; }
+  .store-btn { min-width: 0; width: 100%; justify-content: center; padding: 16px 24px; }
+  .store-btns { flex-direction: column; }
+  .sh { margin-bottom: 48px; }
 }
 
   </style>
@@ -471,23 +484,29 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 44px; }
         <p class="hero-sub">
           Quiz, défis visuels, modes inédits — une expérience pensée pour les passionnés du cinéma et des séries TV.
         </p>
-        <div class="hero-stores">
-          <a class="store-btn" href="#" aria-label="App Store">
-            <svg viewBox="0 0 814 1000" aria-hidden="true"><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 376.8 0 290 0 206.8c0-123.8 80.1-190.5 157.8-190.5 47.2 0 86.5 31.3 117.7 31.3 30 0 74.2-33.7 129.3-33.7 50.7 0 115.8 23.1 156.1 81.2zm-219.6-75.3c-22.3 28.8-59.4 52.1-97.3 52.1-4.5 0-9-.6-13.5-1.3-3.2-38.2 12.2-79.7 33.1-108.5 22.3-30.6 61-53.6 94.2-55.6 3.8 39.4-11.3 79.7-16.5 113.3z"/></svg>
-            <div class="store-btn-text">
-              <span class="store-btn-micro">Bientôt sur</span>
-              <span class="store-btn-name">App Store</span>
-              <span class="store-btn-badge">COMING SOON</span>
-            </div>
-          </a>
-          <a class="store-btn" href="#" aria-label="Google Play">
-            <svg viewBox="0 0 512 512" aria-hidden="true"><path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l2.4 1.4 247.1-247.1v-5.8L47 0zm414.5 225.5L381 183.4l-74.7 74.7 74.7 74.7 61.1-34.3c17.4-10.4 17.4-36.5-.6-73zm-357 262.5l280.8-161.2-60.1-60.1L47 465.9l57.5 22.1z"/></svg>
-            <div class="store-btn-text">
-              <span class="store-btn-micro">Bientôt sur</span>
-              <span class="store-btn-name">Google Play</span>
-              <span class="store-btn-badge">COMING SOON</span>
-            </div>
-          </a>
+        <div class="store-area">
+          <p class="store-area-label">Bientôt disponible sur iOS et Android</p>
+          <div class="store-btns">
+            <a class="store-btn apple" href="#" aria-label="Télécharger sur l'App Store">
+              <svg viewBox="0 0 814 1000" aria-hidden="true"><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 376.8 0 290 0 206.8c0-123.8 80.1-190.5 157.8-190.5 47.2 0 86.5 31.3 117.7 31.3 30 0 74.2-33.7 129.3-33.7 50.7 0 115.8 23.1 156.1 81.2zm-219.6-75.3c-22.3 28.8-59.4 52.1-97.3 52.1-4.5 0-9-.6-13.5-1.3-3.2-38.2 12.2-79.7 33.1-108.5 22.3-30.6 61-53.6 94.2-55.6 3.8 39.4-11.3 79.7-16.5 113.3z"/></svg>
+              <div class="store-btn-text">
+                <span class="store-btn-micro">Download on the</span>
+                <span class="store-btn-name">App Store</span>
+              </div>
+            </a>
+            <a class="store-btn gplay" href="#" aria-label="Télécharger sur Google Play">
+              <svg viewBox="0 0 512 512" aria-hidden="true">
+                <path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1z" fill="#00C1FF"/>
+                <path d="M47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l2.4 1.4 247.1-247.1v-5.8L47 0z" fill="#E0E0E0"/>
+                <path d="M414.5 225.5L381 183.4l-74.7 74.7 74.7 74.7 61.1-34.3c17.4-10.4 17.4-36.5-.6-73z" fill="#FFD400"/>
+                <path d="M47 512l280.8-161.2-60.1-60.1L47 465.9l57.5 22.1z" fill="#FF3E30"/>
+              </svg>
+              <div class="store-btn-text">
+                <span class="store-btn-micro">Get it on</span>
+                <span class="store-btn-name">Google Play</span>
+              </div>
+            </a>
+          </div>
         </div>
       </div>
 
@@ -659,7 +678,7 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 44px; }
       <div class="fade">
         <div class="sh-eyebrow">Classement</div>
         <h2 class="sh-title">Qui est le meilleur cinéphile du monde ?</h2>
-        <p style="font-size:16px;color:var(--muted);line-height:1.8;margin-bottom:4px;">
+        <p style="font-size:18px;color:var(--muted);line-height:1.8;margin-bottom:4px;">
           Le leaderboard mondial affiche les meilleurs joueurs par mode et par catégorie. Ton nom sera-t-il dans le top 10 ?
         </p>
         <div class="lb-points">
@@ -694,7 +713,7 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 44px; }
       <div class="bobine-text">
         <div class="sh-eyebrow">La Bobine</div>
         <h2 class="sh-title">La roue de la fortune ciné</h2>
-        <p style="font-size:16px;color:var(--muted);line-height:1.8;">
+        <p style="font-size:18px;color:var(--muted);line-height:1.8;">
           Chaque jour, tournez la Bobine pour gagner des tickets supplémentaires, des multiplicateurs de score ou des parties bonus. Une surprise vous attend, sans exception.
         </p>
         <div class="bobine-badge">
@@ -719,20 +738,23 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 44px; }
       <h2 class="cta-title">Prêt pour<br>le <span>grand jeu ?</span></h2>
       <p class="cta-sub">Bientôt disponible sur iOS et Android.</p>
       <div class="cta-btns">
-        <a class="store-btn" href="#" aria-label="App Store">
+        <a class="store-btn apple" href="#" aria-label="Télécharger sur l'App Store">
           <svg viewBox="0 0 814 1000" aria-hidden="true"><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 376.8 0 290 0 206.8c0-123.8 80.1-190.5 157.8-190.5 47.2 0 86.5 31.3 117.7 31.3 30 0 74.2-33.7 129.3-33.7 50.7 0 115.8 23.1 156.1 81.2zm-219.6-75.3c-22.3 28.8-59.4 52.1-97.3 52.1-4.5 0-9-.6-13.5-1.3-3.2-38.2 12.2-79.7 33.1-108.5 22.3-30.6 61-53.6 94.2-55.6 3.8 39.4-11.3 79.7-16.5 113.3z"/></svg>
           <div class="store-btn-text">
-            <span class="store-btn-micro">Bientôt sur</span>
+            <span class="store-btn-micro">Download on the</span>
             <span class="store-btn-name">App Store</span>
-            <span class="store-btn-badge">COMING SOON</span>
           </div>
         </a>
-        <a class="store-btn" href="#" aria-label="Google Play">
-          <svg viewBox="0 0 512 512" aria-hidden="true"><path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l2.4 1.4 247.1-247.1v-5.8L47 0zm414.5 225.5L381 183.4l-74.7 74.7 74.7 74.7 61.1-34.3c17.4-10.4 17.4-36.5-.6-73zm-357 262.5l280.8-161.2-60.1-60.1L47 465.9l57.5 22.1z"/></svg>
+        <a class="store-btn gplay" href="#" aria-label="Télécharger sur Google Play">
+          <svg viewBox="0 0 512 512" aria-hidden="true">
+            <path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1z" fill="#00C1FF"/>
+            <path d="M47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l2.4 1.4 247.1-247.1v-5.8L47 0z" fill="#E0E0E0"/>
+            <path d="M414.5 225.5L381 183.4l-74.7 74.7 74.7 74.7 61.1-34.3c17.4-10.4 17.4-36.5-.6-73z" fill="#FFD400"/>
+            <path d="M47 512l280.8-161.2-60.1-60.1L47 465.9l57.5 22.1z" fill="#FF3E30"/>
+          </svg>
           <div class="store-btn-text">
-            <span class="store-btn-micro">Bientôt sur</span>
+            <span class="store-btn-micro">Get it on</span>
             <span class="store-btn-name">Google Play</span>
-            <span class="store-btn-badge">COMING SOON</span>
           </div>
         </a>
       </div>
@@ -752,10 +774,10 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 44px; }
       <div class="fade">
         <div class="sh-eyebrow">À propos</div>
         <h2 class="sh-title">Fabriqué avec passion par Timing Corporation</h2>
-        <p style="font-size:16px;color:var(--muted);line-height:1.8;margin-bottom:16px;">
+        <p style="font-size:18px;color:var(--muted);line-height:1.8;margin-bottom:16px;">
           Timing Corporation est une société française fondée en 2025, spécialisée dans le développement d'expériences mobiles interactives.
         </p>
-        <p style="font-size:16px;color:var(--muted);line-height:1.8;">
+        <p style="font-size:18px;color:var(--muted);line-height:1.8;">
           Absolute Popcorn est notre premier projet — une application entièrement dédiée aux amoureux du cinéma et des séries TV, conçue avec une attention particulière à l'expérience utilisateur.
         </p>
         <div class="about-tags">
