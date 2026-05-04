@@ -1,830 +1,1181 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Absolute Popcorn — Le jeu ultime du cinéma et des séries TV. Quiz, arrêt sur image, intrus, mise au point, 6 degrés. Bientôt sur iOS et Android." />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Absolute Popcorn — Le jeu ultime du cinéma et des séries TV. Quiz, arrêt sur image, intrus, mise au point, 6 degrés. Bientôt sur iOS et Android.">
+  <meta name="theme-color" content="#070709">
   <title>Absolute Popcorn — Le jeu ultime du cinéma</title>
-
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg:       #0b0b0e;
-      --bg2:      #111116;
-      --card:     #17171d;
-      --card2:    #1c1c24;
-      --border:   rgba(255,255,255,0.07);
-      --gold:     #f5c842;
-      --gold-bg:  rgba(245,200,66,0.10);
-      --gold-bdr: rgba(245,200,66,0.25);
-      --red:      #e63946;
-      --green:    #22c55e;
-      --green2:   #16a34a;
-      --text:     #f0f0f2;
-      --dim:      #a0a0ae;
-      --muted:    #606070;
-      --max:      1140px;
-      --r:        18px;
-      --rl:       26px;
-    }
+  /* ===== RESET ===== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    background: #070709;
+    color: #f0f0f4;
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+  /* ===== TOKENS ===== */
+  :root {
+    --bg:        #070709;
+    --bg1:       #0b0b0f;
+    --bg2:       #0f0f15;
+    --card:      rgba(255,255,255,0.025);
+    --card2:     rgba(255,255,255,0.045);
+    --border:    rgba(255,255,255,0.07);
+    --border2:   rgba(255,255,255,0.12);
+    --gold:      #f5c842;
+    --gold-soft: rgba(245,200,66,0.10);
+    --gold-bdr:  rgba(245,200,66,0.22);
+    --text:      #f0f0f4;
+    --text2:     #9898aa;
+    --text3:     #4a4a5a;
+    --max:       1200px;
+    --r:         16px;
+    --rl:        24px;
+  }
 
-    body {
-      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-    a { color: inherit; text-decoration: none; }
-    img { max-width: 100%; display: block; }
+  /* ===== GRAIN ===== */
+  .grain {
+    position: fixed; inset: -60%; width: 220%; height: 220%;
+    pointer-events: none; z-index: 9999; opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)'/%3E%3C/svg%3E");
+    animation: grain 0.35s steps(1) infinite;
+  }
+  @keyframes grain {
+    0%   { transform: translate(0,0) }
+    11%  { transform: translate(-3%,-2%) }
+    22%  { transform: translate(2%, 4%) }
+    33%  { transform: translate(-4%, 1%) }
+    44%  { transform: translate(3%,-3%) }
+    55%  { transform: translate(-1%, 5%) }
+    66%  { transform: translate(4%,-1%) }
+    77%  { transform: translate(-2%, 3%) }
+    88%  { transform: translate(1%,-4%) }
+  }
 
-    /* Noise overlay */
-    body::before {
-      content: "";
-      position: fixed; inset: 0;
-      pointer-events: none; z-index: 999;
-      opacity: 0.025;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
-    }
+  /* ===== LAYOUT ===== */
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 28px; }
+  .section { padding: 100px 0; }
 
-    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+  /* ===== REVEAL ===== */
+  .reveal {
+    opacity: 0; transform: translateY(28px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+  .d1 { transition-delay: .08s }
+  .d2 { transition-delay: .16s }
+  .d3 { transition-delay: .24s }
+  .d4 { transition-delay: .32s }
+  .d5 { transition-delay: .40s }
 
-    /* ── HEADER ─────────────────────────────── */
-    header {
-      position: sticky; top: 0; z-index: 200;
-      backdrop-filter: blur(24px) saturate(160%);
-      -webkit-backdrop-filter: blur(24px) saturate(160%);
-      background: rgba(11,11,14,0.82);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav {
-      max-width: var(--max); margin: 0 auto; padding: 13px 24px;
-      display: flex; align-items: center; justify-content: space-between; gap: 16px;
-    }
-    .brand { display: flex; align-items: center; gap: 11px; font-weight: 900; font-size: 16px; }
-    .brand img { width: 36px; height: 36px; object-fit: contain; border-radius: 9px; }
-    .navlinks { display: flex; align-items: center; gap: 2px; }
-    .navlinks a {
-      padding: 7px 13px; border-radius: 10px; font-size: 14px; font-weight: 600; color: var(--dim);
-      transition: background .18s, color .18s;
-    }
-    .navlinks a:hover { background: rgba(255,255,255,0.06); color: var(--text); }
-    .btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-weight: 800; font-size: 14px; padding: 9px 18px; border-radius: 12px;
-      transition: all .2s; white-space: nowrap;
-    }
-    .btn-green {
-      background: var(--green); color: #fff;
-      box-shadow: 0 4px 18px rgba(34,197,94,.3);
-    }
-    .btn-green:hover { background: var(--green2); transform: translateY(-1px); box-shadow: 0 6px 24px rgba(34,197,94,.4); }
-    .btn-ghost {
-      background: rgba(255,255,255,0.06); border: 1px solid var(--border); color: var(--text);
-    }
-    .btn-ghost:hover { background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.13); }
+  /* ===== HEADER ===== */
+  header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+    transition: background .4s, border-color .4s, backdrop-filter .4s;
+    border-bottom: 1px solid transparent;
+  }
+  header.scrolled {
+    background: rgba(7,7,9,.92);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom-color: var(--border);
+  }
+  .nav {
+    max-width: var(--max); margin: 0 auto; padding: 18px 28px;
+    display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; }
+  .nav-logo img { width: 30px; height: 30px; object-fit: contain; border-radius: 8px; }
+  .nav-logo-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 21px; letter-spacing: .05em; color: var(--text);
+  }
+  .nav-links { display: flex; align-items: center; gap: 2px; }
+  .nav-links a {
+    padding: 6px 13px; border-radius: 10px;
+    font-size: 13.5px; font-weight: 500; color: var(--text2);
+    transition: color .2s, background .2s;
+  }
+  .nav-links a:hover { color: var(--text); background: rgba(255,255,255,.06); }
+  .nav-cta {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 9px 20px; border-radius: 12px;
+    font-size: 13.5px; font-weight: 700;
+    background: var(--gold); color: #111;
+    transition: transform .2s, opacity .2s; white-space: nowrap;
+  }
+  .nav-cta:hover { transform: translateY(-1px); opacity: .9; }
 
-    /* ── HERO ────────────────────────────────── */
-    .hero-outer {
-      position: relative; overflow: hidden;
-      padding: 88px 0 72px;
-    }
-    .hero-glow-a {
-      position: absolute; top: -260px; left: 30%;
-      width: 900px; height: 700px; border-radius: 50%;
-      background: radial-gradient(ellipse, rgba(245,200,66,.10) 0%, transparent 68%);
-      pointer-events: none;
-    }
-    .hero-glow-b {
-      position: absolute; top: 60px; right: -160px;
-      width: 480px; height: 480px; border-radius: 50%;
-      background: radial-gradient(ellipse, rgba(230,57,70,.07) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .hero {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 52px; align-items: center;
-    }
-    .chip {
-      display: inline-flex; align-items: center; gap: 7px;
-      background: var(--gold-bg); border: 1px solid var(--gold-bdr);
-      color: var(--gold); font-size: 12px; font-weight: 800;
-      padding: 5px 13px; border-radius: 999px;
-      letter-spacing: .05em; text-transform: uppercase;
-    }
-    h1 {
-      font-size: clamp(38px, 4.8vw, 66px);
-      font-weight: 900; line-height: 1.04;
-      letter-spacing: -.035em;
-      margin: 18px 0 20px;
-    }
-    h1 em { font-style: normal; color: var(--gold); }
-    .lead {
-      font-size: clamp(15px, 1.5vw, 18px); color: var(--dim);
-      max-width: 46ch; line-height: 1.7; margin-bottom: 32px;
-    }
-    .hero-ctas { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 36px; }
-    .platforms { display: flex; align-items: center; gap: 10px; }
-    .platform {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: rgba(255,255,255,0.05); border: 1px solid var(--border);
-      padding: 5px 12px; border-radius: 999px; font-size: 12px;
-      font-weight: 700; color: var(--dim);
-    }
-    .hero-visual {
-      position: relative;
-      display: flex; justify-content: center; align-items: center;
-    }
-    .hero-ring {
-      position: absolute; border-radius: 50%; pointer-events: none;
-      border: 1px solid rgba(245,200,66,.09);
-    }
-    .hero-ring-1 { width: 460px; height: 460px; }
-    .hero-ring-2 { width: 330px; height: 330px; border-color: rgba(245,200,66,.06); }
-    .hero-visual img {
-      width: 100%; max-width: 580px; position: relative; z-index: 1;
-      filter: drop-shadow(0 48px 96px rgba(0,0,0,.65));
-    }
+  /* ===== HERO ===== */
+  .hero {
+    position: relative; min-height: 100svh;
+    display: flex; align-items: center; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0; opacity: .10;
+    background: url('assets/splash.png') center/cover no-repeat;
+    filter: blur(4px); transform: scale(1.08);
+    transition: transform .1s linear;
+  }
+  .hero-gradient {
+    position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background:
+      radial-gradient(ellipse 90% 70% at 50% 100%, var(--bg) 0%, transparent 70%),
+      radial-gradient(ellipse 120% 50% at 50% 0%,  rgba(7,7,9,.85) 0%, transparent 80%),
+      radial-gradient(ellipse 70%  70% at 15%  50%, rgba(7,7,9,.7) 0%, transparent 80%);
+  }
+  .hero-glow-gold {
+    position: absolute; z-index: 1; pointer-events: none;
+    top: -10%; left: 5%; width: 70%; height: 70%;
+    background: radial-gradient(ellipse, rgba(245,200,66,.055) 0%, transparent 65%);
+  }
+  .hero-bar {
+    position: absolute; left: 0; right: 0; height: 2px; z-index: 3;
+    background: linear-gradient(90deg, transparent 0%, var(--gold) 30%, var(--gold) 70%, transparent 100%);
+    opacity: .35;
+  }
+  .hero-bar-top    { top: 72px; }
+  .hero-bar-bottom { bottom: 56px; }
+  .hero-content { position: relative; z-index: 4; width: 100%; padding-top: 72px; }
+  .hero-inner {
+    display: grid; grid-template-columns: 1.1fr .9fr;
+    gap: 56px; align-items: center;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 5px 14px; border-radius: 999px;
+    border: 1px solid var(--gold-bdr); background: var(--gold-soft);
+    font-size: 11px; font-weight: 700; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 22px;
+  }
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(62px, 7.8vw, 116px);
+    line-height: .9; letter-spacing: .02em;
+    margin-bottom: 26px; color: var(--text);
+  }
+  .hero-title .gold { color: var(--gold); }
+  .hero-title .outline {
+    -webkit-text-stroke: 2px var(--text);
+    color: transparent;
+  }
+  .hero-sub {
+    font-size: clamp(15px, 1.4vw, 18px); color: var(--text2);
+    line-height: 1.75; max-width: 44ch; margin-bottom: 38px;
+  }
+  .hero-stores { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 28px; }
+  /* Store buttons */
+  .store-btn {
+    display: inline-flex; align-items: center; gap: 12px;
+    padding: 12px 22px; border-radius: 14px;
+    background: rgba(255,255,255,.055); border: 1px solid rgba(255,255,255,.12);
+    transition: all .25s; cursor: pointer;
+  }
+  .store-btn:hover {
+    background: rgba(255,255,255,.10); border-color: rgba(255,255,255,.22);
+    transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,0,0,.4);
+  }
+  .store-btn svg { width: 22px; height: 22px; fill: var(--text); flex-shrink: 0; }
+  .store-btn-text { display: flex; flex-direction: column; align-items: flex-start; }
+  .store-btn-micro {
+    font-size: 10px; color: var(--text2); font-weight: 500;
+    text-transform: uppercase; letter-spacing: .05em;
+  }
+  .store-btn-name { font-size: 15px; font-weight: 700; color: var(--text); }
+  .store-btn-soon {
+    font-size: 9px; background: var(--gold); color: #111;
+    padding: 2px 7px; border-radius: 5px; font-weight: 800;
+    letter-spacing: .04em; margin-top: 2px;
+  }
+  .hero-scroll {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 11px; color: var(--text3); font-weight: 600;
+    letter-spacing: .12em; text-transform: uppercase;
+  }
+  .hero-scroll-line { width: 28px; height: 1px; background: var(--text3); }
+  /* Hero visual */
+  .hero-visual {
+    position: relative; display: flex;
+    justify-content: center; align-items: center;
+  }
+  .hero-ring {
+    position: absolute; border-radius: 50%; pointer-events: none;
+    border: 1px solid rgba(245,200,66,.07);
+  }
+  .hero-ring-1 { width: 520px; height: 520px; }
+  .hero-ring-2 { width: 370px; height: 370px; border-color: rgba(245,200,66,.04); }
+  .hero-visual img {
+    width: 100%; max-width: 620px; position: relative; z-index: 2;
+    filter: drop-shadow(0 64px 128px rgba(0,0,0,.8));
+    animation: float 6s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-14px); }
+  }
 
-    /* ── STATS ───────────────────────────────── */
-    .stats {
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      border: 1px solid var(--border); border-radius: var(--r); overflow: hidden;
-      margin: 64px 0;
-      background: var(--border);
-      gap: 1px;
-    }
-    .stat { background: var(--card); padding: 26px 20px; text-align: center; }
-    .stat-n { font-size: 34px; font-weight: 900; color: var(--gold); letter-spacing: -.04em; line-height: 1; margin-bottom: 5px; }
-    .stat-l { font-size: 13px; color: var(--muted); }
+  /* ===== STATS BAR ===== */
+  .stats-bar {
+    border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    background: var(--bg1);
+  }
+  .stats-track {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+  }
+  .stat-item {
+    padding: 28px 20px; text-align: center;
+    border-right: 1px solid var(--border);
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-n {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 50px; letter-spacing: .02em;
+    color: var(--gold); line-height: 1; margin-bottom: 5px;
+  }
+  .stat-l {
+    font-size: 11px; color: var(--text3); font-weight: 700;
+    text-transform: uppercase; letter-spacing: .09em;
+  }
 
-    /* ── SECTION UTIL ────────────────────────── */
-    .section { padding: 80px 0; }
-    .sec-chip { margin-bottom: 14px; }
-    .sec-title {
-      font-size: clamp(26px, 3vw, 44px);
-      font-weight: 900; letter-spacing: -.03em; line-height: 1.08; margin-bottom: 14px;
-    }
-    .sec-sub {
-      font-size: 17px; color: var(--dim);
-      max-width: 56ch; line-height: 1.68; margin-bottom: 52px;
-    }
-    .divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--border) 20%, var(--border) 80%, transparent);
-      margin: 0;
-    }
+  /* ===== SECTION HEADER ===== */
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 11px; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 18px;
+  }
+  .eyebrow::before {
+    content: ''; display: block; width: 22px; height: 1px;
+    background: var(--gold); opacity: .6;
+  }
+  .sec-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(40px, 4.6vw, 70px);
+    line-height: .93; letter-spacing: .02em;
+    margin-bottom: 18px; color: var(--text);
+  }
+  .sec-title .gold { color: var(--gold); }
+  .sec-sub {
+    font-size: 17px; color: var(--text2);
+    line-height: 1.75; max-width: 54ch; margin-bottom: 52px;
+  }
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border) 30%, var(--border) 70%, transparent);
+  }
 
-    /* ── MODES ───────────────────────────────── */
-    .modes-grid {
-      display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px;
-    }
-    .mode-card {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: var(--r); overflow: hidden; transition: all .28s;
-    }
-    .mode-card:hover {
-      border-color: var(--gold-bdr); background: var(--card2);
-      transform: translateY(-5px);
-      box-shadow: 0 24px 48px rgba(0,0,0,.45), 0 0 0 1px rgba(245,200,66,.12);
-    }
-    .mode-img {
-      width: 100%; height: 270px; object-fit: cover; object-position: top;
-    }
-    .mode-body { padding: 16px 16px 20px; }
-    .mode-icon {
-      width: 34px; height: 34px; border-radius: 9px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 16px; margin-bottom: 10px;
-    }
-    .mode-name { font-size: 15px; font-weight: 800; margin-bottom: 5px; }
-    .mode-desc { font-size: 12px; color: var(--muted); line-height: 1.55; }
+  /* ===== MODES ===== */
+  .modes-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 12px; }
+  .mode-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 20px; overflow: hidden; cursor: pointer;
+    transition: transform .3s, border-color .3s, box-shadow .3s;
+    position: relative;
+  }
+  .mode-card::after {
+    content: ''; position: absolute; inset: 0; border-radius: inherit;
+    background: radial-gradient(ellipse 100% 70% at 50% 105%, rgba(245,200,66,.10), transparent 65%);
+    opacity: 0; transition: opacity .3s; pointer-events: none;
+  }
+  .mode-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--gold-bdr);
+    box-shadow: 0 32px 64px rgba(0,0,0,.5), 0 0 0 1px rgba(245,200,66,.14);
+  }
+  .mode-card:hover::after { opacity: 1; }
+  .mode-img-wrap { position: relative; height: 258px; overflow: hidden; }
+  .mode-img {
+    width: 100%; height: 100%; object-fit: cover; object-position: top;
+    transition: transform .55s ease;
+  }
+  .mode-card:hover .mode-img { transform: scale(1.05); }
+  .mode-img-fade {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 80px;
+    background: linear-gradient(to top, #070709, transparent);
+  }
+  .mode-body { padding: 15px 17px 20px; position: relative; z-index: 1; }
+  .mode-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 10px; letter-spacing: .16em; color: var(--text3); margin-bottom: 5px;
+  }
+  .mode-name { font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
+  .mode-desc { font-size: 12px; color: var(--text2); line-height: 1.58; }
+  .mode-tag {
+    display: inline-block; margin-top: 10px;
+    padding: 3px 10px; border-radius: 6px;
+    font-size: 10px; font-weight: 700; letter-spacing: .04em;
+  }
 
-    /* ── FEATURES ────────────────────────────── */
-    .features-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
-    }
-    .feat {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: var(--r); padding: 26px; transition: all .22s;
-    }
-    .feat:hover { background: var(--card2); border-color: rgba(255,255,255,0.11); }
-    .feat-icon {
-      width: 46px; height: 46px; border-radius: 13px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 20px; margin-bottom: 16px;
-      background: var(--gold-bg); border: 1px solid var(--gold-bdr);
-    }
-    .feat-title { font-size: 17px; font-weight: 800; margin-bottom: 7px; }
-    .feat-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  /* ===== FEATURES ===== */
+  .features-grid {
+    display: grid; grid-template-columns: repeat(3,1fr);
+    gap: 1px; background: var(--border);
+    border: 1px solid var(--border); border-radius: var(--rl); overflow: hidden;
+  }
+  .feat {
+    background: var(--bg1); padding: 36px 32px;
+    transition: background .25s; position: relative;
+  }
+  .feat::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0; transition: opacity .25s;
+  }
+  .feat:hover { background: var(--bg2); }
+  .feat:hover::before { opacity: .45; }
+  .feat-icon {
+    width: 48px; height: 48px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; margin-bottom: 20px;
+    background: var(--gold-soft); border: 1px solid var(--gold-bdr);
+  }
+  .feat-title { font-size: 17px; font-weight: 800; color: var(--text); margin-bottom: 9px; }
+  .feat-desc { font-size: 14px; color: var(--text2); line-height: 1.65; }
 
-    /* ── SHOWCASE ────────────────────────────── */
-    .showcase-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .showcase-box {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: var(--rl); padding: 36px;
-      display: flex; justify-content: center; align-items: center;
-      min-height: 340px;
-    }
-    .showcase-box img { filter: drop-shadow(0 32px 64px rgba(0,0,0,.55)); }
+  /* ===== SCREENSHOTS ===== */
+  .shots-row { display: flex; gap: 20px; justify-content: center; }
+  .shot-item {
+    flex: 1; max-width: 580px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 28px; padding: 40px 32px;
+    display: flex; flex-direction: column; align-items: center;
+    transition: all .3s;
+  }
+  .shot-item:hover {
+    border-color: var(--gold-bdr);
+    box-shadow: 0 40px 80px rgba(0,0,0,.4);
+    transform: translateY(-4px);
+  }
+  .shot-item img { filter: drop-shadow(0 40px 80px rgba(0,0,0,.6)); width: 100%; }
+  .shot-label {
+    margin-top: 22px; font-size: 13px; font-weight: 600;
+    color: var(--text2); text-align: center;
+  }
 
-    /* ── LEADERBOARD ─────────────────────────── */
-    .lb-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
-    .lb-phone {
-      display: flex; justify-content: center;
-    }
-    .lb-phone img {
-      max-width: 300px; width: 100%;
-      border-radius: 44px;
-      box-shadow: 0 48px 96px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,0.05);
-    }
-    .lb-list { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-top: 28px; }
-    .lb-item {
-      display: flex; align-items: center; gap: 12px;
-      font-size: 15px; color: var(--dim);
-    }
-    .lb-icon {
-      width: 30px; height: 30px; border-radius: 8px; flex-shrink: 0;
-      background: var(--gold-bg); border: 1px solid var(--gold-bdr);
-      display: flex; align-items: center; justify-content: center; font-size: 14px;
-    }
+  /* ===== LEADERBOARD ===== */
+  .lb-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 80px; align-items: center; }
+  .lb-visual { display: flex; justify-content: center; position: relative; }
+  .lb-visual::before {
+    content: ''; position: absolute; width: 300px; height: 300px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(245,200,66,.09), transparent 65%);
+    top: 50%; left: 50%; transform: translate(-50%,-50%); pointer-events: none;
+  }
+  .lb-visual img {
+    max-width: 275px; width: 100%; border-radius: 42px;
+    box-shadow: 0 60px 120px rgba(0,0,0,.65), 0 0 0 1px rgba(255,255,255,.055);
+    animation: float 7s ease-in-out infinite; animation-delay: -1s;
+  }
+  .lb-points { display: flex; flex-direction: column; gap: 14px; margin-top: 28px; }
+  .lb-point {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 16px; border-radius: 14px;
+    background: var(--card); border: 1px solid var(--border);
+    transition: all .2s;
+  }
+  .lb-point:hover { background: var(--card2); border-color: var(--border2); }
+  .lb-point-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .lb-point-text { font-size: 14px; color: var(--text2); line-height: 1.55; }
+  .lb-point-text strong { color: var(--text); display: block; font-weight: 700; margin-bottom: 2px; }
 
-    /* ── BOBINE ──────────────────────────────── */
-    .bobine-box {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: var(--rl); padding: 52px 48px;
-      display: grid; grid-template-columns: 1fr 1fr; gap: 52px; align-items: center;
-    }
-    .bobine-phone { display: flex; justify-content: center; }
-    .bobine-phone img {
-      max-width: 260px; width: 100%; border-radius: 38px;
-      box-shadow: 0 32px 64px rgba(0,0,0,.5);
-    }
-    .bobine-badge {
-      display: inline-flex; align-items: center; gap: 14px;
-      background: var(--gold-bg); border: 1px solid var(--gold-bdr);
-      padding: 14px 18px; border-radius: 14px; margin-top: 20px;
-    }
-    .bobine-n { font-size: 30px; font-weight: 900; color: var(--gold); line-height: 1; }
-    .bobine-l { font-size: 13px; color: var(--dim); }
+  /* ===== BOBINE ===== */
+  .bobine-wrap {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 28px; overflow: hidden;
+    display: grid; grid-template-columns: 1.1fr .9fr; position: relative;
+  }
+  .bobine-wrap::before {
+    content: ''; position: absolute; top: 0; right: 0; width: 55%; height: 100%;
+    background: radial-gradient(ellipse at right center, rgba(245,200,66,.055), transparent 65%);
+    pointer-events: none;
+  }
+  .bobine-text { padding: 54px 50px; position: relative; z-index: 1; }
+  .bobine-badge {
+    display: inline-flex; align-items: center; gap: 18px;
+    background: var(--gold-soft); border: 1px solid var(--gold-bdr);
+    padding: 16px 22px; border-radius: 16px; margin-top: 28px;
+  }
+  .bobine-n {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 54px; color: var(--gold); line-height: 1;
+  }
+  .bobine-n-sub { font-size: 13px; color: var(--text2); line-height: 1.5; }
+  .bobine-visual {
+    display: flex; align-items: center; justify-content: center; padding: 40px;
+  }
+  .bobine-visual img {
+    max-width: 230px; width: 100%; border-radius: 36px;
+    box-shadow: 0 40px 80px rgba(0,0,0,.55);
+    animation: float 8s ease-in-out infinite; animation-delay: -3s;
+  }
 
-    /* ── ABOUT ───────────────────────────────── */
-    .about-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 64px; align-items: center; }
-    .mascot-wrap { display: flex; justify-content: center; position: relative; }
-    .mascot-wrap::before {
-      content: ""; position: absolute;
-      width: 300px; height: 300px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(245,200,66,.16), transparent 68%);
-    }
-    .mascot-wrap img {
-      width: 290px; height: 290px; object-fit: contain;
-      position: relative; z-index: 1;
-      filter: drop-shadow(0 24px 48px rgba(0,0,0,.35));
-      animation: float 5s ease-in-out infinite;
-    }
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-    .tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
-    .tag {
-      background: var(--card); border: 1px solid var(--border);
-      padding: 7px 14px; border-radius: 9px; font-size: 13px; font-weight: 700; color: var(--dim);
-    }
+  /* ===== CTA BAND ===== */
+  .cta-band {
+    padding: 110px 0; text-align: center; position: relative; overflow: hidden;
+  }
+  .cta-band::before {
+    content: ''; position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: 90%; height: 100%;
+    background: radial-gradient(ellipse, rgba(245,200,66,.065), transparent 62%);
+    pointer-events: none;
+  }
+  .cta-band-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 6.5vw, 96px);
+    line-height: .92; letter-spacing: .02em;
+    margin-bottom: 22px; position: relative; z-index: 1;
+  }
+  .cta-band-sub {
+    font-size: 17px; color: var(--text2);
+    margin-bottom: 40px; position: relative; z-index: 1;
+  }
+  .cta-stores {
+    display: flex; gap: 14px; justify-content: center;
+    flex-wrap: wrap; position: relative; z-index: 1;
+  }
+  /* Big store btn variant */
+  .store-btn-lg {
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 16px 28px; border-radius: 18px;
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.14);
+    transition: all .25s;
+  }
+  .store-btn-lg:hover {
+    background: rgba(255,255,255,.11); border-color: rgba(255,255,255,.25);
+    transform: translateY(-3px); box-shadow: 0 16px 40px rgba(0,0,0,.45);
+  }
+  .store-btn-lg svg { width: 26px; height: 26px; fill: var(--text); flex-shrink: 0; }
+  .store-btn-lg .store-btn-text { align-items: flex-start; }
+  .store-btn-lg .store-btn-micro { font-size: 11px; }
+  .store-btn-lg .store-btn-name { font-size: 18px; }
+  .store-btn-lg .store-btn-soon { font-size: 10px; }
 
-    /* ── FAQ ─────────────────────────────────── */
-    .faq-list { display: flex; flex-direction: column; gap: 10px; max-width: 760px; }
-    details.faq {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: var(--r); overflow: hidden; transition: border-color .2s;
-    }
-    details.faq[open] { border-color: var(--gold-bdr); }
-    details.faq summary {
-      padding: 18px 22px; font-weight: 800; font-size: 15px;
-      cursor: pointer; list-style: none;
-      display: flex; align-items: center; justify-content: space-between; gap: 12px;
-      transition: color .2s; user-select: none;
-    }
-    details.faq summary::-webkit-details-marker { display: none; }
-    details.faq summary::after {
-      content: "+"; font-size: 22px; font-weight: 300; color: var(--muted);
-      flex-shrink: 0; transition: transform .22s;
-    }
-    details.faq[open] summary::after { content: "−"; }
-    details.faq summary:hover { color: var(--gold); }
-    .faq-ans { padding: 0 22px 18px; font-size: 14px; color: var(--dim); line-height: 1.68; }
+  /* ===== ABOUT ===== */
+  .about-grid { display: grid; grid-template-columns: .85fr 1.15fr; gap: 80px; align-items: center; }
+  .about-mascot { display: flex; justify-content: center; position: relative; }
+  .about-mascot::before {
+    content: ''; position: absolute; width: 330px; height: 330px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(245,200,66,.11), transparent 65%);
+  }
+  .about-mascot img {
+    width: 270px; height: 270px; object-fit: contain;
+    position: relative; z-index: 1;
+    filter: drop-shadow(0 20px 40px rgba(0,0,0,.3));
+    animation: float 5s ease-in-out infinite; animation-delay: -2s;
+  }
+  .about-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; }
+  .tag {
+    padding: 8px 15px; border-radius: 10px;
+    border: 1px solid var(--border); background: var(--card);
+    font-size: 13px; font-weight: 600; color: var(--text2);
+    transition: all .2s;
+  }
+  .tag:hover { border-color: var(--gold-bdr); color: var(--gold); }
 
-    /* ── CONTACT ─────────────────────────────── */
-    .contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-    .contact-card {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: var(--r); padding: 26px; transition: all .22s;
-    }
-    .contact-card:hover { background: var(--card2); border-color: rgba(255,255,255,0.11); }
-    .contact-emoji { font-size: 28px; margin-bottom: 14px; }
-    .contact-card h3 { font-size: 16px; font-weight: 800; margin-bottom: 8px; }
-    .contact-card p { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 14px; }
-    .email-pill {
-      display: inline-block;
-      font-family: ui-monospace, SFMono-Regular, monospace;
-      font-size: 12px; color: var(--gold);
-      background: var(--gold-bg); border: 1px solid var(--gold-bdr);
-      padding: 5px 10px; border-radius: 8px;
-    }
+  /* ===== FAQ ===== */
+  .faq-list { max-width: 800px; display: flex; flex-direction: column; gap: 8px; }
+  details.faq {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--r); overflow: hidden; transition: border-color .25s;
+  }
+  details.faq[open] { border-color: var(--gold-bdr); background: var(--bg1); }
+  details.faq summary {
+    padding: 20px 24px; font-weight: 700; font-size: 15px;
+    cursor: pointer; list-style: none;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    user-select: none; transition: color .2s;
+  }
+  details.faq summary::-webkit-details-marker { display: none; }
+  details.faq summary:hover { color: var(--gold); }
+  .faq-ico {
+    width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+    border: 1px solid var(--border); background: transparent;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; font-weight: 300; color: var(--text2);
+    transition: all .25s;
+  }
+  details.faq[open] .faq-ico {
+    background: var(--gold-soft); border-color: var(--gold-bdr);
+    color: var(--gold); transform: rotate(45deg);
+  }
+  .faq-body {
+    padding: 0 24px 20px; font-size: 14px; color: var(--text2);
+    line-height: 1.7; border-top: 1px solid var(--border); padding-top: 16px;
+  }
 
-    /* ── FOOTER ──────────────────────────────── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 44px 0 32px;
-      color: var(--muted);
-    }
-    .foot-grid {
-      display: grid; grid-template-columns: 1.3fr 0.7fr 1fr;
-      gap: 48px; align-items: start;
-    }
-    .foot-brand { display: flex; align-items: center; gap: 11px; margin-bottom: 12px; }
-    .foot-brand img { width: 34px; height: 34px; object-fit: contain; border-radius: 8px; }
-    .foot-brand-name { font-weight: 900; font-size: 15px; color: var(--text); }
-    .foot-tag { font-size: 13px; color: var(--muted); line-height: 1.5; margin-bottom: 14px; max-width: 30ch; }
-    .foot-copy { font-size: 12px; color: var(--muted); }
-    .foot-col-h { font-size: 12px; font-weight: 800; color: var(--text); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 14px; }
-    .foot-links { display: flex; flex-direction: column; gap: 9px; }
-    .foot-links a { font-size: 13px; color: var(--muted); transition: color .18s; }
-    .foot-links a:hover { color: var(--text); }
-    .legal-wrap { display: flex; flex-wrap: wrap; gap: 7px; }
-    .legal-pill {
-      font-size: 12px; font-weight: 600; color: var(--muted);
-      background: rgba(255,255,255,0.04); border: 1px solid var(--border);
-      padding: 5px 10px; border-radius: 8px; transition: all .18s;
-    }
-    .legal-pill:hover { color: var(--text); background: rgba(255,255,255,0.07); }
+  /* ===== CONTACT ===== */
+  .contact-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+  .contact-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 20px; padding: 28px; transition: all .25s;
+    position: relative; overflow: hidden;
+  }
+  .contact-card::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0; transition: opacity .25s;
+  }
+  .contact-card:hover {
+    background: var(--card2); border-color: var(--gold-bdr); transform: translateY(-3px);
+  }
+  .contact-card:hover::after { opacity: .6; }
+  .contact-ico { font-size: 28px; margin-bottom: 16px; }
+  .contact-card h3 { font-size: 16px; font-weight: 800; margin-bottom: 8px; }
+  .contact-card p { font-size: 14px; color: var(--text2); line-height: 1.65; margin-bottom: 16px; }
+  .email-pill {
+    display: inline-flex; align-items: center;
+    font-family: 'SF Mono', 'Fira Code', ui-monospace, monospace;
+    font-size: 11.5px; color: var(--gold);
+    background: var(--gold-soft); border: 1px solid var(--gold-bdr);
+    padding: 6px 12px; border-radius: 8px; transition: opacity .2s;
+  }
+  .email-pill:hover { opacity: .8; }
+  .legal-bar {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 18px 24px;
+    display: flex; flex-wrap: wrap; gap: 6px 20px; align-items: center;
+    margin-top: 14px;
+  }
+  .legal-bar-label {
+    font-size: 10px; text-transform: uppercase; letter-spacing: .1em;
+    font-weight: 700; color: var(--text3); flex-basis: 100%; margin-bottom: 2px;
+  }
+  .legal-bar-val { font-size: 13px; color: var(--text2); }
+  .legal-bar-val strong { color: var(--text); font-weight: 700; }
 
-    /* ── RESPONSIVE ──────────────────────────── */
-    @media (max-width: 1060px) {
-      .modes-grid { grid-template-columns: repeat(3, 1fr); }
-      .features-grid { grid-template-columns: 1fr 1fr; }
-      .contact-grid { grid-template-columns: 1fr 1fr; }
-    }
-    @media (max-width: 860px) {
-      .hero { grid-template-columns: 1fr; text-align: center; }
-      .hero .lead { max-width: 100%; }
-      .hero-ctas, .platforms { justify-content: center; }
-      .hero-visual { display: none; }
-      .navlinks { display: none; }
-      .lb-grid { grid-template-columns: 1fr; }
-      .lb-phone { order: -1; }
-      .lb-phone img { max-width: 220px; }
-      .bobine-box { grid-template-columns: 1fr; }
-      .about-grid { grid-template-columns: 1fr; }
-      .stats { grid-template-columns: 1fr 1fr; }
-      .foot-grid { grid-template-columns: 1fr 1fr; }
-      .showcase-grid { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 640px) {
-      .modes-grid { grid-template-columns: 1fr 1fr; }
-      .features-grid { grid-template-columns: 1fr; }
-      .contact-grid { grid-template-columns: 1fr; }
-      .foot-grid { grid-template-columns: 1fr; }
-      .section { padding: 56px 0; }
-      .hero-outer { padding: 56px 0 44px; }
-      .bobine-box { padding: 32px 24px; }
-    }
+  /* ===== FOOTER ===== */
+  footer { border-top: 1px solid var(--border); padding: 60px 0 40px; }
+  .foot-top {
+    display: grid; grid-template-columns: 1.3fr .75fr 1.2fr;
+    gap: 52px; margin-bottom: 44px; padding-bottom: 44px;
+    border-bottom: 1px solid var(--border);
+  }
+  .foot-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .foot-logo img { width: 30px; height: 30px; object-fit: contain; border-radius: 8px; }
+  .foot-logo-name {
+    font-family: 'Bebas Neue', sans-serif; font-size: 19px; letter-spacing: .05em;
+  }
+  .foot-tagline { font-size: 14px; color: var(--text2); line-height: 1.65; max-width: 28ch; margin-bottom: 14px; }
+  .foot-copy { font-size: 12px; color: var(--text3); }
+  .foot-heading {
+    font-size: 11px; text-transform: uppercase; letter-spacing: .1em;
+    font-weight: 700; color: var(--text); margin-bottom: 16px;
+  }
+  .foot-nav { display: flex; flex-direction: column; gap: 10px; }
+  .foot-nav a { font-size: 14px; color: var(--text2); transition: color .18s; }
+  .foot-nav a:hover { color: var(--text); }
+  .foot-legal { display: flex; flex-wrap: wrap; gap: 6px; }
+  .legal-link {
+    font-size: 11px; font-weight: 600; color: var(--text2);
+    background: var(--card); border: 1px solid var(--border);
+    padding: 6px 11px; border-radius: 8px; transition: all .18s; white-space: nowrap;
+  }
+  .legal-link:hover { color: var(--text); background: var(--card2); border-color: var(--border2); }
+  .foot-bottom {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; flex-wrap: wrap;
+  }
+  .foot-bottom-copy { font-size: 12px; color: var(--text3); }
+  .foot-made { font-size: 12px; color: var(--text3); }
+  .foot-made span { color: var(--gold); }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1100px) {
+    .modes-grid { grid-template-columns: repeat(3,1fr); }
+    .features-grid { grid-template-columns: repeat(2,1fr); }
+    .lb-grid { gap: 48px; }
+  }
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .hero-inner { grid-template-columns: 1fr; text-align: center; }
+    .hero-sub { max-width: 100%; }
+    .hero-stores { justify-content: center; }
+    .hero-scroll { justify-content: center; }
+    .hero-visual { display: none; }
+    .stats-track { grid-template-columns: repeat(2,1fr); }
+    .stat-item:nth-child(2) { border-right: none; }
+    .lb-grid { grid-template-columns: 1fr; }
+    .lb-visual { order: -1; }
+    .bobine-wrap { grid-template-columns: 1fr; }
+    .bobine-visual { display: none; }
+    .about-grid { grid-template-columns: 1fr; }
+    .about-mascot { display: none; }
+    .foot-top { grid-template-columns: 1fr 1fr; gap: 36px; }
+    .contact-grid { grid-template-columns: 1fr 1fr; }
+    .hero-bar { display: none; }
+  }
+  @media (max-width: 640px) {
+    .section { padding: 72px 0; }
+    .wrap { padding: 0 18px; }
+    .modes-grid { grid-template-columns: repeat(2,1fr); }
+    .features-grid { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .shots-row { flex-direction: column; align-items: center; }
+    .foot-top { grid-template-columns: 1fr; }
+    .cta-band { padding: 72px 0; }
+    .bobine-text { padding: 36px 28px; }
+    .stat-item { padding: 20px 12px; }
+    .stat-n { font-size: 38px; }
+    .hero-title { font-size: clamp(56px, 13vw, 80px); }
+    .sec-title { font-size: clamp(36px, 9vw, 56px); }
+    .cta-band-title { font-size: clamp(44px, 11vw, 72px); }
+  }
   </style>
 </head>
-
 <body>
 
-  <!-- ══════════ HEADER ══════════ -->
-  <header>
-    <nav class="nav" aria-label="Navigation principale">
-      <a class="brand" href="#top">
-        <img src="assets/Mascotte.png" alt="Absolute Popcorn" />
-        <span>Absolute Popcorn</span>
-      </a>
-      <div class="navlinks">
-        <a href="#modes">Modes de jeu</a>
-        <a href="#features">Fonctionnalités</a>
-        <a href="#leaderboard">Classement</a>
-        <a href="#about">À propos</a>
-        <a href="#contact">Contact</a>
-      </div>
-      <a class="btn btn-green" href="#contact">Nous contacter</a>
-    </nav>
-  </header>
+<div class="grain" aria-hidden="true"></div>
 
-  <main>
-
-    <!-- ══════════ HERO ══════════ -->
-    <div class="hero-outer" id="top">
-      <div class="hero-glow-a" aria-hidden="true"></div>
-      <div class="hero-glow-b" aria-hidden="true"></div>
-      <div class="wrap">
-        <div class="hero">
-
-          <div>
-            <div class="chip">🎬 Bientôt sur iOS &amp; Android</div>
-            <h1>Le jeu des<br>vrais <em>cinéphiles</em></h1>
-            <p class="lead">
-              Plongez dans l'univers du cinéma et des séries TV avec des quiz, des défis visuels et des modes inédits.
-              Une expérience conçue pour les passionnés.
-            </p>
-            <div class="hero-ctas">
-              <a class="btn btn-green" href="#modes">Découvrir les modes</a>
-              <a class="btn btn-ghost" href="#contact">Nous contacter</a>
-            </div>
-            <div class="platforms">
-              <span style="font-size:13px;color:var(--muted);">Disponible prochainement sur</span>
-              <span class="platform">📱 iOS</span>
-              <span class="platform">🤖 Android</span>
-            </div>
-          </div>
-
-          <div class="hero-visual" aria-hidden="true">
-            <div class="hero-ring hero-ring-1"></div>
-            <div class="hero-ring hero-ring-2"></div>
-            <img
-              src="assets/3D%20Homepage%20%2B%20Categories%20%2B%20Arr%C3%AAt%20sur%20image.png"
-              alt="Aperçu de l'application Absolute Popcorn"
-            />
-          </div>
-
-        </div>
-      </div>
+<!-- ══════ HEADER ══════ -->
+<header id="hdr">
+  <nav class="nav" aria-label="Navigation principale">
+    <a class="nav-logo" href="#top" aria-label="Absolute Popcorn — Accueil">
+      <img src="assets/Mascotte.png" alt="" />
+      <span class="nav-logo-name">ABSOLUTE POPCORN</span>
+    </a>
+    <div class="nav-links">
+      <a href="#modes">Modes</a>
+      <a href="#features">Fonctionnalités</a>
+      <a href="#leaderboard">Classement</a>
+      <a href="#about">À propos</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
     </div>
+    <a class="nav-cta" href="#contact">Nous contacter</a>
+  </nav>
+</header>
 
-    <!-- ══════════ STATS ══════════ -->
+<main>
+
+<!-- ══════ HERO ══════ -->
+<section class="hero" id="top" aria-label="Bienvenue sur Absolute Popcorn">
+  <div class="hero-bg" id="hero-bg" aria-hidden="true"></div>
+  <div class="hero-gradient" aria-hidden="true"></div>
+  <div class="hero-glow-gold" aria-hidden="true"></div>
+  <div class="hero-bar hero-bar-top" aria-hidden="true"></div>
+  <div class="hero-bar hero-bar-bottom" aria-hidden="true"></div>
+
+  <div class="hero-content">
     <div class="wrap">
-      <div class="stats">
-        <div class="stat">
-          <div class="stat-n">5+</div>
-          <div class="stat-l">Modes de jeu</div>
-        </div>
-        <div class="stat">
-          <div class="stat-n">7</div>
-          <div class="stat-l">Langues</div>
-        </div>
-        <div class="stat">
-          <div class="stat-n">∞</div>
-          <div class="stat-l">Questions & défis</div>
-        </div>
-        <div class="stat">
-          <div class="stat-n">1er</div>
-          <div class="stat-l">Jeu cinéma & séries</div>
-        </div>
-      </div>
-    </div>
+      <div class="hero-inner">
 
-    <!-- ══════════ MODES DE JEU ══════════ -->
-    <section class="section" id="modes">
-      <div class="wrap">
-        <div class="chip sec-chip">🎮 Modes de jeu</div>
-        <h2 class="sec-title">5 façons de tester<br>ta culture ciné</h2>
-        <p class="sec-sub">Du quiz classique aux défis visuels, chaque mode aborde le cinéma sous un angle unique. Tu maîtriseras quand tu les auras tous battus.</p>
-
-        <div class="modes-grid">
-
-          <div class="mode-card">
-            <img class="mode-img" src="assets/le%20classique.png" alt="Le Classique" />
-            <div class="mode-body">
-              <div class="mode-icon" style="background:rgba(99,179,237,.14);border:1px solid rgba(99,179,237,.3);">💬</div>
-              <div class="mode-name">Le Classique</div>
-              <div class="mode-desc">Une question, quatre réponses. Le format quiz que tu connais, version cinéma hardcore.</div>
-            </div>
-          </div>
-
-          <div class="mode-card">
-            <img class="mode-img" src="assets/l%27intrus.png" alt="L'Intrus" />
-            <div class="mode-body">
-              <div class="mode-icon" style="background:rgba(230,57,70,.14);border:1px solid rgba(230,57,70,.3);">🕵️</div>
-              <div class="mode-name">L'Intrus</div>
-              <div class="mode-desc">Parmi ces films ou acteurs, lequel ne correspond pas ? Repère l'élément qui ne va pas.</div>
-            </div>
-          </div>
-
-          <div class="mode-card">
-            <img class="mode-img" src="assets/L%27arr%C3%AAt%20sur%20image.png" alt="L'Arrêt sur image" />
-            <div class="mode-body">
-              <div class="mode-icon" style="background:rgba(72,187,120,.14);border:1px solid rgba(72,187,120,.3);">📽️</div>
-              <div class="mode-name">L'Arrêt sur image</div>
-              <div class="mode-desc">Une capture d'écran de film, quelques secondes pour identifier l'œuvre. Facile ? Vraiment ?</div>
-            </div>
-          </div>
-
-          <div class="mode-card">
-            <img class="mode-img" src="assets/la%20mise%20au%20point.png" alt="La Mise au point" />
-            <div class="mode-body">
-              <div class="mode-icon" style="background:rgba(246,173,85,.14);border:1px solid rgba(246,173,85,.3);">🔍</div>
-              <div class="mode-name">La Mise au point</div>
-              <div class="mode-desc">L'image est floue. Elle se précise avec le temps, mais chaque seconde coûte des points.</div>
-            </div>
-          </div>
-
-          <div class="mode-card">
-            <img class="mode-img" src="assets/les%206%20degr%C3%A9s.png" alt="Les 6 Degrés" />
-            <div class="mode-body">
-              <div class="mode-icon" style="background:rgba(159,122,234,.14);border:1px solid rgba(159,122,234,.3);">🔗</div>
-              <div class="mode-name">Les 6 Degrés</div>
-              <div class="mode-desc">Relie deux acteurs via leurs films communs en 6 connexions max. Le vrai défi pour les cinéphiles.</div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <div class="wrap"><div class="divider"></div></div>
-
-    <!-- ══════════ FEATURES ══════════ -->
-    <section class="section" id="features">
-      <div class="wrap">
-        <div class="chip sec-chip">✨ Fonctionnalités</div>
-        <h2 class="sec-title">Tout ce qu'il faut<br>pour jouer sérieusement</h2>
-        <p class="sec-sub">Une application pensée jusqu'au dernier détail — pour que vous ne vouliez jamais vous arrêter.</p>
-
-        <div class="features-grid">
-          <div class="feat">
-            <div class="feat-icon">⚔️</div>
-            <div class="feat-title">Solo & Multijoueur</div>
-            <p class="feat-desc">Progressez seul à votre rythme ou défiez vos amis en temps réel. Les deux expériences sont complètes.</p>
-          </div>
-          <div class="feat">
-            <div class="feat-icon">🌍</div>
-            <div class="feat-title">7 Langues</div>
-            <p class="feat-desc">Jouez en français, anglais, espagnol et plus. Défiez des joueurs du monde entier, dans votre langue.</p>
-          </div>
-          <div class="feat">
-            <div class="feat-icon">🏆</div>
-            <div class="feat-title">Classement mondial</div>
-            <p class="feat-desc">Grimpez dans le leaderboard global, comparez vos scores par mode de jeu et par catégorie.</p>
-          </div>
-          <div class="feat">
-            <div class="feat-icon">🎰</div>
-            <div class="feat-title">La Bobine</div>
-            <p class="feat-desc">Une roue quotidienne pour gagner des tickets, des bonus et des surprises. Une récompense vous attend chaque jour.</p>
-          </div>
-          <div class="feat">
-            <div class="feat-icon">📈</div>
-            <div class="feat-title">Progression & Rangs</div>
-            <p class="feat-desc">Gagnez des "pops", montez de rang, et débloquez des récompenses au fil de vos victoires.</p>
-          </div>
-          <div class="feat">
-            <div class="feat-icon">🎟️</div>
-            <div class="feat-title">Expérience sans pub</div>
-            <p class="feat-desc">Option premium sans publicité disponible. Jouez sans interruption pour une expérience parfaitement fluide.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <div class="wrap"><div class="divider"></div></div>
-
-    <!-- ══════════ SHOWCASE 3D ══════════ -->
-    <section class="section" id="showcase">
-      <div class="wrap">
-        <div class="chip sec-chip">📱 L'application</div>
-        <h2 class="sec-title">Conçu pour être beau<br>et plaisant à jouer</h2>
-        <p class="sec-sub">Un design soigné, des animations fluides, une interface qui donne envie de revenir jouer encore et encore.</p>
-
-        <div class="showcase-grid">
-          <div class="showcase-box">
-            <img
-              src="assets/3D%20Classique%20%2B%20intrus.png"
-              alt="Le Classique et L'Intrus sur iPhone"
-            />
-          </div>
-          <div class="showcase-box">
-            <img
-              src="assets/3D%20Mise%20au%20point%20%2B%20Arr%C3%AAt%20sur%20image%20%2B%20Les%206%20degr%C3%A9s.png"
-              alt="La Mise au point, L'Arrêt sur image et Les 6 degrés sur iPhone"
-            />
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <div class="wrap"><div class="divider"></div></div>
-
-    <!-- ══════════ CLASSEMENT ══════════ -->
-    <section class="section" id="leaderboard">
-      <div class="wrap">
-        <div class="lb-grid">
-          <div class="lb-phone">
-            <img src="assets/Classement.png" alt="Classement mondial Absolute Popcorn" />
-          </div>
-          <div>
-            <div class="chip sec-chip">🏆 Classement</div>
-            <h2 class="sec-title">Qui est le meilleur<br>cinéphile du monde ?</h2>
-            <p style="font-size:16px;color:var(--dim);line-height:1.7;margin-bottom:4px;">
-              Le leaderboard mondial affiche les meilleurs joueurs par mode et par catégorie. Ton nom sera-t-il dans le top 10 ?
-            </p>
-            <ul class="lb-list">
-              <li class="lb-item">
-                <span class="lb-icon">🥇</span>
-                Classement par mode : Classique, Intrus, Arrêt sur image…
-              </li>
-              <li class="lb-item">
-                <span class="lb-icon">🌍</span>
-                Joueurs du monde entier avec drapeaux et pseudos
-              </li>
-              <li class="lb-item">
-                <span class="lb-icon">⚡</span>
-                Scores en "pops" — la monnaie du jeu
-              </li>
-              <li class="lb-item">
-                <span class="lb-icon">🔄</span>
-                Mis à jour en temps réel après chaque partie
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <div class="wrap"><div class="divider"></div></div>
-
-    <!-- ══════════ BOBINE ══════════ -->
-    <section class="section" id="bobine">
-      <div class="wrap">
-        <div class="bobine-box">
-          <div>
-            <div class="chip sec-chip">🎰 La Bobine</div>
-            <h2 class="sec-title" style="margin-bottom:16px;">La roue de<br>la fortune ciné</h2>
-            <p style="font-size:16px;color:var(--dim);line-height:1.7;">
-              Chaque jour, tournez la Bobine pour gagner des tickets supplémentaires, des multiplicateurs de score ou des parties bonus.
-              Une surprise vous attend, sans exception.
-            </p>
-            <div class="bobine-badge">
-              <div>
-                <div class="bobine-n">+20</div>
-                <div class="bobine-l">pops en moyenne par tour</div>
+        <div>
+          <div class="hero-eyebrow">🎬 Bientôt sur iOS &amp; Android</div>
+          <h1 class="hero-title">
+            LE JEU<br>DES <span class="gold">VRAIS</span><br><span class="outline">CINÉPHILES</span>
+          </h1>
+          <p class="hero-sub">
+            Plongez dans l'univers du cinéma et des séries TV avec des quiz,
+            des défis visuels et des modes inédits. Une expérience conçue pour les passionnés.
+          </p>
+          <div class="hero-stores">
+            <a class="store-btn" href="#" aria-label="App Store — bientôt disponible">
+              <svg viewBox="0 0 814 1000" aria-hidden="true"><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 376.8 0 290 0 206.8c0-123.8 80.1-190.5 157.8-190.5 47.2 0 86.5 31.3 117.7 31.3 30 0 74.2-33.7 129.3-33.7 50.7 0 115.8 23.1 156.1 81.2zm-219.6-75.3c-22.3 28.8-59.4 52.1-97.3 52.1-4.5 0-9-.6-13.5-1.3-3.2-38.2 12.2-79.7 33.1-108.5 22.3-30.6 61-53.6 94.2-55.6 3.8 39.4-11.3 79.7-16.5 113.3z"/></svg>
+              <div class="store-btn-text">
+                <span class="store-btn-micro">Bientôt sur</span>
+                <span class="store-btn-name">App Store</span>
+                <span class="store-btn-soon">COMING SOON</span>
               </div>
-            </div>
+            </a>
+            <a class="store-btn" href="#" aria-label="Google Play — bientôt disponible">
+              <svg viewBox="0 0 512 512" aria-hidden="true"><path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l2.4 1.4 247.1-247.1v-5.8L47 0zm414.5 225.5L381 183.4l-74.7 74.7 74.7 74.7 61.1-34.3c17.4-10.4 17.4-36.5-.6-73zm-357 262.5l280.8-161.2-60.1-60.1L47 465.9l57.5 22.1z"/></svg>
+              <div class="store-btn-text">
+                <span class="store-btn-micro">Bientôt sur</span>
+                <span class="store-btn-name">Google Play</span>
+                <span class="store-btn-soon">COMING SOON</span>
+              </div>
+            </a>
           </div>
-          <div class="bobine-phone">
-            <img src="assets/la%20bobine.png" alt="La Bobine — roue quotidienne de récompenses" />
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <div class="wrap"><div class="divider"></div></div>
-
-    <!-- ══════════ À PROPOS ══════════ -->
-    <section class="section" id="about">
-      <div class="wrap">
-        <div class="about-grid">
-          <div class="mascot-wrap">
-            <img src="assets/Mascotte.png" alt="Mascotte Absolute Popcorn" />
-          </div>
-          <div>
-            <div class="chip sec-chip">🍿 À propos</div>
-            <h2 class="sec-title">Fabriqué avec passion<br>par Timing Corporation</h2>
-            <p style="font-size:16px;color:var(--dim);line-height:1.75;margin-bottom:14px;">
-              Timing Corporation est une société française fondée en 2025, spécialisée dans le développement d'expériences mobiles interactives.
-            </p>
-            <p style="font-size:16px;color:var(--dim);line-height:1.75;">
-              Absolute Popcorn est notre premier projet — une application entièrement dédiée aux amoureux du cinéma et des séries TV,
-              conçue avec une attention particulière à l'expérience utilisateur et à la qualité du produit.
-            </p>
-            <div class="tag-row">
-              <span class="tag">🇫🇷 Made in France</span>
-              <span class="tag">📱 iOS &amp; Android</span>
-              <span class="tag">🌍 7 langues</span>
-              <span class="tag">🎬 Cinéma &amp; séries</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <div class="wrap"><div class="divider"></div></div>
-
-    <!-- ══════════ FAQ ══════════ -->
-    <section class="section" id="faq">
-      <div class="wrap">
-        <div class="chip sec-chip">❓ FAQ</div>
-        <h2 class="sec-title" style="margin-bottom:12px;">Questions fréquentes</h2>
-        <p class="sec-sub">Tout ce qu'on nous demande souvent, en version courte et claire.</p>
-
-        <div class="faq-list">
-          <details class="faq">
-            <summary>L'application est-elle déjà disponible ?</summary>
-            <div class="faq-ans">Pas encore. Absolute Popcorn est en cours de développement. Sa sortie sur iOS et Android est prévue prochainement. Restez connectés !</div>
-          </details>
-          <details class="faq">
-            <summary>Qui développe Absolute Popcorn ?</summary>
-            <div class="faq-ans">Absolute Popcorn est développé et édité par Timing Corporation, société française fondée en 2025. Pour toute question, contactez-nous à contact@absolute-popcorn.com.</div>
-          </details>
-          <details class="faq">
-            <summary>Le jeu sera-t-il gratuit ?</summary>
-            <div class="faq-ans">L'application sera disponible gratuitement. Une option premium sans publicité sera proposée pour une expérience optimale et sans interruption.</div>
-          </details>
-          <details class="faq">
-            <summary>Combien de langues seront disponibles au lancement ?</summary>
-            <div class="faq-ans">Au lancement, 7 langues seront disponibles. D'autres viendront progressivement en fonction des retours de la communauté.</div>
-          </details>
-          <details class="faq">
-            <summary>Où trouver les CGU, CGV et la Politique de confidentialité ?</summary>
-            <div class="faq-ans">Tous les documents légaux sont disponibles en bas de cette page — en français et en anglais. Ils couvrent les conditions générales d'utilisation, les conditions de vente, la politique de confidentialité et la charte de conduite.</div>
-          </details>
-        </div>
-      </div>
-    </section>
-
-    <div class="wrap"><div class="divider"></div></div>
-
-    <!-- ══════════ CONTACT ══════════ -->
-    <section class="section" id="contact">
-      <div class="wrap">
-        <div class="chip sec-chip">📬 Contact</div>
-        <h2 class="sec-title" style="margin-bottom:12px;">On est disponibles</h2>
-        <p class="sec-sub">Une question, un partenariat, une demande presse ? Écrivez-nous, on répond.</p>
-
-        <div class="contact-grid">
-          <div class="contact-card">
-            <div class="contact-emoji">💬</div>
-            <h3>Support utilisateur</h3>
-            <p>Un problème avec l'application ou une question générale ? Notre équipe vous répond rapidement.</p>
-            <span class="email-pill">contact@absolute-popcorn.com</span>
-          </div>
-          <div class="contact-card">
-            <div class="contact-emoji">🎙️</div>
-            <h3>Presse &amp; Médias</h3>
-            <p>Demande d'interview, d'assets presse ou d'informations pour un article ? On est là.</p>
-            <span class="email-pill">contact@absolute-popcorn.com</span>
-          </div>
-          <div class="contact-card">
-            <div class="contact-emoji">🤝</div>
-            <h3>Partenariats</h3>
-            <p>Vous souhaitez collaborer, proposer une intégration ou une opportunité commerciale ? Parlons-en.</p>
-            <span class="email-pill">contact@absolute-popcorn.com</span>
+          <div class="hero-scroll" aria-hidden="true">
+            <div class="hero-scroll-line"></div>
+            Découvrir
           </div>
         </div>
 
-        <!-- Legal info block -->
-        <div style="margin-top:16px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:24px;display:flex;flex-wrap:wrap;gap:24px;align-items:center;">
-          <div>
-            <div style="font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:800;color:var(--muted);margin-bottom:6px;">Informations légales</div>
-            <div style="font-size:14px;color:var(--dim);line-height:1.7;">
-              <b style="color:var(--text);">Éditeur :</b> Timing Corporation &nbsp;·&nbsp;
-              <b style="color:var(--text);">Pays :</b> France &nbsp;·&nbsp;
-              <b style="color:var(--text);">Email :</b>
-              <span style="font-family:ui-monospace,monospace;font-size:13px;color:var(--gold);">contact@absolute-popcorn.com</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- ══════════ FOOTER ══════════ -->
-  <footer id="legal">
-    <div class="wrap">
-      <div class="foot-grid">
-
-        <div>
-          <div class="foot-brand">
-            <img src="assets/Mascotte.png" alt="Absolute Popcorn" />
-            <span class="foot-brand-name">Absolute Popcorn</span>
-          </div>
-          <p class="foot-tag">Le jeu ultime pour les amoureux du cinéma et des séries TV.</p>
-          <p class="foot-copy">© <span id="year"></span> Timing Corporation. Tous droits réservés.</p>
-        </div>
-
-        <div>
-          <div class="foot-col-h">Navigation</div>
-          <div class="foot-links">
-            <a href="#modes">Modes de jeu</a>
-            <a href="#features">Fonctionnalités</a>
-            <a href="#leaderboard">Classement</a>
-            <a href="#about">À propos</a>
-            <a href="#contact">Contact</a>
-          </div>
-        </div>
-
-        <div>
-          <div class="foot-col-h">Documents légaux</div>
-          <div class="legal-wrap">
-            <a class="legal-pill" href="fr/general-terms-of-use.html">CGU (FR)</a>
-            <a class="legal-pill" href="fr/terms-and-conditions.html">CGV (FR)</a>
-            <a class="legal-pill" href="fr/privacy-policy.html">Confidentialité (FR)</a>
-            <a class="legal-pill" href="fr/conduct.html">Charte (FR)</a>
-            <a class="legal-pill" href="en/general-terms-of-use.html">Terms of Use (EN)</a>
-            <a class="legal-pill" href="en/terms-and-conditions.html">Terms &amp; Cond. (EN)</a>
-            <a class="legal-pill" href="en/privacy-policy.html">Privacy Policy (EN)</a>
-            <a class="legal-pill" href="en/conduct.html">Code of Conduct (EN)</a>
-          </div>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="hero-ring hero-ring-1"></div>
+          <div class="hero-ring hero-ring-2"></div>
+          <img
+            src="assets/3D%20Homepage%20%2B%20Categories%20%2B%20Arr%C3%AAt%20sur%20image.png"
+            alt="Aperçu de l'application Absolute Popcorn"
+          />
         </div>
 
       </div>
     </div>
-  </footer>
+  </div>
+</section>
 
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
+<!-- ══════ STATS ══════ -->
+<div class="stats-bar" aria-label="Chiffres clés">
+  <div class="wrap">
+    <div class="stats-track reveal">
+      <div class="stat-item">
+        <div class="stat-n">5+</div>
+        <div class="stat-l">Modes de jeu</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-n">7</div>
+        <div class="stat-l">Langues</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-n">∞</div>
+        <div class="stat-l">Questions &amp; défis</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-n">#1</div>
+        <div class="stat-l">Jeu cinéma &amp; séries</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ MODES ══════ -->
+<section class="section" id="modes">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">Modes de jeu</div>
+      <h2 class="sec-title">5 FAÇONS DE TESTER<br><span class="gold">TA CULTURE CINÉ</span></h2>
+      <p class="sec-sub">Du quiz classique aux défis visuels, chaque mode aborde le cinéma sous un angle unique. Tu maîtriseras quand tu les auras tous battus.</p>
+    </div>
+    <div class="modes-grid">
+      <div class="mode-card reveal d1">
+        <div class="mode-img-wrap">
+          <img class="mode-img" src="assets/le%20classique.png" alt="Le Classique" />
+          <div class="mode-img-fade"></div>
+        </div>
+        <div class="mode-body">
+          <div class="mode-num">MODE 01</div>
+          <div class="mode-name">Le Classique</div>
+          <div class="mode-desc">Une question, quatre réponses. Le format quiz que tu connais, version cinéma hardcore.</div>
+          <span class="mode-tag" style="background:rgba(99,179,237,.12);color:#63b3ed;border:1px solid rgba(99,179,237,.25);">Quiz</span>
+        </div>
+      </div>
+      <div class="mode-card reveal d2">
+        <div class="mode-img-wrap">
+          <img class="mode-img" src="assets/l%27intrus.png" alt="L'Intrus" />
+          <div class="mode-img-fade"></div>
+        </div>
+        <div class="mode-body">
+          <div class="mode-num">MODE 02</div>
+          <div class="mode-name">L'Intrus</div>
+          <div class="mode-desc">Parmi ces films ou acteurs, lequel ne correspond pas ? Repère l'élément qui ne va pas.</div>
+          <span class="mode-tag" style="background:rgba(230,57,70,.12);color:#e63946;border:1px solid rgba(230,57,70,.25);">Déduction</span>
+        </div>
+      </div>
+      <div class="mode-card reveal d3">
+        <div class="mode-img-wrap">
+          <img class="mode-img" src="assets/L%27arr%C3%AAt%20sur%20image.png" alt="L'Arrêt sur image" />
+          <div class="mode-img-fade"></div>
+        </div>
+        <div class="mode-body">
+          <div class="mode-num">MODE 03</div>
+          <div class="mode-name">L'Arrêt sur image</div>
+          <div class="mode-desc">Une capture d'écran de film, quelques secondes pour identifier l'œuvre. Facile ? Vraiment ?</div>
+          <span class="mode-tag" style="background:rgba(72,187,120,.12);color:#48bb78;border:1px solid rgba(72,187,120,.25);">Visuel</span>
+        </div>
+      </div>
+      <div class="mode-card reveal d4">
+        <div class="mode-img-wrap">
+          <img class="mode-img" src="assets/la%20mise%20au%20point.png" alt="La Mise au point" />
+          <div class="mode-img-fade"></div>
+        </div>
+        <div class="mode-body">
+          <div class="mode-num">MODE 04</div>
+          <div class="mode-name">La Mise au point</div>
+          <div class="mode-desc">L'image est floue. Elle se précise avec le temps, mais chaque seconde coûte des points.</div>
+          <span class="mode-tag" style="background:rgba(246,173,85,.12);color:#f6ad55;border:1px solid rgba(246,173,85,.25);">Réflexion</span>
+        </div>
+      </div>
+      <div class="mode-card reveal d5">
+        <div class="mode-img-wrap">
+          <img class="mode-img" src="assets/les%206%20degr%C3%A9s.png" alt="Les 6 Degrés" />
+          <div class="mode-img-fade"></div>
+        </div>
+        <div class="mode-body">
+          <div class="mode-num">MODE 05</div>
+          <div class="mode-name">Les 6 Degrés</div>
+          <div class="mode-desc">Relie deux acteurs via leurs films communs en 6 connexions maximum. Le vrai défi des experts.</div>
+          <span class="mode-tag" style="background:rgba(159,122,234,.12);color:#9f7aea;border:1px solid rgba(159,122,234,.25);">Expert</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider"></div></div>
+
+<!-- ══════ FEATURES ══════ -->
+<section class="section" id="features">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">Fonctionnalités</div>
+      <h2 class="sec-title">TOUT CE QU'IL FAUT<br><span class="gold">POUR JOUER SÉRIEUSEMENT</span></h2>
+      <p class="sec-sub">Une application pensée jusqu'au dernier détail — pour que vous ne vouliez jamais vous arrêter.</p>
+    </div>
+    <div class="features-grid reveal">
+      <div class="feat">
+        <div class="feat-icon">⚔️</div>
+        <div class="feat-title">Solo &amp; Multijoueur</div>
+        <p class="feat-desc">Progressez seul à votre rythme ou défiez vos amis en temps réel. Les deux expériences sont complètes et distinctes.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">🌍</div>
+        <div class="feat-title">7 Langues</div>
+        <p class="feat-desc">Jouez en français, anglais, espagnol et plus encore. Défiez des joueurs du monde entier dans votre langue.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">🏆</div>
+        <div class="feat-title">Classement mondial</div>
+        <p class="feat-desc">Grimpez dans le leaderboard global, comparez vos scores par mode de jeu et par catégorie de films.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">🎰</div>
+        <div class="feat-title">La Bobine</div>
+        <p class="feat-desc">Une roue quotidienne pour gagner des tickets, des bonus et des surprises. Une récompense vous attend chaque jour.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">📈</div>
+        <div class="feat-title">Progression &amp; Rangs</div>
+        <p class="feat-desc">Gagnez des "pops", montez de rang et débloquez des récompenses au fil de vos victoires.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">🎟️</div>
+        <div class="feat-title">Expérience sans pub</div>
+        <p class="feat-desc">Option premium sans publicité disponible. Jouez sans interruption pour une expérience parfaitement fluide.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider"></div></div>
+
+<!-- ══════ SCREENSHOTS ══════ -->
+<section class="section" id="screenshots">
+  <div class="wrap">
+    <div class="reveal" style="text-align:center;margin-bottom:52px;">
+      <div class="eyebrow" style="justify-content:center;">L'application</div>
+      <h2 class="sec-title">CONÇU POUR ÊTRE <span class="gold">BEAU</span><br>ET PLAISANT À JOUER</h2>
+      <p class="sec-sub" style="margin:0 auto;">Un design soigné, des animations fluides, une interface qui donne envie de revenir jouer encore et encore.</p>
+    </div>
+    <div class="shots-row">
+      <div class="shot-item reveal d1">
+        <img src="assets/3D%20Classique%20%2B%20intrus.png" alt="Le Classique et L'Intrus sur iPhone" />
+        <span class="shot-label">Le Classique · L'Intrus</span>
+      </div>
+      <div class="shot-item reveal d2">
+        <img src="assets/3D%20Mise%20au%20point%20%2B%20Arr%C3%AAt%20sur%20image%20%2B%20Les%206%20degr%C3%A9s.png" alt="La Mise au point, L'Arrêt sur image et Les 6 degrés" />
+        <span class="shot-label">La Mise au point · L'Arrêt sur image · Les 6 Degrés</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider"></div></div>
+
+<!-- ══════ LEADERBOARD ══════ -->
+<section class="section" id="leaderboard">
+  <div class="wrap">
+    <div class="lb-grid">
+      <div class="lb-visual reveal">
+        <img src="assets/Classement.png" alt="Classement mondial Absolute Popcorn" />
+      </div>
+      <div class="reveal">
+        <div class="eyebrow">Classement</div>
+        <h2 class="sec-title">QUI EST LE MEILLEUR<br><span class="gold">CINÉPHILE DU MONDE ?</span></h2>
+        <p style="font-size:16px;color:var(--text2);line-height:1.75;margin-bottom:6px;">
+          Le leaderboard mondial affiche les meilleurs joueurs par mode et par catégorie. Ton nom sera-t-il dans le top 10 ?
+        </p>
+        <div class="lb-points">
+          <div class="lb-point">
+            <div class="lb-point-icon">🥇</div>
+            <div class="lb-point-text">
+              <strong>Classement par mode</strong>
+              Classique, Intrus, Arrêt sur image, Mise au point, 6 Degrés
+            </div>
+          </div>
+          <div class="lb-point">
+            <div class="lb-point-icon">🌍</div>
+            <div class="lb-point-text">
+              <strong>Joueurs internationaux</strong>
+              Drapeaux, pseudos et scores des meilleurs joueurs du monde entier
+            </div>
+          </div>
+          <div class="lb-point">
+            <div class="lb-point-icon">⚡</div>
+            <div class="lb-point-text">
+              <strong>Monnaie "pops"</strong>
+              Chaque bonne réponse rapporte des pops. Grimpez, dépassez, dominez.
+            </div>
+          </div>
+          <div class="lb-point">
+            <div class="lb-point-icon">🔄</div>
+            <div class="lb-point-text">
+              <strong>Temps réel</strong>
+              Scores mis à jour en direct après chaque partie terminée
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider"></div></div>
+
+<!-- ══════ BOBINE ══════ -->
+<section class="section" id="bobine">
+  <div class="wrap">
+    <div class="bobine-wrap reveal">
+      <div class="bobine-text">
+        <div class="eyebrow">La Bobine</div>
+        <h2 class="sec-title">LA ROUE DE<br><span class="gold">LA FORTUNE CINÉ</span></h2>
+        <p style="font-size:16px;color:var(--text2);line-height:1.75;">
+          Chaque jour, tournez la Bobine pour gagner des tickets supplémentaires,
+          des multiplicateurs de score ou des parties bonus.
+          Une surprise vous attend, sans exception.
+        </p>
+        <div class="bobine-badge">
+          <div class="bobine-n">+20</div>
+          <div class="bobine-n-sub">pops en moyenne<br>par tour de bobine</div>
+        </div>
+      </div>
+      <div class="bobine-visual">
+        <img src="assets/la%20bobine.png" alt="La Bobine — roue quotidienne de récompenses" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider"></div></div>
+
+<!-- ══════ CTA DOWNLOAD ══════ -->
+<section class="cta-band" id="download">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow" style="justify-content:center;">Téléchargement</div>
+      <h2 class="cta-band-title">
+        PRÊT POUR LE<br><span style="color:var(--gold);">GRAND JEU ?</span>
+      </h2>
+      <p class="cta-band-sub">Bientôt disponible sur iOS et Android. Restez connectés.</p>
+      <div class="cta-stores">
+        <a class="store-btn-lg" href="#" aria-label="App Store — bientôt disponible">
+          <svg viewBox="0 0 814 1000" aria-hidden="true"><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 376.8 0 290 0 206.8c0-123.8 80.1-190.5 157.8-190.5 47.2 0 86.5 31.3 117.7 31.3 30 0 74.2-33.7 129.3-33.7 50.7 0 115.8 23.1 156.1 81.2zm-219.6-75.3c-22.3 28.8-59.4 52.1-97.3 52.1-4.5 0-9-.6-13.5-1.3-3.2-38.2 12.2-79.7 33.1-108.5 22.3-30.6 61-53.6 94.2-55.6 3.8 39.4-11.3 79.7-16.5 113.3z"/></svg>
+          <div class="store-btn-text">
+            <span class="store-btn-micro">Bientôt sur</span>
+            <span class="store-btn-name">App Store</span>
+            <span class="store-btn-soon">COMING SOON</span>
+          </div>
+        </a>
+        <a class="store-btn-lg" href="#" aria-label="Google Play — bientôt disponible">
+          <svg viewBox="0 0 512 512" aria-hidden="true"><path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l2.4 1.4 247.1-247.1v-5.8L47 0zm414.5 225.5L381 183.4l-74.7 74.7 74.7 74.7 61.1-34.3c17.4-10.4 17.4-36.5-.6-73zm-357 262.5l280.8-161.2-60.1-60.1L47 465.9l57.5 22.1z"/></svg>
+          <div class="store-btn-text">
+            <span class="store-btn-micro">Bientôt sur</span>
+            <span class="store-btn-name">Google Play</span>
+            <span class="store-btn-soon">COMING SOON</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider"></div></div>
+
+<!-- ══════ ABOUT ══════ -->
+<section class="section" id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-mascot reveal">
+        <img src="assets/Mascotte.png" alt="Mascotte Absolute Popcorn" />
+      </div>
+      <div class="reveal">
+        <div class="eyebrow">À propos</div>
+        <h2 class="sec-title">FABRIQUÉ AVEC<br><span class="gold">PASSION</span></h2>
+        <p style="font-size:16px;color:var(--text2);line-height:1.8;margin-bottom:16px;">
+          Timing Corporation est une société française fondée en 2025, spécialisée dans le développement d'expériences mobiles interactives.
+        </p>
+        <p style="font-size:16px;color:var(--text2);line-height:1.8;">
+          Absolute Popcorn est notre premier projet — une application entièrement dédiée aux amoureux du cinéma et des séries TV, conçue avec une attention particulière à l'expérience utilisateur et à la qualité du produit.
+        </p>
+        <div class="about-tags">
+          <span class="tag">🇫🇷 Made in France</span>
+          <span class="tag">📱 iOS &amp; Android</span>
+          <span class="tag">🌍 7 langues</span>
+          <span class="tag">🎬 Cinéma &amp; séries</span>
+          <span class="tag">⭐ Fondée en 2025</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider"></div></div>
+
+<!-- ══════ FAQ ══════ -->
+<section class="section" id="faq">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">FAQ</div>
+      <h2 class="sec-title">QUESTIONS<br><span class="gold">FRÉQUENTES</span></h2>
+      <p class="sec-sub">Tout ce qu'on nous demande souvent, en version courte et claire.</p>
+    </div>
+    <div class="faq-list reveal">
+      <details class="faq">
+        <summary>L'application est-elle déjà disponible ? <div class="faq-ico">+</div></summary>
+        <div class="faq-body">Pas encore. Absolute Popcorn est en cours de développement. Sa sortie sur iOS et Android est prévue prochainement. Restez connectés !</div>
+      </details>
+      <details class="faq">
+        <summary>Qui développe Absolute Popcorn ? <div class="faq-ico">+</div></summary>
+        <div class="faq-body">Absolute Popcorn est développé et édité par Timing Corporation, société française fondée en 2025. Pour toute question, contactez-nous à contact@absolute-popcorn.com.</div>
+      </details>
+      <details class="faq">
+        <summary>Le jeu sera-t-il gratuit ? <div class="faq-ico">+</div></summary>
+        <div class="faq-body">L'application sera disponible gratuitement. Une option premium sans publicité sera proposée pour une expérience optimale et sans interruption.</div>
+      </details>
+      <details class="faq">
+        <summary>Combien de langues seront disponibles au lancement ? <div class="faq-ico">+</div></summary>
+        <div class="faq-body">Au lancement, 7 langues seront disponibles. D'autres viendront progressivement en fonction des retours de la communauté.</div>
+      </details>
+      <details class="faq">
+        <summary>Où trouver les CGU, CGV et la Politique de confidentialité ? <div class="faq-ico">+</div></summary>
+        <div class="faq-body">Tous les documents légaux sont disponibles en bas de cette page, en français et en anglais. Ils couvrent les conditions générales d'utilisation, les conditions de vente, la politique de confidentialité et la charte de conduite.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider"></div></div>
+
+<!-- ══════ CONTACT ══════ -->
+<section class="section" id="contact">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">Contact</div>
+      <h2 class="sec-title">ON EST<br><span class="gold">DISPONIBLES</span></h2>
+      <p class="sec-sub">Une question, un partenariat, une demande presse ? Écrivez-nous, on répond.</p>
+    </div>
+    <div class="contact-grid reveal">
+      <div class="contact-card">
+        <div class="contact-ico">💬</div>
+        <h3>Support utilisateur</h3>
+        <p>Un problème avec l'application ou une question générale ? Notre équipe vous répond rapidement.</p>
+        <a class="email-pill" href="mailto:contact@absolute-popcorn.com">contact@absolute-popcorn.com</a>
+      </div>
+      <div class="contact-card">
+        <div class="contact-ico">🎙️</div>
+        <h3>Presse &amp; Médias</h3>
+        <p>Demande d'interview, d'assets presse ou d'informations pour un article ? On est là.</p>
+        <a class="email-pill" href="mailto:contact@absolute-popcorn.com">contact@absolute-popcorn.com</a>
+      </div>
+      <div class="contact-card">
+        <div class="contact-ico">🤝</div>
+        <h3>Partenariats</h3>
+        <p>Vous souhaitez collaborer, proposer une intégration ou une opportunité commerciale ? Parlons-en.</p>
+        <a class="email-pill" href="mailto:contact@absolute-popcorn.com">contact@absolute-popcorn.com</a>
+      </div>
+    </div>
+    <div class="legal-bar reveal">
+      <div class="legal-bar-label">Informations légales</div>
+      <div class="legal-bar-val"><strong>Éditeur :</strong> Timing Corporation</div>
+      <div class="legal-bar-val"><strong>Pays :</strong> France</div>
+      <div class="legal-bar-val"><strong>Fondée :</strong> 2025</div>
+      <div class="legal-bar-val"><strong>Email :</strong> <span style="color:var(--gold);font-family:monospace;font-size:12px;">contact@absolute-popcorn.com</span></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ══════ FOOTER ══════ -->
+<footer id="legal">
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <a class="foot-logo" href="#top" aria-label="Accueil">
+          <img src="assets/Mascotte.png" alt="" />
+          <span class="foot-logo-name">ABSOLUTE POPCORN</span>
+        </a>
+        <p class="foot-tagline">Le jeu ultime pour les amoureux du cinéma et des séries TV.</p>
+        <p class="foot-copy">© <span id="yr"></span> Timing Corporation. Tous droits réservés.</p>
+      </div>
+      <div>
+        <div class="foot-heading">Navigation</div>
+        <nav class="foot-nav" aria-label="Navigation footer">
+          <a href="#modes">Modes de jeu</a>
+          <a href="#features">Fonctionnalités</a>
+          <a href="#leaderboard">Classement</a>
+          <a href="#about">À propos</a>
+          <a href="#faq">FAQ</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </div>
+      <div>
+        <div class="foot-heading">Documents légaux</div>
+        <div class="foot-legal">
+          <a class="legal-link" href="fr/general-terms-of-use.html">CGU (FR)</a>
+          <a class="legal-link" href="fr/terms-and-conditions.html">CGV (FR)</a>
+          <a class="legal-link" href="fr/privacy-policy.html">Confidentialité (FR)</a>
+          <a class="legal-link" href="fr/conduct.html">Charte (FR)</a>
+          <a class="legal-link" href="en/general-terms-of-use.html">Terms of Use (EN)</a>
+          <a class="legal-link" href="en/terms-and-conditions.html">Terms &amp; Cond. (EN)</a>
+          <a class="legal-link" href="en/privacy-policy.html">Privacy Policy (EN)</a>
+          <a class="legal-link" href="en/conduct.html">Code of Conduct (EN)</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div class="foot-bottom-copy">© <span id="yr2"></span> Timing Corporation — Tous droits réservés</div>
+      <div class="foot-made">Made with <span>♥</span> in France</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* Year */
+const yr = new Date().getFullYear();
+document.getElementById('yr').textContent = yr;
+document.getElementById('yr2').textContent = yr;
+
+/* Header on scroll */
+const hdr = document.getElementById('hdr');
+const heroBg = document.getElementById('hero-bg');
+let ticking = false;
+window.addEventListener('scroll', () => {
+  if (!ticking) {
+    requestAnimationFrame(() => {
+      const sy = window.scrollY;
+      hdr.classList.toggle('scrolled', sy > 40);
+      if (heroBg) heroBg.style.transform = `scale(1.08) translateY(${sy * 0.12}px)`;
+      ticking = false;
+    });
+    ticking = true;
+  }
+}, { passive: true });
+
+/* Scroll reveal */
+const reveals = document.querySelectorAll('.reveal');
+const ro = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08, rootMargin: '0px 0px -36px 0px' });
+reveals.forEach(el => ro.observe(el));
+
+/* FAQ icon */
+document.querySelectorAll('details.faq').forEach(det => {
+  const ico = det.querySelector('.faq-ico');
+  det.addEventListener('toggle', () => { ico.textContent = det.open ? '×' : '+'; });
+});
+</script>
 
 </body>
 </html>
