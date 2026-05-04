@@ -140,22 +140,23 @@ header.on {
 }
 .store-btns { display: flex; gap: 14px; flex-wrap: wrap; }
 .store-btn {
-  display: inline-flex; align-items: center; gap: 14px;
-  padding: 15px 26px; border-radius: 14px;
-  border: 1px solid rgba(255,255,255,.14);
-  background: rgba(255,255,255,.05);
-  min-width: 190px;
+  display: inline-flex; align-items: center; gap: 16px;
+  padding: 14px 28px; border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.16);
+  background: #141414;
+  min-width: 200px;
   transition: background .22s, border-color .22s, transform .22s, box-shadow .22s;
 }
 .store-btn:hover {
-  background: rgba(255,255,255,.09);
-  border-color: rgba(255,255,255,.24);
+  background: #1f1f1f;
+  border-color: rgba(255,255,255,.28);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0,0,0,.35);
+  box-shadow: 0 10px 28px rgba(0,0,0,.5);
 }
-.store-btn svg { width: 26px; height: 26px; flex-shrink: 0; }
+.store-btn svg { width: 28px; height: 28px; flex-shrink: 0; }
 .store-btn.apple svg { fill: #fff; }
-.store-btn.gplay svg { overflow: visible; }
+/* Google Play: les fills inline sur chaque path priment sur le CSS */
+.store-btn.gplay svg { fill: none; }
 .store-btn-text { display: flex; flex-direction: column; align-items: flex-start; }
 .store-btn-micro { font-size: 12px; color: var(--muted); font-weight: 500; line-height: 1.2; }
 .store-btn-name  { font-size: 20px; font-weight: 700; color: #fff; line-height: 1.25; letter-spacing: -.01em; }
@@ -488,18 +489,18 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 44px; }
           <p class="store-area-label">Disponible sur iOS et Android</p>
           <div class="store-btns">
             <a class="store-btn apple" href="#" aria-label="Télécharger sur l'App Store">
-              <svg viewBox="0 0 814 1000" aria-hidden="true"><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 376.8 0 290 0 206.8c0-123.8 80.1-190.5 157.8-190.5 47.2 0 86.5 31.3 117.7 31.3 30 0 74.2-33.7 129.3-33.7 50.7 0 115.8 23.1 156.1 81.2zm-219.6-75.3c-22.3 28.8-59.4 52.1-97.3 52.1-4.5 0-9-.6-13.5-1.3-3.2-38.2 12.2-79.7 33.1-108.5 22.3-30.6 61-53.6 94.2-55.6 3.8 39.4-11.3 79.7-16.5 113.3z"/></svg>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.54 9.103 1.519 12.09 1.013 1.459 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>
               <div class="store-btn-text">
                 <span class="store-btn-micro">Télécharger sur</span>
                 <span class="store-btn-name">App Store</span>
               </div>
             </a>
             <a class="store-btn gplay" href="#" aria-label="Télécharger sur Google Play">
-              <svg viewBox="0 0 512 512" aria-hidden="true">
-                <path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1z" fill="#00C1FF"/>
-                <path d="M47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l2.4 1.4 247.1-247.1v-5.8L47 0z" fill="#E0E0E0"/>
-                <path d="M414.5 225.5L381 183.4l-74.7 74.7 74.7 74.7 61.1-34.3c17.4-10.4 17.4-36.5-.6-73z" fill="#FFD400"/>
-                <path d="M47 512l280.8-161.2-60.1-60.1L47 465.9l57.5 22.1z" fill="#FF3E30"/>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M3.18 23.76c.48.27 1.02.3 1.53.1l12.65-7.3-2.75-2.75z" fill="#EA4335"/>
+                <path d="M22.23 10.46l-3-1.73-3.07 3.07 3.07 3.07 3.03-1.75c.86-.5.86-1.66-.03-2.16z" fill="#FBBC04"/>
+                <path d="M2.71.24C2.24.44 1.9.93 1.9 1.58v20.84c0 .65.34 1.14.81 1.34l11.71-11.71z" fill="#4285F4"/>
+                <path d="M3.18.24l11.43 11.43L17.36 8.9 4.71.14C4.2-.07 3.66-.1 3.18.24z" fill="#34A853"/>
               </svg>
               <div class="store-btn-text">
                 <span class="store-btn-micro">Télécharger sur</span>
@@ -739,18 +740,18 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 44px; }
       <p class="cta-sub">Disponible maintenant sur iOS et Android.</p>
       <div class="cta-btns">
         <a class="store-btn apple" href="#" aria-label="Télécharger sur l'App Store">
-          <svg viewBox="0 0 814 1000" aria-hidden="true"><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 376.8 0 290 0 206.8c0-123.8 80.1-190.5 157.8-190.5 47.2 0 86.5 31.3 117.7 31.3 30 0 74.2-33.7 129.3-33.7 50.7 0 115.8 23.1 156.1 81.2zm-219.6-75.3c-22.3 28.8-59.4 52.1-97.3 52.1-4.5 0-9-.6-13.5-1.3-3.2-38.2 12.2-79.7 33.1-108.5 22.3-30.6 61-53.6 94.2-55.6 3.8 39.4-11.3 79.7-16.5 113.3z"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.54 9.103 1.519 12.09 1.013 1.459 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>
           <div class="store-btn-text">
             <span class="store-btn-micro">Download on the</span>
             <span class="store-btn-name">App Store</span>
           </div>
         </a>
         <a class="store-btn gplay" href="#" aria-label="Télécharger sur Google Play">
-          <svg viewBox="0 0 512 512" aria-hidden="true">
-            <path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1z" fill="#00C1FF"/>
-            <path d="M47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l2.4 1.4 247.1-247.1v-5.8L47 0z" fill="#E0E0E0"/>
-            <path d="M414.5 225.5L381 183.4l-74.7 74.7 74.7 74.7 61.1-34.3c17.4-10.4 17.4-36.5-.6-73z" fill="#FFD400"/>
-            <path d="M47 512l280.8-161.2-60.1-60.1L47 465.9l57.5 22.1z" fill="#FF3E30"/>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3.18 23.76c.48.27 1.02.3 1.53.1l12.65-7.3-2.75-2.75z" fill="#EA4335"/>
+            <path d="M22.23 10.46l-3-1.73-3.07 3.07 3.07 3.07 3.03-1.75c.86-.5.86-1.66-.03-2.16z" fill="#FBBC04"/>
+            <path d="M2.71.24C2.24.44 1.9.93 1.9 1.58v20.84c0 .65.34 1.14.81 1.34l11.71-11.71z" fill="#4285F4"/>
+            <path d="M3.18.24l11.43 11.43L17.36 8.9 4.71.14C4.2-.07 3.66-.1 3.18.24z" fill="#34A853"/>
           </svg>
           <div class="store-btn-text">
             <span class="store-btn-micro">Get it on</span>
