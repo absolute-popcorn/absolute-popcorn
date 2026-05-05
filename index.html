@@ -100,52 +100,94 @@ header.on {
 /* ── HERO ── */
 .hero {
   min-height: 100svh;
-  display: flex; align-items: center;
+  display: flex;
+  align-items: center;
   padding-top: 80px;
-  position: relative; overflow: hidden;
+  position: relative;
+  overflow: hidden;
 }
+
 .hero::before {
   content: '';
-  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  position: absolute;
+  inset: 0;
   background:
     radial-gradient(ellipse 90% 70% at 62% 38%, rgba(245,200,66,.07) 0%, transparent 60%),
     radial-gradient(ellipse 50% 40% at 20% 80%, rgba(245,200,66,.03) 0%, transparent 55%);
   pointer-events: none;
 }
+
 .hero-inner {
-  display: grid; grid-template-columns: 1fr 1.2fr;
-  gap: 56px; align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 56px;
+  align-items: center;
 }
+
 .hero-label {
-  display: inline-flex; align-items: center; gap: 10px;
-  font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
-  color: var(--gold); margin-bottom: 28px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 28px;
 }
+
 .hero-label::before {
-  content: ''; width: 24px; height: 2px; background: var(--gold); border-radius: 2px;
+  content: '';
+  width: 24px;
+  height: 2px;
+  background: var(--gold);
+  border-radius: 2px;
 }
+
 .hero-title {
   font-family: 'Bebas Neue', sans-serif;
   font-size: clamp(64px, 7.5vw, 112px);
-  line-height: .92; letter-spacing: .01em;
-  color: var(--text); margin-bottom: 28px;
+  line-height: .92;
+  letter-spacing: .01em;
+  color: var(--text);
+  margin-bottom: 28px;
 }
-.hero-title span { color: var(--gold); }
+
+.hero-title span {
+  color: var(--gold);
+}
+
 .hero-sub {
-  font-size: 20px; color: var(--muted);
-  line-height: 1.8; max-width: 44ch; margin-bottom: 48px;
+  font-size: 20px;
+  color: var(--muted);
+  line-height: 1.8;
+  max-width: 44ch;
+  margin-bottom: 48px;
 }
 
 /* ── HERO PROOF ── */
 .hero-proof {
-  display: flex; align-items: center; gap: 20px;
-  margin-top: 24px; flex-wrap: wrap;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 24px;
+  flex-wrap: wrap;
 }
+
 .hero-proof-item {
-  display: flex; align-items: center; gap: 7px;
-  font-size: 13px; font-weight: 600; color: var(--faint);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--faint);
 }
-.hero-proof-item span { font-size: 15px; }
+
+.hero-proof-item span {
+  font-size: 15px;
+}
+
+/* ── HERO IMAGE ── */
 .hero-img {
   display: flex;
   justify-content: center;
@@ -153,12 +195,11 @@ header.on {
 }
 
 .hero-img img {
-  width: 100%;
-  max-width: 300px;
+  width: 300px !important;
+  max-width: 100%;
   height: auto;
   display: block;
 }
-
 /* ── STORE BUTTONS ── */
 .store-area { display: flex; flex-direction: column; gap: 16px; }
 .store-area-label {
