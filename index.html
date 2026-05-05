@@ -204,6 +204,25 @@ header.on {
   height: auto;
   display: block;
 }
+  @media (max-width: 768px) {
+    .hero-inner {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      text-align: center;
+    }
+
+    .hero-title {
+      font-size: 64px;
+    }
+
+    .hero-sub {
+      font-size: 20px;
+    }
+
+    .hero-img img {
+      width: 200px;
+    }
+  }
 /* ── STORE BUTTONS ── */
 .store-area { display: flex; flex-direction: column; gap: 16px; }
 .store-area-label {
