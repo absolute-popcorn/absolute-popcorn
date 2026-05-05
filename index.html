@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Absolute Popcorn — Le jeu ultime du cinéma et des séries TV. Quiz, arrêt sur image, intrus, mise au point, 6 degrés. Disponible sur iOS et Android.">
+  <meta name="description" content="Absolute Popcorn — Le quiz ciné et séries pour tout le monde. 5 modes de jeu inédits, iOS et Android, gratuit. Aucun niveau requis.">
   <meta name="theme-color" content="#090909">
-  <title>Absolute Popcorn — Le jeu ultime du cinéma</title>
+  <title>Absolute Popcorn — Le quiz ciné pour tout le monde</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -22,6 +22,7 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 17px;
 }
 a { color: inherit; text-decoration: none; }
 img { max-width: 100%; display: block; }
@@ -106,16 +107,18 @@ header.on {
 .hero::before {
   content: '';
   position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-  background: radial-gradient(ellipse 80% 60% at 60% 40%, rgba(245,200,66,.04) 0%, transparent 65%);
+  background:
+    radial-gradient(ellipse 90% 70% at 62% 38%, rgba(245,200,66,.07) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 20% 80%, rgba(245,200,66,.03) 0%, transparent 55%);
   pointer-events: none;
 }
 .hero-inner {
-  display: grid; grid-template-columns: 1fr 1.15fr;
-  gap: 48px; align-items: center;
+  display: grid; grid-template-columns: 1fr 1.2fr;
+  gap: 56px; align-items: center;
 }
 .hero-label {
   display: inline-flex; align-items: center; gap: 10px;
-  font-size: 14px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
   color: var(--gold); margin-bottom: 28px;
 }
 .hero-label::before {
@@ -123,43 +126,56 @@ header.on {
 }
 .hero-title {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(68px, 8vw, 120px);
+  font-size: clamp(64px, 7.5vw, 112px);
   line-height: .92; letter-spacing: .01em;
-  color: var(--text); margin-bottom: 24px;
+  color: var(--text); margin-bottom: 28px;
 }
 .hero-title span { color: var(--gold); }
 .hero-sub {
-  font-size: 19px; color: var(--muted);
-  line-height: 1.8; max-width: 44ch; margin-bottom: 44px;
+  font-size: 20px; color: var(--muted);
+  line-height: 1.8; max-width: 44ch; margin-bottom: 48px;
 }
+
+/* ── HERO PROOF ── */
+.hero-proof {
+  display: flex; align-items: center; gap: 20px;
+  margin-top: 24px; flex-wrap: wrap;
+}
+.hero-proof-item {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 13px; font-weight: 600; color: var(--faint);
+}
+.hero-proof-item span { font-size: 15px; }
+
 /* ── STORE BUTTONS ── */
 .store-area { display: flex; flex-direction: column; gap: 16px; }
 .store-area-label {
-  font-size: 16px; color: var(--muted); font-weight: 500;
+  font-size: 15px; color: var(--muted); font-weight: 500;
   letter-spacing: .01em;
 }
 .store-btns { display: flex; gap: 14px; flex-wrap: wrap; }
 .store-btn {
-  display: inline-flex; align-items: center; gap: 16px;
-  padding: 14px 28px; border-radius: 14px;
+  display: inline-flex; align-items: center; gap: 18px;
+  padding: 16px 30px; border-radius: 16px;
   border: 1px solid rgba(255,255,255,.16);
   background: #141414;
-  min-width: 200px;
+  min-width: 210px;
   transition: background .22s, border-color .22s, transform .22s, box-shadow .22s;
 }
 .store-btn:hover {
-  background: #1f1f1f;
-  border-color: rgba(255,255,255,.28);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 28px rgba(0,0,0,.5);
+  background: #1c1c1c;
+  border-color: rgba(245,200,66,.3);
+  transform: translateY(-3px);
+  box-shadow: 0 14px 36px rgba(0,0,0,.55), 0 4px 12px rgba(245,200,66,.06);
 }
-.store-btn svg { width: 28px; height: 28px; flex-shrink: 0; }
+.store-btn svg { width: 30px; height: 30px; flex-shrink: 0; }
 .store-btn.apple svg { fill: #fff; }
-/* Google Play: les fills inline sur chaque path priment sur le CSS */
 .store-btn.gplay svg { fill: none; }
 .store-btn-text { display: flex; flex-direction: column; align-items: flex-start; }
 .store-btn-micro { font-size: 12px; color: var(--muted); font-weight: 500; line-height: 1.2; }
-.store-btn-name  { font-size: 20px; font-weight: 700; color: #fff; line-height: 1.25; letter-spacing: -.01em; }
+.store-btn-name  { font-size: 21px; font-weight: 700; color: #fff; line-height: 1.25; letter-spacing: -.01em; }
+
+/* ── HERO IMAGE ── */
 .hero-img {
   display: flex; justify-content: center; align-items: center;
   position: relative;
@@ -167,14 +183,15 @@ header.on {
 .hero-img::before {
   content: '';
   position: absolute;
-  width: 480px; height: 480px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(245,200,66,.09) 0%, transparent 68%);
+  width: 580px; height: 580px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(245,200,66,.11) 0%, transparent 65%);
   pointer-events: none;
 }
 .hero-img img {
-  width: 100%; max-width: 680px;
+  width: 100%; max-width: 700px;
   position: relative; z-index: 1;
-  filter: drop-shadow(0 56px 80px rgba(0,0,0,.75)) drop-shadow(0 16px 32px rgba(245,200,66,.06));
+  border-radius: 24px;
+  filter: drop-shadow(0 64px 96px rgba(0,0,0,.8)) drop-shadow(0 20px 40px rgba(245,200,66,.07));
   animation: bob 6s ease-in-out infinite;
 }
 @keyframes bob {
@@ -191,13 +208,13 @@ header.on {
   display: grid; grid-template-columns: repeat(4,1fr);
 }
 .stat {
-  padding: 36px 24px; text-align: center;
+  padding: 40px 24px; text-align: center;
   border-right: 1px solid var(--border);
 }
 .stat:last-child { border-right: none; }
 .stat-n {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 52px; line-height: 1; letter-spacing: .01em;
+  font-size: 56px; line-height: 1; letter-spacing: .01em;
   color: var(--gold); margin-bottom: 6px;
 }
 .stat-l { font-size: 14px; color: var(--muted); font-weight: 600; letter-spacing: .05em; text-transform: uppercase; }
@@ -205,7 +222,7 @@ header.on {
 /* ── SECTION HEADER ── */
 .sh { margin-bottom: 72px; }
 .sh-eyebrow {
-  font-size: 14px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
   color: var(--gold); margin-bottom: 18px;
   display: flex; align-items: center; gap: 10px;
 }
@@ -226,25 +243,25 @@ header.on {
   background: var(--surface);
   transition: border-color .25s, transform .25s;
 }
-.mode-card:hover { border-color: rgba(245,200,66,.3); transform: translateY(-4px); }
+.mode-card:hover { border-color: rgba(245,200,66,.3); transform: translateY(-5px); }
 .mode-img-box { overflow: hidden; height: 240px; }
 .mode-img-box img {
   width: 100%; height: 100%; object-fit: cover; object-position: top;
   transition: transform .5s ease;
 }
 .mode-card:hover .mode-img-box img { transform: scale(1.04); }
-.mode-info { padding: 20px 20px 24px; }
+.mode-info { padding: 20px 20px 26px; }
 .mode-num { font-size: 10px; font-weight: 700; letter-spacing: .14em; color: var(--faint); margin-bottom: 6px; }
-.mode-name { font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
-.mode-desc { font-size: 15px; color: var(--muted); line-height: 1.65; }
+.mode-name { font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+.mode-desc { font-size: 16px; color: var(--muted); line-height: 1.7; }
 
 /* ── FEATURES ── */
 .features { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 18px; overflow: hidden; }
-.feat { background: #090909; padding: 40px 36px; transition: background .2s; }
+.feat { background: #090909; padding: 44px 38px; transition: background .2s; }
 .feat:hover { background: rgba(255,255,255,.02); }
-.feat-icon { font-size: 26px; margin-bottom: 20px; }
+.feat-icon { font-size: 28px; margin-bottom: 22px; }
 .feat-title { font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 12px; letter-spacing: -.015em; }
-.feat-body { font-size: 16px; color: var(--muted); line-height: 1.75; }
+.feat-body { font-size: 17px; color: var(--muted); line-height: 1.75; }
 
 /* ── SCREENSHOTS ── */
 .shots { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -273,7 +290,7 @@ header.on {
   background: var(--surface);
 }
 .lb-pt-icon { font-size: 18px; margin-top: 1px; flex-shrink: 0; }
-.lb-pt-text { font-size: 16px; color: var(--muted); line-height: 1.65; }
+.lb-pt-text { font-size: 17px; color: var(--muted); line-height: 1.65; }
 .lb-pt-text strong { color: var(--text); font-weight: 600; display: block; margin-bottom: 3px; }
 
 /* ── BOBINE ── */
@@ -282,17 +299,17 @@ header.on {
   border: 1px solid var(--border); border-radius: 20px;
   overflow: hidden; background: var(--surface);
 }
-.bobine-text { padding: 56px 52px; }
+.bobine-text { padding: 60px 56px; }
 .bobine-badge {
   display: inline-flex; align-items: center; gap: 16px;
   border: 1px solid rgba(245,200,66,.2); background: rgba(245,200,66,.07);
-  padding: 14px 20px; border-radius: 14px; margin-top: 28px;
+  padding: 16px 22px; border-radius: 14px; margin-top: 28px;
 }
 .bobine-n {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 52px; color: var(--gold); line-height: 1;
+  font-size: 56px; color: var(--gold); line-height: 1;
 }
-.bobine-nl { font-size: 15px; color: var(--muted); line-height: 1.55; }
+.bobine-nl { font-size: 16px; color: var(--muted); line-height: 1.55; }
 .bobine-img { display: flex; align-items: center; justify-content: center; padding: 40px; }
 .bobine-img img {
   max-width: 220px; width: 100%; border-radius: 32px;
@@ -301,15 +318,15 @@ header.on {
 }
 
 /* ── CTA BAND ── */
-.cta { padding: 120px 0; text-align: center; }
+.cta { padding: 140px 0; text-align: center; }
 .cta-title {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(54px, 6.5vw, 96px);
+  font-size: clamp(54px, 6.5vw, 100px);
   line-height: .92; letter-spacing: .01em; color: var(--text);
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 .cta-title span { color: var(--gold); }
-.cta-sub { font-size: 19px; color: var(--muted); margin-bottom: 44px; }
+.cta-sub { font-size: 20px; color: var(--muted); margin-bottom: 48px; line-height: 1.7; }
 .cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
 
 /* ── ABOUT ── */
@@ -322,8 +339,8 @@ header.on {
 }
 .about-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
 .about-tag {
-  font-size: 13px; font-weight: 600; color: var(--muted);
-  padding: 7px 14px; border-radius: 9px; border: 1px solid var(--border);
+  font-size: 14px; font-weight: 600; color: var(--muted);
+  padding: 8px 16px; border-radius: 9px; border: 1px solid var(--border);
   transition: border-color .2s, color .2s;
 }
 .about-tag:hover { border-color: rgba(255,255,255,.18); color: var(--text); }
@@ -335,7 +352,7 @@ details.faq {
 }
 details.faq:first-child { border-top: 1px solid var(--border); }
 details.faq summary {
-  padding: 22px 0; font-size: 17px; font-weight: 600; color: var(--text);
+  padding: 24px 0; font-size: 18px; font-weight: 600; color: var(--text);
   cursor: pointer; list-style: none;
   display: flex; justify-content: space-between; align-items: center; gap: 20px;
   user-select: none; transition: color .18s;
@@ -350,19 +367,19 @@ details.faq summary:hover { color: var(--gold); }
 }
 details.faq[open] .faq-plus { transform: rotate(45deg); color: var(--gold); }
 .faq-ans {
-  padding: 0 0 22px; font-size: 16px; color: var(--muted); line-height: 1.8;
+  padding: 0 0 24px; font-size: 17px; color: var(--muted); line-height: 1.8;
 }
 
 /* ── CONTACT ── */
 .contact-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
 .contact-card {
-  padding: 28px; border-radius: 16px; border: 1px solid var(--border);
+  padding: 30px; border-radius: 16px; border: 1px solid var(--border);
   background: var(--surface); transition: border-color .2s;
 }
 .contact-card:hover { border-color: rgba(255,255,255,.16); }
-.c-ico { font-size: 28px; margin-bottom: 16px; }
-.contact-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; color: var(--text); }
-.contact-card p { font-size: 16px; color: var(--muted); line-height: 1.75; margin-bottom: 18px; }
+.c-ico { font-size: 30px; margin-bottom: 18px; }
+.contact-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 12px; color: var(--text); }
+.contact-card p { font-size: 17px; color: var(--muted); line-height: 1.75; margin-bottom: 20px; }
 .email-link {
   font-family: ui-monospace, 'SF Mono', monospace;
   font-size: 14px; color: var(--gold);
@@ -377,7 +394,7 @@ details.faq[open] .faq-plus { transform: rotate(45deg); color: var(--gold); }
   display: flex; flex-wrap: wrap; gap: 4px 20px; align-items: baseline;
 }
 .legal-row-title { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); flex-basis: 100%; margin-bottom: 6px; }
-.legal-row span { font-size: 15px; color: var(--muted); }
+.legal-row span { font-size: 16px; color: var(--muted); }
 .legal-row strong { color: var(--text); font-weight: 600; }
 
 /* ── FOOTER ── */
@@ -420,9 +437,22 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 44px; }
   .nav-links { display: none; }
   .hero-inner { grid-template-columns: 1fr; text-align: center; }
   .hero-sub { max-width: 100%; }
-  .hero-stores { justify-content: center; }
-  .hero-img { display: none; }
   .hero-label { justify-content: center; }
+  .store-btns { justify-content: center; }
+  .store-area-label { text-align: center; }
+  .hero-proof { justify-content: center; }
+  .hero-img {
+    display: flex;
+    margin-top: 48px;
+    width: 100%;
+  }
+  .hero-img::before { display: none; }
+  .hero-img img {
+    max-width: 100%;
+    border-radius: 20px;
+    animation: none;
+    filter: drop-shadow(0 24px 48px rgba(0,0,0,.7));
+  }
   .stats-row { grid-template-columns: repeat(2,1fr); }
   .stat:nth-child(2) { border-right: none; }
   .lb { grid-template-columns: 1fr; }
@@ -435,10 +465,6 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 44px; }
   .contact-grid { grid-template-columns: 1fr 1fr; }
   .sh { margin-bottom: 40px; }
 }
-@media (max-width: 880px) {
-  .store-btns { justify-content: center; }
-  .store-area-label { text-align: center; }
-}
 @media (max-width: 600px) {
   .wrap { padding: 0 20px; }
   .section { padding: 80px 0; }
@@ -450,11 +476,12 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 44px; }
   .nav { padding: 14px 20px; }
   .cta { padding: 80px 0; }
   .hero { padding-top: 64px; }
-  .bobine-text { padding: 36px 28px; }
+  .bobine-text { padding: 40px 28px; }
   .stat { padding: 28px 12px; }
   .store-btn { min-width: 0; width: 100%; justify-content: center; padding: 16px 24px; }
   .store-btns { flex-direction: column; }
   .sh { margin-bottom: 48px; }
+  .hero-img img { border-radius: 16px; }
 }
 
   </style>
@@ -487,15 +514,15 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 44px; }
     <div class="hero-inner">
 
       <div>
-        <div class="hero-label">Disponible sur iOS &amp; Android</div>
+        <div class="hero-label">Gratuit · iOS &amp; Android · 7 langues</div>
         <h1 class="hero-title">
-          Le jeu des<br>vrais <span>cinéphiles</span>
+          Le quiz ciné<br>pour <span>tout le monde</span>
         </h1>
         <p class="hero-sub">
-          Quiz, défis visuels, modes inédits — une expérience pensée pour les passionnés du cinéma et des séries TV.
+          Tu regardes Netflix deux fois par semaine ? Ou tu connais chaque réplique par cœur ? Peu importe — ici, tout le monde s'amuse.
         </p>
         <div class="store-area">
-          <p class="store-area-label">Disponible sur iOS et Android</p>
+          <p class="store-area-label">Télécharge gratuitement sur</p>
           <div class="store-btns">
             <a class="store-btn apple" href="#" aria-label="Télécharger sur l'App Store">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.54 9.103 1.519 12.09 1.013 1.459 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>
@@ -518,11 +545,16 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 44px; }
             </a>
           </div>
         </div>
+        <div class="hero-proof">
+          <div class="hero-proof-item"><span>🎬</span> 5 modes de jeu</div>
+          <div class="hero-proof-item"><span>🌍</span> Joueurs du monde entier</div>
+          <div class="hero-proof-item"><span>✨</span> Aucun niveau requis</div>
+        </div>
       </div>
 
       <div class="hero-img" aria-hidden="true">
         <img
-          src="assets/3D%20Homepage%20%2B%20Categories%20%2B%20Arr%C3%AAt%20sur%20image.png"
+          src="assets/splash.png"
           alt="Aperçu de l'application Absolute Popcorn"
         />
       </div>
@@ -545,7 +577,7 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 44px; }
       </div>
       <div class="stat">
         <div class="stat-n">∞</div>
-        <div class="stat-l">Questions &amp; défis</div>
+        <div class="stat-l">Questions infinies</div>
       </div>
       <div class="stat">
         <div class="stat-n">#1</div>
@@ -560,8 +592,8 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 44px; }
   <div class="wrap">
     <div class="sh fade">
       <div class="sh-eyebrow">Modes de jeu</div>
-      <h2 class="sh-title">5 façons de tester ta culture ciné</h2>
-      <p class="sh-sub">Du quiz classique aux défis visuels, chaque mode aborde le cinéma sous un angle unique.</p>
+      <h2 class="sh-title">5 façons de s'amuser avec le ciné</h2>
+      <p class="sh-sub">Du quiz rapide aux défis visuels — chaque mode est une nouvelle façon de jouer. Pas besoin d'être expert pour prendre du plaisir.</p>
     </div>
     <div class="modes">
       <div class="mode-card fade d1">
@@ -569,7 +601,7 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 44px; }
         <div class="mode-info">
           <div class="mode-num">MODE 01</div>
           <div class="mode-name">Le Classique</div>
-          <div class="mode-desc">Une question, quatre réponses. Le format quiz, version cinéma hardcore.</div>
+          <div class="mode-desc">Une question, quatre réponses. Simple et addictif — même tes amis les moins cinéphiles vont accrocher.</div>
         </div>
       </div>
       <div class="mode-card fade d2">
@@ -577,7 +609,7 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 44px; }
         <div class="mode-info">
           <div class="mode-num">MODE 02</div>
           <div class="mode-name">L'Intrus</div>
-          <div class="mode-desc">Parmi ces films ou acteurs, lequel ne correspond pas ? Repère l'élément qui détonne.</div>
+          <div class="mode-desc">Trouve l'élément qui ne colle pas avec les autres. Un peu de logique, un peu d'instinct — beaucoup de fun.</div>
         </div>
       </div>
       <div class="mode-card fade d3">
@@ -585,7 +617,7 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 44px; }
         <div class="mode-info">
           <div class="mode-num">MODE 03</div>
           <div class="mode-name">L'Arrêt sur image</div>
-          <div class="mode-desc">Une capture d'écran, quelques secondes pour identifier l'œuvre. Facile ? Vraiment ?</div>
+          <div class="mode-desc">Reconnais le film ou la série sur une capture d'écran. Parfois en une seconde, parfois… jamais !</div>
         </div>
       </div>
       <div class="mode-card fade d4">
@@ -593,7 +625,7 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 44px; }
         <div class="mode-info">
           <div class="mode-num">MODE 04</div>
           <div class="mode-name">La Mise au point</div>
-          <div class="mode-desc">L'image est floue et se précise avec le temps — mais chaque seconde coûte des points.</div>
+          <div class="mode-desc">L'image floue se précise avec le temps — mais attendre te coûte des points. Tu fonces ou tu patientes ?</div>
         </div>
       </div>
       <div class="mode-card fade d5">
@@ -601,7 +633,7 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 44px; }
         <div class="mode-info">
           <div class="mode-num">MODE 05</div>
           <div class="mode-name">Les 6 Degrés</div>
-          <div class="mode-desc">Relie deux acteurs via leurs films en 6 connexions maximum. Le vrai défi des experts.</div>
+          <div class="mode-desc">Relie deux acteurs via leurs films en 6 connexions max. Le mode qui surprend tout le monde, sans exception.</div>
         </div>
       </div>
     </div>
@@ -615,39 +647,39 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 44px; }
   <div class="wrap">
     <div class="sh fade">
       <div class="sh-eyebrow">Fonctionnalités</div>
-      <h2 class="sh-title">Tout ce qu'il faut pour jouer sérieusement</h2>
-      <p class="sh-sub">Une application pensée jusqu'au dernier détail — pour que vous ne vouliez jamais vous arrêter.</p>
+      <h2 class="sh-title">Tout pour jouer encore et encore</h2>
+      <p class="sh-sub">Une app pensée pour être fun dès la première minute comme à la centième — seul dans le canapé, en famille ou entre amis.</p>
     </div>
     <div class="features fade">
       <div class="feat">
         <div class="feat-icon">⚔️</div>
         <div class="feat-title">Solo &amp; Multijoueur</div>
-        <p class="feat-body">Progressez seul à votre rythme ou défiez vos amis en temps réel. Les deux expériences sont complètes.</p>
+        <p class="feat-body">Entraîne-toi à ton rythme ou défie tes amis en temps réel. Les deux expériences sont complètes et addictives.</p>
       </div>
       <div class="feat">
         <div class="feat-icon">🌍</div>
         <div class="feat-title">7 Langues</div>
-        <p class="feat-body">Jouez en français, anglais, espagnol et plus. Défiez des joueurs du monde entier dans votre langue.</p>
+        <p class="feat-body">Joue dans ta langue, défie des joueurs du monde entier. Français, anglais, espagnol et plus encore.</p>
       </div>
       <div class="feat">
         <div class="feat-icon">🏆</div>
         <div class="feat-title">Classement mondial</div>
-        <p class="feat-body">Grimpez dans le leaderboard global, comparez vos scores par mode de jeu et par catégorie.</p>
+        <p class="feat-body">Grimpe dans le leaderboard global, compare tes scores par mode. Ta place dans le top est à portée de main.</p>
       </div>
       <div class="feat">
         <div class="feat-icon">🎰</div>
         <div class="feat-title">La Bobine</div>
-        <p class="feat-body">Une roue quotidienne pour gagner des tickets et des bonus. Une récompense vous attend chaque jour.</p>
+        <p class="feat-body">Tourne la Bobine chaque jour pour gagner des tickets et des bonus. Ta surprise du jour t'attend — sans exception.</p>
       </div>
       <div class="feat">
         <div class="feat-icon">📈</div>
         <div class="feat-title">Progression &amp; Rangs</div>
-        <p class="feat-body">Gagnez des "pops", montez de rang et débloquez des récompenses au fil de vos victoires.</p>
+        <p class="feat-body">Gagne des "pops", monte de rang, débloque des récompenses. Le cercle vertueux du fun commence ici.</p>
       </div>
       <div class="feat">
         <div class="feat-icon">🎟️</div>
         <div class="feat-title">Sans publicité</div>
-        <p class="feat-body">Option premium disponible pour jouer sans interruption, pour une expérience parfaitement fluide.</p>
+        <p class="feat-body">Option premium disponible pour jouer sans interruption. Zéro pub, 100% ciné et séries.</p>
       </div>
     </div>
   </div>
@@ -660,8 +692,8 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 44px; }
   <div class="wrap">
     <div class="sh fade" style="text-align:center;max-width:600px;margin-left:auto;margin-right:auto;">
       <div class="sh-eyebrow" style="justify-content:center;">L'application</div>
-      <h2 class="sh-title">Conçu pour être beau et plaisant à jouer</h2>
-      <p class="sh-sub" style="max-width:100%;">Un design soigné, des animations fluides, une interface qui donne envie de revenir encore et encore.</p>
+      <h2 class="sh-title">Aussi belle que fun à jouer</h2>
+      <p class="sh-sub" style="max-width:100%;">Design soigné, animations fluides, interface qui donne envie de revenir. On a mis autant de soin dans le look que dans le gameplay.</p>
     </div>
     <div class="shots">
       <div class="shot fade d1">
@@ -687,9 +719,9 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 44px; }
       </div>
       <div class="fade">
         <div class="sh-eyebrow">Classement</div>
-        <h2 class="sh-title">Qui est le meilleur cinéphile du monde ?</h2>
-        <p style="font-size:18px;color:var(--muted);line-height:1.8;margin-bottom:4px;">
-          Le leaderboard mondial affiche les meilleurs joueurs par mode et par catégorie. Ton nom sera-t-il dans le top 10 ?
+        <h2 class="sh-title">À toi la gloire mondiale !</h2>
+        <p style="font-size:19px;color:var(--muted);line-height:1.8;margin-bottom:4px;">
+          Le leaderboard mondial affiche les meilleurs joueurs par mode et par catégorie. Tout le monde part de zéro — ton pseudo dans le top 10, c'est possible.
         </p>
         <div class="lb-points">
           <div class="lb-pt">
@@ -698,11 +730,11 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 44px; }
           </div>
           <div class="lb-pt">
             <div class="lb-pt-icon">🌍</div>
-            <div class="lb-pt-text"><strong>Joueurs internationaux</strong>Drapeaux, pseudos et scores des meilleurs joueurs du monde entier</div>
+            <div class="lb-pt-text"><strong>Joueurs internationaux</strong>Drapeaux, pseudos et scores de joueurs du monde entier</div>
           </div>
           <div class="lb-pt">
             <div class="lb-pt-icon">⚡</div>
-            <div class="lb-pt-text"><strong>Monnaie "pops"</strong>Chaque bonne réponse rapporte des pops. Grimpez, dépassez, dominez.</div>
+            <div class="lb-pt-text"><strong>Accumule des pops</strong>Chaque bonne réponse rapporte des pops. Grimpe, dépasse, régale-toi.</div>
           </div>
           <div class="lb-pt">
             <div class="lb-pt-icon">🔄</div>
@@ -722,9 +754,9 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 44px; }
     <div class="bobine-card fade">
       <div class="bobine-text">
         <div class="sh-eyebrow">La Bobine</div>
-        <h2 class="sh-title">La roue de la fortune ciné</h2>
-        <p style="font-size:18px;color:var(--muted);line-height:1.8;">
-          Chaque jour, tournez la Bobine pour gagner des tickets supplémentaires, des multiplicateurs de score ou des parties bonus. Une surprise vous attend, sans exception.
+        <h2 class="sh-title">Ta surprise ciné du jour</h2>
+        <p style="font-size:19px;color:var(--muted);line-height:1.8;">
+          Chaque jour, tourne la Bobine pour gagner des tickets, des multiplicateurs de score ou des parties bonus. Une récompense t'attend — sans exception. C'est le petit rituel qui donne envie d'ouvrir l'app chaque matin.
         </p>
         <div class="bobine-badge">
           <div class="bobine-n">+20</div>
@@ -745,13 +777,13 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 44px; }
   <div class="wrap">
     <div class="fade" style="text-align:center;">
       <div class="sh-eyebrow" style="justify-content:center;">Téléchargement</div>
-      <h2 class="cta-title">Prêt pour<br>le <span>grand jeu ?</span></h2>
-      <p class="cta-sub">Disponible maintenant sur iOS et Android.</p>
+      <h2 class="cta-title">Prêt pour<br><span>le fun ?</span></h2>
+      <p class="cta-sub">Gratuit sur iOS et Android — en deux secondes, c'est lancé.</p>
       <div class="cta-btns">
         <a class="store-btn apple" href="#" aria-label="Télécharger sur l'App Store">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.54 9.103 1.519 12.09 1.013 1.459 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>
           <div class="store-btn-text">
-            <span class="store-btn-micro">Download on the</span>
+            <span class="store-btn-micro">Télécharger sur</span>
             <span class="store-btn-name">App Store</span>
           </div>
         </a>
@@ -763,7 +795,7 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 44px; }
             <path d="M3.18.24l11.43 11.43L17.36 8.9 4.71.14C4.2-.07 3.66-.1 3.18.24z" fill="#34A853"/>
           </svg>
           <div class="store-btn-text">
-            <span class="store-btn-micro">Get it on</span>
+            <span class="store-btn-micro">Télécharger sur</span>
             <span class="store-btn-name">Google Play</span>
           </div>
         </a>
@@ -783,12 +815,12 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 44px; }
       </div>
       <div class="fade">
         <div class="sh-eyebrow">À propos</div>
-        <h2 class="sh-title">Fabriqué avec passion par Timing Corporation</h2>
-        <p style="font-size:18px;color:var(--muted);line-height:1.8;margin-bottom:16px;">
-          Timing Corporation est une société française fondée en 2025, spécialisée dans le développement d'expériences mobiles interactives.
+        <h2 class="sh-title">Fabriqué avec amour par Timing Corporation</h2>
+        <p style="font-size:19px;color:var(--muted);line-height:1.8;margin-bottom:16px;">
+          Timing Corporation est une société française fondée en 2025. On fait des applis mobiles qu'on aimerait nous-mêmes utiliser — fun, soignées, accessibles à tous.
         </p>
-        <p style="font-size:18px;color:var(--muted);line-height:1.8;">
-          Absolute Popcorn est notre premier projet — une application entièrement dédiée aux amoureux du cinéma et des séries TV, conçue avec une attention particulière à l'expérience utilisateur.
+        <p style="font-size:19px;color:var(--muted);line-height:1.8;">
+          Absolute Popcorn, c'est notre premier bébé : un quiz ciné et séries pour tout le monde, pensé avec soin pour que ce soit vraiment bon à jouer — que tu sois passionné ou simple curieux.
         </p>
         <div class="about-tags">
           <span class="about-tag">🇫🇷 Made in France</span>
@@ -815,19 +847,23 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 44px; }
     <div class="faq-list fade">
       <details class="faq">
         <summary>L'application est-elle déjà disponible ? <div class="faq-plus">+</div></summary>
-        <div class="faq-ans">Oui ! Absolute Popcorn est disponible sur l'App Store et Google Play. Téléchargez-la gratuitement dès maintenant.</div>
+        <div class="faq-ans">Oui ! Absolute Popcorn est disponible sur l'App Store et Google Play. Télécharge-la gratuitement dès maintenant et commence à jouer en deux minutes.</div>
+      </details>
+      <details class="faq">
+        <summary>Faut-il être cinéphile pour s'amuser ? <div class="faq-plus">+</div></summary>
+        <div class="faq-ans">Absolument pas. L'app est pensée pour tout le monde : les fans invétérés, les adeptes de Netflix du dimanche soir, les familles, les amis. Aucun niveau requis — juste l'envie de jouer.</div>
+      </details>
+      <details class="faq">
+        <summary>Doit-on payer pour jouer ? <div class="faq-plus">+</div></summary>
+        <div class="faq-ans">L'app est gratuite au téléchargement. Une option premium est disponible pour jouer sans pub et profiter d'une expérience 100% fluide.</div>
+      </details>
+      <details class="faq">
+        <summary>Combien de langues sont disponibles ? <div class="faq-plus">+</div></summary>
+        <div class="faq-ans">Au lancement, 7 langues sont disponibles. D'autres arriveront progressivement selon les retours de la communauté.</div>
       </details>
       <details class="faq">
         <summary>Qui développe Absolute Popcorn ? <div class="faq-plus">+</div></summary>
-        <div class="faq-ans">Absolute Popcorn est développé et édité par Timing Corporation, société française fondée en 2025. Pour toute question, contactez-nous à contact@absolute-popcorn.com.</div>
-      </details>
-      <details class="faq">
-        <summary>Le jeu sera-t-il gratuit ? <div class="faq-plus">+</div></summary>
-        <div class="faq-ans">L'application sera disponible gratuitement. Une option premium sans publicité sera proposée pour une expérience optimale et sans interruption.</div>
-      </details>
-      <details class="faq">
-        <summary>Combien de langues seront disponibles au lancement ? <div class="faq-plus">+</div></summary>
-        <div class="faq-ans">Au lancement, 7 langues seront disponibles. D'autres viendront progressivement en fonction des retours de la communauté.</div>
+        <div class="faq-ans">Absolute Popcorn est développé par Timing Corporation, société française fondée en 2025. Pour toute question, écris-nous à contact@absolute-popcorn.com.</div>
       </details>
       <details class="faq">
         <summary>Où trouver les CGU, CGV et la Politique de confidentialité ? <div class="faq-plus">+</div></summary>
@@ -844,20 +880,20 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 44px; }
   <div class="wrap">
     <div class="sh fade">
       <div class="sh-eyebrow">Contact</div>
-      <h2 class="sh-title">On est disponibles</h2>
-      <p class="sh-sub">Une question, un partenariat, une demande presse ? Écrivez-nous, on répond.</p>
+      <h2 class="sh-title">On est là pour vous</h2>
+      <p class="sh-sub">Une question, une idée, un bug ? Dites-nous tout — on répond.</p>
     </div>
     <div class="contact-grid fade">
       <div class="contact-card">
         <div class="c-ico">💬</div>
         <h3>Support utilisateur</h3>
-        <p>Un problème ou une question générale ? Notre équipe vous répond rapidement.</p>
+        <p>Un problème ou une question ? Notre équipe vous répond rapidement et avec le sourire.</p>
         <a class="email-link" href="mailto:contact@absolute-popcorn.com">contact@absolute-popcorn.com</a>
       </div>
       <div class="contact-card">
         <div class="c-ico">🎙️</div>
         <h3>Presse &amp; Médias</h3>
-        <p>Demande d'interview, d'assets presse ou d'informations pour un article ? On est là.</p>
+        <p>Demande d'interview, d'assets presse ou d'informations pour un article ? On est disponibles.</p>
         <a class="email-link" href="mailto:contact@absolute-popcorn.com">contact@absolute-popcorn.com</a>
       </div>
       <div class="contact-card">
@@ -888,7 +924,7 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 44px; }
           <img src="assets/Mascotte.png" alt="" />
           <span class="foot-brand-name">Absolute Popcorn</span>
         </a>
-        <p class="foot-desc">Le jeu ultime pour les amoureux du cinéma et des séries TV.</p>
+        <p class="foot-desc">Le quiz ciné &amp; séries que tout le monde peut jouer.</p>
         <p class="foot-copy">© <span id="yr"></span> Timing Corporation. Tous droits réservés.</p>
       </div>
       <div>
