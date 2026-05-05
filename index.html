@@ -204,13 +204,10 @@ header.on {
   height: auto;
   display: block;
 }
-  @media (max-width: 768px) {
-    .hero-inner {
-      grid-template-columns: 1fr;
-      gap: 32px;
-      text-align: center;
-    }
-
+@media (max-width: 768px) {
+  body {
+    background: red !important;
+  }
     .hero-title {
       font-size: 64px;
     }
