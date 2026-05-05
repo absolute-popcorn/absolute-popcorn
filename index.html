@@ -381,66 +381,65 @@
     }
 
     .modes {
-      display: grid;
-      grid-template-columns: repeat(5,1fr);
-      gap: 12px;
-    }
+  display: grid;
+  grid-template-columns: repeat(5,1fr);
+  gap: 12px;
+}
 
-    .mode-card {
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      overflow: hidden;
-      background: var(--surface);
-      transition: border-color .25s, transform .25s;
-    }
+.mode-card {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--surface);
+  transition: border-color .25s, transform .25s;
+}
 
-    .mode-card:hover {
-      border-color: rgba(245,200,66,.3);
-      transform: translateY(-5px);
-    }
+.mode-card:hover {
+  border-color: rgba(245,200,66,.3);
+  transform: translateY(-5px);
+}
 
-    .mode-img-box {
-      overflow: hidden;
-      height: 240px;
-    }
+.mode-img-box {
+  overflow: hidden;
+  height: 240px;
+}
 
-    .mode-img-box img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: top;
-      transition: transform .5s ease;
-    }
+.mode-img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  transition: transform .5s ease;
+}
 
-    .mode-card:hover .mode-img-box img {
-      transform: scale(1.04);
-    }
+.mode-card:hover .mode-img-box img {
+  transform: scale(1.04);
+}
 
-    .mode-info {
-      padding: 20px 20px 26px;
-    }
+.mode-info {
+  padding: 20px 20px 26px;
+}
 
-    .mode-num {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: .14em;
-      color: var(--faint);
-      margin-bottom: 6px;
-    }
+.mode-num {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  color: var(--faint);
+  margin-bottom: 6px;
+}
 
-    .mode-name {
-      font-size: 17px;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 10px;
-    }
+.mode-name {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 10px;
+}
 
-    .mode-desc {
-      font-size: 16px;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
+.mode-desc {
+  font-size: 16px;
+  color: var(--muted);
+  line-height: 1.7;
+}
     .features {
       display: grid;
       grid-template-columns: repeat(3,1fr);
