@@ -1421,42 +1421,41 @@ footer {
     font-size: 11px;
   }
 
-  /* Modes — single column on small mobile */
+  /* Modes — grille 2 colonnes sur mobile */
   .modes {
-    grid-template-columns: 1fr;
-    gap: 14px;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
   }
 
-  /* Landscape card layout for modes on mobile */
+  /* Le 5e mode seul : centré sur toute la largeur */
+  .mode-card:last-child {
+    grid-column: 1 / -1;
+    max-width: calc(50% - 5px);
+    margin: 0 auto;
+  }
+
   .mode-card {
-    display: grid;
-    grid-template-columns: 120px 1fr;
+    display: flex;
+    flex-direction: column;
     border-radius: 14px;
   }
 
   .mode-img-box {
-    height: auto;
-    min-height: 100px;
-  }
-
-  .mode-img-box img {
-    height: 100%;
-    min-height: 120px;
-    object-fit: cover;
+    height: 160px;
   }
 
   .mode-info {
-    padding: 16px 16px 18px;
+    padding: 14px 14px 18px;
   }
 
   .mode-name {
-    font-size: 15px;
-    margin-bottom: 6px;
+    font-size: 14px;
+    margin-bottom: 5px;
   }
 
   .mode-desc {
-    font-size: 13px;
-    line-height: 1.6;
+    font-size: 12px;
+    line-height: 1.55;
   }
 
   /* Features */
