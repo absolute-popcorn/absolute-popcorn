@@ -91,6 +91,14 @@
       font-size: 0.9rem; font-weight: 600;
       letter-spacing: 0.18em; text-transform: uppercase;
       color: var(--gold); margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .section-label::before {
+      content: '';
+      display: inline-block;
+      width: 24px; height: 2px;
+      background: var(--gold);
+      flex-shrink: 0;
     }
     .section-title {
       font-family: 'Bebas Neue', sans-serif;
